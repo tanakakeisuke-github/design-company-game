@@ -1,0 +1,1930 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>デザイン会社発展国</title>
+<style>
+/* ── GOOGLE FONTS ── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DotGothic16&display=swap');
+
+/* ── RESET & ROOT ── */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:#f7f7f9;color:#18181b;font-family:'Inter','DotGothic16',sans-serif;font-size:13px;user-select:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;outline:none;color:inherit}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:#f0f0f2}::-webkit-scrollbar-thumb{background:#d4d4d8;border-radius:4px}
+
+:root{
+  /* サーフェス */
+  --bg:#f7f7f9;
+  --bg1:#ffffff;
+  --bg2:#fafafa;
+  --bg3:#f4f4f6;
+  --bg4:#ebebed;
+  /* ボーダー */
+  --bord:#e4e4e7;
+  --bord2:#d1d1d6;
+  /* アクセント: インディゴ */
+  --acc:#4f46e5;
+  --acc-lt:#ede9fe;
+  --acc-md:#7c6ff7;
+  /* セカンダリ: ローズ */
+  --acc2:#e11d48;
+  --acc2-lt:#fff1f2;
+  /* ステータスカラー */
+  --teal:#0d9488;
+  --teal-lt:#f0fdf9;
+  --gold:#b45309;
+  --gold-lt:#fffbeb;
+  --warn:#c2410c;
+  --warn-lt:#fff7ed;
+  --red:#dc2626;
+  --red-lt:#fef2f2;
+  --ok:#15803d;
+  --ok-lt:#f0fdf4;
+  --pur:#7e22ce;
+  /* テキスト */
+  --t1:#18181b;
+  --t2:#52525b;
+  --t3:#a1a1aa;
+  --t4:#d4d4d8;
+  /* シャドウ */
+  --sh-s:0 1px 2px rgba(0,0,0,.05);
+  --sh-m:0 2px 8px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+  --sh-l:0 4px 16px rgba(0,0,0,.08),0 2px 4px rgba(0,0,0,.04);
+}
+
+/* ── TITLE ── */
+#SCR_TITLE{
+  position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:18px;
+  background:linear-gradient(150deg,#fafaff 0%,#f0efff 50%,#faf5ff 100%);
+}
+#tcv{image-rendering:pixelated;border:1px solid var(--bord);box-shadow:var(--sh-l);border-radius:12px}
+.t-logo{
+  font-size:clamp(15px,3vw,22px);color:var(--acc);letter-spacing:1px;
+  text-align:center;line-height:1.7;font-weight:700;font-family:'Inter',sans-serif;
+}
+.t-logo span{color:var(--t3);font-size:0.65em;font-weight:400;letter-spacing:2px}
+.t-btn{
+  background:var(--acc);border:none;color:#fff;padding:11px 42px;font-size:11px;
+  letter-spacing:1px;transition:all .18s;border-radius:8px;font-weight:600;
+  box-shadow:0 2px 8px rgba(79,70,229,.35);
+}
+.t-btn:hover{background:#4338ca;box-shadow:0 4px 16px rgba(79,70,229,.45);transform:translateY(-1px)}
+.t-btn.sec{
+  background:#fff;border:1px solid var(--bord2);color:var(--t2);
+  box-shadow:var(--sh-s);font-weight:500;
+}
+.t-btn.sec:hover{background:var(--bg3);border-color:var(--bord);transform:none;box-shadow:var(--sh-s)}
+.t-blink{font-size:9px;color:var(--t4);letter-spacing:4px;animation:blink 1.4s step-end infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+@keyframes glow{0%,100%{opacity:1}50%{opacity:.8}}
+
+/* ── LOADING ── */
+#SCR_LOAD{
+  position:fixed;inset:0;background:#fff;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;z-index:2000;gap:16px;
+}
+.ld-bar{width:200px;height:2px;background:var(--bg4);border-radius:2px}
+.ld-f{height:100%;background:var(--acc);animation:ldf 1.6s ease forwards;border-radius:2px}
+@keyframes ldf{from{width:0}to{width:100%}}
+
+/* ── GAME SHELL ── */
+#GAME{display:none;height:100vh;flex-direction:column}
+
+/* ── HUD ── */
+#hud{
+  background:var(--bg1);border-bottom:1px solid var(--bord);
+  padding:6px 14px;display:flex;align-items:center;gap:6px;flex-shrink:0;flex-wrap:wrap;
+  box-shadow:var(--sh-s);
+}
+.hud-co{
+  font-size:11px;color:var(--acc);font-weight:700;letter-spacing:.3px;
+  padding-right:10px;border-right:1px solid var(--bord);white-space:nowrap;
+}
+.hstats{display:flex;gap:4px;flex-wrap:wrap;flex:1}
+.hs{
+  display:flex;align-items:center;gap:4px;
+  background:var(--bg3);border:1px solid var(--bord);
+  padding:3px 8px;font-size:9px;border-radius:6px;
+}
+.hs-lbl{color:var(--t3);font-size:8px}
+.hs-v{color:var(--t1);font-weight:600;min-width:26px}
+.hs-v.g{color:var(--gold)}.hs-v.tl{color:var(--teal)}.hs-v.r{color:var(--red)}.hs-v.p{color:var(--acc2)}
+.hs-v.blink{animation:blink .8s step-end infinite;color:var(--warn)}
+/* 日付バッジ */
+.hdate{
+  display:flex;align-items:center;gap:5px;
+  background:var(--acc-lt);border:1px solid #c7d2fe;
+  padding:4px 10px;border-radius:6px;
+  font-size:10px;font-weight:600;color:var(--acc);white-space:nowrap;margin-left:auto;
+}
+.hdate-day{font-size:8px;color:var(--acc-md);font-weight:400}
+/* フェーズバッジ */
+.hph{
+  background:var(--acc);border-radius:6px;padding:4px 10px;
+  font-size:8px;color:#fff;letter-spacing:.5px;font-weight:600;white-space:nowrap;
+}
+
+/* ── NAV ── */
+#main{display:flex;flex:1;overflow:hidden}
+#nav{
+  width:52px;background:var(--bg1);border-right:1px solid var(--bord);
+  display:flex;flex-direction:column;align-items:center;padding:6px 0;gap:2px;flex-shrink:0;
+}
+.nb{
+  width:42px;height:42px;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:2px;border-radius:8px;border:1px solid transparent;
+  color:var(--t3);font-size:17px;transition:all .15s;position:relative;
+}
+.nb span{font-size:6px;color:var(--t4);font-family:'Inter',sans-serif;letter-spacing:.3px}
+.nb:hover{background:var(--bg3);border-color:var(--bord);color:var(--t2)}
+.nb:hover span{color:var(--t3)}
+.nb.on{background:var(--acc-lt);border-color:#c7d2fe;color:var(--acc)}
+.nb.on span{color:var(--acc)}
+.nbadge{
+  position:absolute;top:2px;right:2px;background:var(--red);color:#fff;
+  font-size:6px;width:12px;height:12px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-weight:700;
+}
+.nsep{width:28px;height:1px;background:var(--bord);margin:3px 0}
+
+/* ── CONTENT & OFFICE ── */
+#content{flex:1;display:flex;flex-direction:column;overflow:hidden}
+#owrap{
+  height:240px;flex-shrink:0;background:#e8e8ec;
+  border-bottom:1px solid var(--bord);position:relative;overflow:hidden;
+}
+#ocv{width:100%;height:100%;image-rendering:pixelated}
+.olb{
+  position:absolute;top:6px;left:8px;font-size:7px;
+  color:rgba(79,70,229,.6);letter-spacing:2px;font-weight:600;
+  background:rgba(255,255,255,.75);padding:2px 6px;border-radius:4px;backdrop-filter:blur(4px);
+}
+
+/* ── PANELS ── */
+#panels{flex:1;overflow-y:auto;padding:12px 14px;background:var(--bg)}
+.panel{display:none}.panel.on{display:block}
+
+/* ── SECTION HEADER ── */
+.sh{
+  font-size:9px;color:var(--t3);letter-spacing:2px;text-transform:uppercase;
+  border-bottom:1px solid var(--bord);padding-bottom:6px;margin-bottom:10px;
+  display:flex;align-items:center;gap:6px;font-weight:600;
+}
+.sh::before{display:none}
+.sh .ct{margin-left:auto;font-size:8px;color:var(--t4);letter-spacing:0}
+
+/* ── WARN BARS ── */
+.wbar{
+  background:var(--red-lt);border:1px solid #fca5a5;color:var(--red);
+  padding:5px 10px;font-size:8px;margin-bottom:8px;border-radius:6px;
+  animation:blink 1.2s step-end infinite;display:none;
+}
+.ibar{
+  background:var(--gold-lt);border:1px solid #fcd34d;color:var(--gold);
+  padding:5px 10px;font-size:8px;margin-bottom:8px;border-radius:6px;display:none;
+}
+
+/* ── TURN ROW ── */
+.trow{
+  display:flex;align-items:center;gap:10px;
+  background:var(--bg1);border:1px solid var(--bord);
+  padding:10px 14px;margin-bottom:12px;border-radius:10px;
+  box-shadow:var(--sh-s);
+}
+.tinfo{flex:1;font-size:9px;color:var(--t2);line-height:1.7}
+.tinfo b{color:var(--t1);font-weight:600}
+.tinfo .hint{font-size:8px;color:var(--t3)}
+.tinfo .hint kbd{
+  background:var(--bg3);border:1px solid var(--bord2);color:var(--t2);
+  padding:0px 4px;border-radius:3px;font-size:8px;font-family:inherit;
+}
+.btn-turn{
+  background:var(--acc);color:#fff;padding:9px 22px;font-size:10px;
+  letter-spacing:.5px;transition:all .2s;border-radius:8px;font-weight:600;
+  box-shadow:0 2px 8px rgba(79,70,229,.4);
+  animation:turnpulse 2.5s ease-in-out infinite;
+}
+@keyframes turnpulse{
+  0%,100%{box-shadow:0 2px 8px rgba(79,70,229,.35)}
+  50%{box-shadow:0 4px 18px rgba(79,70,229,.55),0 0 0 3px rgba(79,70,229,.1)}
+}
+.btn-turn:hover{background:#4338ca;transform:translateY(-1px);box-shadow:0 4px 14px rgba(79,70,229,.5)}
+.btn-turn:disabled{
+  background:var(--bg4);color:var(--t4);box-shadow:none;
+  transform:none;cursor:not-allowed;animation:none;
+}
+
+/* ── DASH STATS GRID ── */
+.dgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-bottom:12px}
+.dc{
+  background:var(--bg1);border:1px solid var(--bord);padding:10px 12px;
+  border-radius:8px;box-shadow:var(--sh-s);
+}
+.dc-l{font-size:7px;color:var(--t3);letter-spacing:1px;text-transform:uppercase;margin-bottom:3px;font-weight:600}
+.dc-v{font-size:18px;font-weight:700;margin-bottom:3px;color:var(--t1)}
+.dc-b{height:2px;background:var(--bg4);border-radius:2px}.dc-bf{height:100%;border-radius:2px;transition:width .4s}
+
+/* ── ACTIVE PROJECT ── */
+.ap{
+  background:var(--bg1);border:1px solid var(--bord);padding:10px 12px;
+  margin-bottom:7px;border-radius:8px;box-shadow:var(--sh-s);
+  position:relative;overflow:hidden;transition:all .15s;
+}
+.ap:hover{border-color:var(--bord2);box-shadow:var(--sh-m)}
+.ap::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:var(--acc);border-radius:3px 0 0 3px;
+}
+.ap-h{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+.ap-n{font-size:10px;color:var(--t1);font-weight:600}
+.ap-pct{font-size:16px;color:var(--acc);font-weight:700}
+.ap-m{display:flex;gap:6px;font-size:7px;color:var(--t3);margin-bottom:6px;flex-wrap:wrap}
+.apbar{height:4px;background:var(--bg4);overflow:hidden;border-radius:2px}
+.apbf{height:100%;background:linear-gradient(90deg,var(--acc),var(--acc-md));border-radius:2px;transition:width .5s}
+.apass{margin-top:7px;display:flex;gap:4px;flex-wrap:wrap;align-items:center}
+.apal{font-size:7px;color:var(--t3)}
+.ach{
+  background:var(--bg3);border:1px solid var(--bord);padding:3px 8px;
+  font-size:8px;color:var(--t2);cursor:pointer;transition:all .15s;border-radius:5px;font-weight:500;
+}
+.ach:hover{border-color:var(--teal);color:var(--teal);background:var(--teal-lt)}
+.ach.sel{border-color:var(--teal);color:var(--teal);background:var(--teal-lt)}
+.ach.bsy{opacity:.35;cursor:default;pointer-events:none}
+
+/* ── PROJECT CARDS ── */
+.pcgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.pc{
+  background:var(--bg1);border:1px solid var(--bord);padding:12px;
+  border-radius:10px;box-shadow:var(--sh-s);transition:all .18s;
+}
+.pc:hover{box-shadow:var(--sh-m);border-color:var(--bord2);transform:translateY(-1px)}
+.pc-h{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px}
+.pc-ti{font-size:18px}.pc-ug{font-size:7px;color:var(--red);background:var(--red-lt);border:1px solid #fca5a5;padding:1px 5px;border-radius:4px;font-weight:600}
+.pc-nm{font-size:10px;color:var(--t1);font-weight:600;margin-bottom:3px}
+.pc-cl{font-size:8px;color:var(--t3);margin-bottom:7px}
+.pc-st{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px}
+.pct{background:var(--bg3);border:1px solid var(--bord);padding:2px 6px;font-size:7px;color:var(--t2);border-radius:4px;font-weight:500}
+.pct.pri{background:var(--gold-lt);border-color:#fcd34d;color:var(--gold)}
+.pct.dif{background:var(--warn-lt);border-color:#fed7aa;color:var(--warn)}
+.pc-f{display:flex;align-items:center;justify-content:space-between;margin-top:6px;padding-top:8px;border-top:1px solid var(--bord)}
+.pc-pr{font-size:12px;color:var(--gold);font-weight:700}
+.btn-acc{
+  background:var(--acc);color:#fff;padding:5px 12px;font-size:8px;
+  border-radius:6px;font-weight:600;transition:all .15s;
+}
+.btn-acc:hover{background:#4338ca}.btn-acc:disabled{background:var(--bg4);color:var(--t4);cursor:not-allowed}
+
+/* ── STAFF ── */
+.scgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:10px}
+.sc{
+  background:var(--bg1);border:1px solid var(--bord);padding:12px;
+  border-radius:10px;box-shadow:var(--sh-s);
+}
+.sc-h{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.sc-i{font-size:20px}.sc-n{font-size:10px;color:var(--t1);font-weight:600;margin-bottom:1px}
+.sc-r{font-size:7px;color:var(--t3);letter-spacing:.3px}
+.sc-st{font-size:7px;padding:2px 6px;border-radius:10px;font-weight:600}
+.sc-st.idle{background:var(--bg3);color:var(--t3)}
+.sc-st.working{background:var(--acc-lt);color:var(--acc)}
+.sc-bars{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}
+.sc-bar{display:flex;align-items:center;gap:6px;font-size:7px;color:var(--t3)}
+.sc-bar-bg{flex:1;height:3px;background:var(--bg4);border-radius:2px}
+.sc-bar-fg{height:100%;border-radius:2px;transition:width .4s}
+.sc-bar-v{width:18px;text-align:right;color:var(--t2);font-weight:600}
+.sc-f{display:flex;align-items:center;justify-content:space-between;padding-top:8px;border-top:1px solid var(--bord)}
+.btn-fir{
+  background:var(--red-lt);border:1px solid #fca5a5;color:var(--red);
+  padding:3px 8px;font-size:7px;border-radius:5px;font-weight:500;transition:all .15s;
+}
+.btn-fir:hover{background:#fee2e2;border-color:var(--red)}
+
+/* ── HIRE ── */
+.hcgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.hc{
+  background:var(--bg1);border:1px solid var(--bord);padding:12px;
+  border-radius:10px;box-shadow:var(--sh-s);transition:all .18s;
+}
+.hc:hover{box-shadow:var(--sh-m);border-color:var(--bord2)}
+.hc-h{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px}
+.hc-n{font-size:10px;color:var(--t1);font-weight:600}.hc-ro{font-size:7px;color:var(--t3);letter-spacing:.3px}
+.hc-sl{font-size:11px;color:var(--gold);text-align:right;font-weight:700}
+.hc-sl span{font-size:7px;color:var(--t3);font-weight:400}
+.hc-risk{
+  font-size:7px;color:var(--warn);
+  background:var(--warn-lt);border:1px solid #fed7aa;
+  padding:3px 7px;border-radius:4px;margin-bottom:8px;font-style:italic;
+}
+.hc-f{display:flex;align-items:center;justify-content:space-between;margin-top:8px;padding-top:8px;border-top:1px solid var(--bord)}
+.hc-co{font-size:7px;color:var(--t3)}
+.btn-hire{
+  background:var(--ok);color:#fff;padding:5px 12px;font-size:8px;
+  border-radius:6px;font-weight:600;transition:all .15s;
+}
+.btn-hire:hover{background:#15803d}.btn-hire:disabled{background:var(--bg4);color:var(--t4);cursor:not-allowed}
+
+/* ── TECH TREE ── */
+.tt-sec{margin-bottom:18px}
+.tech-row{display:flex;gap:10px;flex-wrap:wrap;padding-left:8px}
+.tn{
+  background:var(--bg1);border:1.5px solid var(--bord);padding:10px 12px;
+  min-width:105px;text-align:center;transition:all .18s;border-radius:10px;box-shadow:var(--sh-s);
+}
+.tn.un{border-color:var(--teal);background:var(--teal-lt)}
+.tn.av{border-color:var(--acc);cursor:pointer;background:var(--acc-lt)}
+.tn.av:hover{box-shadow:var(--sh-m);transform:translateY(-2px)}
+.tn.lk{opacity:.4;cursor:not-allowed}
+.tn-ic{font-size:20px;margin-bottom:3px}
+.tn-nm{font-size:7px;color:var(--t1);letter-spacing:.3px;margin-bottom:2px;font-weight:600}
+.tn-co{font-size:6px;color:var(--gold);font-weight:600}
+.tn-st{font-size:6px;margin-top:2px;font-weight:600}
+.tn.un .tn-st{color:var(--teal)}.tn.av .tn-st{color:var(--acc)}.tn.lk .tn-st{color:var(--t4)}
+.tn-ef{font-size:5px;color:var(--acc2);margin-top:2px}
+
+/* ── PROGRESS ── */
+.phases{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.ph{
+  flex:1;min-width:95px;background:var(--bg1);border:1px solid var(--bord);
+  padding:10px 8px;text-align:center;border-radius:8px;box-shadow:var(--sh-s);
+}
+.ph.done{border-color:var(--teal);background:var(--teal-lt)}
+.ph.cur{border-color:var(--acc);background:var(--acc-lt);animation:phg 2.5s ease infinite}
+@keyframes phg{0%,100%{box-shadow:0 0 0 0 rgba(79,70,229,.15)}50%{box-shadow:0 0 0 4px rgba(79,70,229,.15)}}
+.ph-n{font-size:20px;margin-bottom:3px}.ph-nm{font-size:7px;color:var(--t2);letter-spacing:.3px;font-weight:600}
+.ph-s{font-size:6px;color:var(--t3);margin-top:2px}
+.ofgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px;margin-bottom:14px}
+.ofc{
+  background:var(--bg1);border:1px solid var(--bord);padding:10px;
+  border-radius:8px;box-shadow:var(--sh-s);transition:all .15s;
+}
+.ofc.cur{border-color:var(--acc);background:var(--acc-lt)}
+.ofc.past{opacity:.5}
+.ofc-ic{font-size:22px;margin-bottom:5px}.ofc-n{font-size:9px;color:var(--t1);font-weight:700;margin-bottom:2px}
+.ofc-d{font-size:7px;color:var(--t3);line-height:1.6;margin-bottom:6px}
+.ofc-f{display:flex;align-items:center;justify-content:space-between}.ofc-p{font-size:9px;color:var(--gold);font-weight:700}
+.btn-up{
+  background:var(--acc);color:#fff;padding:4px 10px;font-size:7px;
+  border-radius:5px;font-weight:600;transition:all .15s;
+}
+.btn-up:hover{background:#4338ca}.btn-up:disabled{background:var(--bg4);color:var(--t4);cursor:not-allowed}
+.statbox{
+  background:var(--bg1);border:1px solid var(--bord);padding:12px;
+  border-radius:8px;box-shadow:var(--sh-s);
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:6px;
+}
+.si{font-size:8px;color:var(--t2);display:flex;justify-content:space-between;padding:2px 0}
+.si b{color:var(--t1);font-weight:600}
+
+/* ── LOG ── */
+.log{
+  background:var(--bg1);border:1px solid var(--bord);padding:8px 10px;
+  max-height:130px;overflow-y:auto;border-radius:8px;
+  font-size:7px;line-height:2;
+}
+.le{display:flex;gap:5px;border-bottom:1px solid var(--bord);padding:1px 0}
+.le:last-child{border-bottom:none}
+.le-t{color:var(--t4);flex-shrink:0;font-weight:600}.le-x{color:var(--t2)}
+.good .le-t{color:var(--ok)}.bad .le-t{color:var(--red)}.evt .le-t{color:var(--warn)}.sys .le-t{color:var(--acc)}
+
+/* ── MODALS ── */
+.mbg{position:fixed;inset:0;background:rgba(0,0,0,.4);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:500;padding:16px}
+.mbg.open{display:flex}
+.mbox{
+  background:#fff;border:1px solid var(--bord);max-width:440px;width:100%;
+  padding:24px;border-radius:16px;box-shadow:0 8px 40px rgba(0,0,0,.15);
+  animation:mop .2s ease;
+}
+.mbox.danger{border-top:3px solid var(--red)}.mbox.success{border-top:3px solid var(--ok)}.mbox.warn{border-top:3px solid var(--warn)}
+@keyframes mop{from{transform:scale(.94) translateY(10px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
+.mic{font-size:40px;text-align:center;display:block;margin-bottom:10px}
+.mtt{font-size:14px;text-align:center;color:var(--t1);letter-spacing:.3px;margin-bottom:8px;line-height:1.4;font-weight:700}
+.mbox.danger .mtt{color:var(--red)}.mbox.success .mtt{color:var(--ok)}.mbox.warn .mtt{color:var(--warn)}
+.mds{font-size:9px;color:var(--t2);text-align:center;line-height:2;margin-bottom:16px;white-space:pre-line}
+.mch-list{display:flex;flex-direction:column;gap:7px}
+.mch{
+  background:var(--bg3);border:1px solid var(--bord);padding:10px 13px;
+  color:var(--t1);font-size:9px;cursor:pointer;transition:all .15s;
+  display:flex;justify-content:space-between;align-items:center;gap:6px;
+  text-align:left;font-family:inherit;width:100%;border-radius:8px;font-weight:500;
+}
+.mch:hover{border-color:var(--acc);background:var(--acc-lt);color:var(--acc)}
+.mch .ef{font-size:7px;color:var(--t3);flex-shrink:0}.mch:hover .ef{color:var(--acc-md)}
+.rev-box{border-top:3px solid var(--gold)}
+.rev-st{font-size:22px;text-align:center;letter-spacing:5px;color:var(--gold);margin-bottom:6px}
+.rev-cm{font-size:9px;text-align:center;color:var(--t2);font-style:italic;margin-bottom:12px;line-height:1.8}
+.rev-ef{font-size:8px;text-align:center;color:var(--t3);margin-bottom:12px;line-height:2}
+.btn-ok{
+  display:block;width:100%;background:var(--bg3);border:1px solid var(--bord);
+  color:var(--t2);padding:9px;font-size:9px;letter-spacing:1px;transition:all .15s;
+  cursor:pointer;font-family:inherit;border-radius:8px;font-weight:500;
+}
+.btn-ok:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-lt)}
+
+/* ── ENDING ── */
+#SCR_END{
+  position:fixed;inset:0;background:linear-gradient(150deg,#f0efff 0%,#faf5ff 100%);
+  display:none;flex-direction:column;align-items:center;justify-content:center;
+  z-index:700;padding:20px;text-align:center;
+}
+#SCR_END.open{display:flex}
+.end-t{font-size:clamp(16px,4vw,28px);letter-spacing:1px;margin-bottom:12px;line-height:1.4;font-weight:700;color:var(--t1)}
+.end-s{max-width:440px;font-size:10px;color:var(--t2);line-height:2.2;margin-bottom:18px;white-space:pre-line}
+.end-st{
+  background:#fff;border:1px solid var(--bord);padding:14px 18px;margin-bottom:20px;
+  font-size:9px;color:var(--t3);line-height:2;
+  display:grid;grid-template-columns:1fr 1fr;gap:4px 18px;max-width:360px;
+  border-radius:12px;box-shadow:var(--sh-m);
+}
+.end-st b{color:var(--t1);font-weight:700}
+.btn-re{
+  background:var(--acc);color:#fff;padding:11px 32px;font-size:11px;letter-spacing:.5px;
+  transition:all .2s;font-family:inherit;cursor:pointer;border-radius:8px;font-weight:600;
+  box-shadow:0 2px 8px rgba(79,70,229,.35);
+}
+.btn-re:hover{background:#4338ca;box-shadow:0 4px 14px rgba(79,70,229,.5);transform:translateY(-1px)}
+
+/* ── TURN PROGRESS (office overlay) ── */
+#turn-progress{
+  position:absolute;bottom:0;left:0;right:0;height:22px;
+  background:rgba(255,255,255,.85);backdrop-filter:blur(6px);
+  border-top:1px solid rgba(0,0,0,.06);
+  display:flex;align-items:center;gap:8px;padding:0 12px;pointer-events:none;
+}
+#tp-bar{height:4px;background:var(--bg4);flex:1;overflow:hidden;border-radius:2px}
+#tp-bar::after{content:'';display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--acc-md));transition:width .4s ease;width:var(--tp,0%)}
+#tp-txt{font-size:7px;color:var(--t3);white-space:nowrap;letter-spacing:.5px;min-width:100px;text-align:right;font-weight:500}
+
+/* ── AUTO CTRL ── */
+#auto-ctrl{position:absolute;top:6px;right:8px;display:flex;align-items:center;gap:4px}
+#btn-auto{
+  background:rgba(255,255,255,.9);border:1px solid var(--bord2);color:var(--t3);
+  padding:3px 8px;font-size:7px;letter-spacing:.5px;transition:all .2s;cursor:pointer;
+  border-radius:5px;font-weight:600;backdrop-filter:blur(4px);
+}
+#btn-auto.on{background:var(--acc-lt);border-color:#c7d2fe;color:var(--acc)}
+#btn-auto:hover{border-color:var(--bord);color:var(--t2)}
+#auto-speed{
+  background:rgba(255,255,255,.9);border:1px solid var(--bord);color:var(--t2);
+  font-size:7px;padding:3px 4px;font-family:inherit;outline:none;cursor:pointer;
+  border-radius:5px;backdrop-filter:blur(4px);
+}
+
+/* ── NOTIFS ── */
+#notifs{position:fixed;bottom:14px;right:14px;z-index:600;display:flex;flex-direction:column;gap:5px;pointer-events:none;max-width:270px}
+.nf{
+  background:#fff;border-left:3px solid var(--acc);padding:8px 11px;font-size:8px;
+  box-shadow:var(--sh-l);animation:nfi .3s ease;border-radius:0 6px 6px 0;color:var(--t1);
+}
+.nf.out{animation:nfo .3s ease forwards}
+.nf.danger{border-left-color:var(--red)}.nf.ok{border-left-color:var(--ok)}.nf.warn{border-left-color:var(--warn)}
+@keyframes nfi{from{transform:translateX(110%);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes nfo{to{transform:translateX(110%);opacity:0}}
+.empty{font-size:9px;color:var(--t3);padding:16px;text-align:center;line-height:2}
+</style>
+</head>
+<body>
+
+<div id="SCR_LOAD">
+  <div style="font-size:10px;color:var(--acc);letter-spacing:3px;font-weight:700;font-family:Inter,sans-serif">デザイン会社発展国</div>
+  <div class="ld-bar"><div class="ld-f"></div></div>
+  <div style="font-size:8px;color:var(--t3);letter-spacing:3px;animation:blink 1s step-end infinite">LOADING...</div>
+</div>
+
+<div id="SCR_TITLE" style="display:none">
+  <canvas id="tcv" width="290" height="163"></canvas>
+  <div class="t-logo">デザイン会社発展国<br><span>Design Company Simulator</span></div>
+  <div style="font-size:7px;color:var(--t4);letter-spacing:2px">全デザイナーに捧げる  Ver 2.0</div>
+  <div style="display:flex;flex-direction:column;gap:8px;align-items:center">
+    <button class="t-btn" onclick="G.newGame()">▶ NEW GAME</button>
+    <button class="t-btn sec" onclick="G.load()">　CONTINUE　</button>
+    <button class="t-btn sec" onclick="G.howto()">　HOW TO PLAY　</button>
+  </div>
+  <div class="t-blink">PRESS TO START</div>
+</div>
+
+<div id="GAME">
+  <div id="hud">
+    <div class="hud-co" id="hco">個人事務所</div>
+    <div class="hstats">
+      <div class="hs" title="資金">💰 <span class="hs-lbl">資金</span><span class="hs-v g" id="hmoney">¥38K</span></div>
+      <div class="hs" title="評判">⭐ <span class="hs-lbl">評判</span><span class="hs-v tl" id="hrep">12</span></div>
+      <div class="hs" title="炎上">🔥 <span class="hs-lbl">炎上</span><span class="hs-v r" id="hfire">0</span><span class="hs-lbl">%</span></div>
+      <div class="hs" title="SNS">📢 <span class="hs-lbl">SNS</span><span class="hs-v p" id="hsns">84</span></div>
+      <div class="hs" title="社員">👥 <span class="hs-lbl">社員</span><span class="hs-v" id="hstaff">1</span><span class="hs-lbl">名</span></div>
+      <div class="hs" title="ブラック">😈 <span class="hs-lbl">BK</span><span class="hs-v" id="hblack">5</span><span class="hs-lbl">%</span></div>
+    </div>
+    <div class="hdate" id="hdate">📅 <span id="hdate-main">2025年4月</span> <span class="hdate-day" id="hdate-day">第1週</span></div>
+    <div class="hph" id="hph">PHASE 0</div>
+  </div>
+  <div id="main">
+    <div id="nav">
+      <button class="nb on" id="nb-dash"   onclick="G.tab('dash')">🏠<span>HOME</span></button>
+      <button class="nb"    id="nb-proj"   onclick="G.tab('proj')">📋<span>案件</span><span class="nbadge" id="bdg-proj">0</span></button>
+      <button class="nb"    id="nb-active" onclick="G.tab('active')">⚙️<span>制作</span></button>
+      <div class="nsep"></div>
+      <button class="nb"    id="nb-staff"  onclick="G.tab('staff')">👥<span>社員</span></button>
+      <button class="nb"    id="nb-hire"   onclick="G.tab('hire')">📌<span>採用</span></button>
+      <div class="nsep"></div>
+      <button class="nb"    id="nb-tech"   onclick="G.tab('tech')">🔬<span>技術</span></button>
+      <button class="nb"    id="nb-prog"   onclick="G.tab('prog')">📈<span>成長</span></button>
+      <div class="nsep" style="margin-top:auto"></div>
+      <button class="nb" onclick="G.save()" title="セーブ" style="font-size:13px">💾<span>保存</span></button>
+    </div>
+    <div id="content">
+      <div id="owrap">
+  <canvas id="ocv"></canvas>
+  <div class="olb" id="olb">COWORKING SPACE</div>
+  <div class="otm" id="otm"></div>
+  <div id="turn-progress">
+    <div id="tp-bar"></div>
+    <div id="tp-txt">週を進めてください</div>
+  </div>
+  <div id="auto-ctrl">
+    <button id="btn-auto" class="on" onclick="G.toggleAuto()" title="自動進行">▶ AUTO</button>
+    <select id="auto-speed" onchange="G.setAutoSpeed(this.value)" title="速度">
+      <option value="4000">×1 ゆっくり</option>
+      <option value="2500" selected>×2 標準</option>
+      <option value="1200">×4 速い</option>
+      <option value="500">×8 爆速</option>
+    </select>
+  </div>
+</div>
+      <div id="panels">
+        <div class="panel on" id="pan-dash">
+          <div class="wbar" id="wb-fire">⚠ 炎上メーターが危険域です！</div>
+          <div class="ibar" id="wb-money">💰 資金が少なくなっています！</div>
+          <div class="trow">
+            <div class="tinfo" id="tinfo"></div>
+            <button class="btn-turn" id="btn-turn" onclick="G.nextTurn()">▶ 次の週へ</button>
+          </div>
+          <div class="sh">会社ステータス</div>
+          <div class="dgrid" id="dgrid"></div>
+          <div class="sh">進行中の案件 <span class="ct" id="dash-cnt"></span></div>
+          <div id="dash-ap"></div>
+          <div class="sh" style="margin-top:9px">ゲームログ</div>
+          <div class="log" id="glog"></div>
+        </div>
+        <div class="panel" id="pan-proj">
+          <div class="sh">受注可能な案件 <span class="ct" id="proj-hint"></span></div>
+          <div class="pcgrid" id="proj-list"></div>
+        </div>
+        <div class="panel" id="pan-active">
+          <div class="sh">制作中の案件</div>
+          <div id="active-list"></div>
+        </div>
+        <div class="panel" id="pan-staff">
+          <div class="sh">社員一覧 <span class="ct" id="staff-cnt"></span></div>
+          <div id="staff-list"></div>
+        </div>
+        <div class="panel" id="pan-hire">
+          <div class="sh">求人候補</div>
+          <div class="hcgrid" id="hire-list"></div>
+        </div>
+        <div class="panel" id="pan-tech">
+          <div class="sh">技術ツリー</div>
+          <p style="font-size:7px;color:var(--t3);margin-bottom:10px">技術習得で受注範囲・品質・単価が向上。クリックで習得。</p>
+          <div id="tech-tree"></div>
+        </div>
+        <div class="panel" id="pan-prog">
+          <div class="sh">フェーズ進行</div>
+          <div class="phases" id="phases"></div>
+          <div class="sh">オフィス</div>
+          <div class="ofgrid" id="of-cards"></div>
+          <div class="sh">統計</div>
+          <div class="statbox" id="statbox"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mbg" id="modal-ev"><div class="mbox" id="mbox-ev"><span class="mic" id="mev-ic"></span><div class="mtt" id="mev-tt"></div><div class="mds" id="mev-ds"></div><div class="mch-list" id="mev-ch"></div></div></div>
+<div class="mbg" id="modal-mod"><div class="mbox danger"><div style="font-size:7px;color:var(--red);letter-spacing:2px;text-align:center;margin-bottom:5px">修正依頼 <span id="mod-cnt">第1回</span></div><div class="mic" id="mod-face">😤</div><div class="mtt" style="color:var(--red);font-size:11px" id="mod-pn"></div><div class="mds" id="mod-tx"></div><div class="mch-list" id="mod-ch"></div></div></div>
+<div class="mbg" id="modal-rev"><div class="mbox rev-box"><div class="mtt" style="color:var(--gold)">📬 納品完了！クライアント評価</div><div class="rev-st" id="rev-st"></div><div class="rev-cm" id="rev-cm"></div><div class="rev-ef" id="rev-ef"></div><button class="btn-ok" id="btn-ok-rev">　OK　</button></div></div>
+<div id="SCR_END"><div class="end-t" id="end-t"></div><div class="end-s" id="end-s"></div><div class="end-st" id="end-st"></div><button class="btn-re" onclick="G.restart()">▶ もう一周やる</button></div>
+<div id="notifs"></div>
+
+<script>
+'use strict';
+
+// roundRect polyfill
+if(!CanvasRenderingContext2D.prototype.roundRect){
+  CanvasRenderingContext2D.prototype.roundRect=function(x,y,w,h,r){
+    r=Math.min(r||0,w/2,h/2);
+    this.beginPath();this.moveTo(x+r,y);
+    this.lineTo(x+w-r,y);this.quadraticCurveTo(x+w,y,x+w,y+r);
+    this.lineTo(x+w,y+h-r);this.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+    this.lineTo(x+r,y+h);this.quadraticCurveTo(x,y+h,x,y+h-r);
+    this.lineTo(x,y+r);this.quadraticCurveTo(x,y,x+r,y);
+    this.closePath();
+  };
+}
+
+// ─── AUDIO ───────────────────────────────────────────────────
+var ac=null;
+function initAC(){try{ac=new(window.AudioContext||window.webkitAudioContext)();}catch(e){}}
+function beep(freq,type,dur,vol,delay){
+  if(!ac)return;
+  try{var o=ac.createOscillator(),g=ac.createGain();o.connect(g);g.connect(ac.destination);
+    o.type=type||'sine';o.frequency.value=freq;var t=ac.currentTime+(delay||0);
+    g.gain.setValueAtTime(vol||0.1,t);g.gain.exponentialRampToValueAtTime(0.001,t+dur);
+    o.start(t);o.stop(t+dur);}catch(e){}}
+var SFX={
+  coin:function(){beep(880,'sine',.1,.1);beep(1320,'sine',.15,.08,.08);},
+  good:function(){[440,550,660].forEach(function(f,i){beep(f,'square',.1,.05,i*.06);});},
+  bad:function(){beep(200,'sawtooth',.3,.1);},
+  ev:function(){beep(660,'sine',.05,.1);beep(440,'sine',.15,.08,.06);},
+  lvup:function(){[440,550,660,880].forEach(function(f,i){beep(f,'sine',.2,.1,i*.08);});},
+  click:function(){beep(600,'square',.04,.04);},
+  alert:function(){beep(330,'sawtooth',.1,.08);beep(220,'sawtooth',.15,.08,.1);},
+  fanfare:function(){[523,659,784,1047].forEach(function(f,i){beep(f,'sine',.4,.1,i*.1);});}
+};
+
+// ─── UTILS ───────────────────────────────────────────────────
+function fY(n){var a=Math.abs(n),s=n<0?'-':'';if(a>=10000000)return s+(a/10000000).toFixed(1)+'千万円';if(a>=1000000)return s+Math.round(a/10000)+'万円';if(a>=10000)return s+(a/10000).toFixed(1)+'万円';return s+a.toLocaleString()+'円';}
+function fM(n){return Math.abs(n)>=10000?Math.round(n/1000)+'K':n.toLocaleString();}
+function ri(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
+function pick(a){return a[Math.floor(Math.random()*a.length)];}
+function clamp(v,lo,hi){return Math.max(lo,Math.min(hi,v));}
+function shuffle(a){var b=a.slice();for(var i=b.length-1;i>0;i--){var j=ri(0,i);var t=b[i];b[i]=b[j];b[j]=t;}return b;}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function q(id){return document.getElementById(id);}
+
+// ─── NOTIFY ──────────────────────────────────────────────────
+function notify(msg,type,dur){
+  var area=q('notifs');var el=document.createElement('div');el.className='nf '+(type||'');el.textContent=msg;area.appendChild(el);
+  setTimeout(function(){el.classList.add('out');setTimeout(function(){if(el.parentNode)el.parentNode.removeChild(el);},350);},(dur||3000));
+}
+
+// ─── STATIC DATA ─────────────────────────────────────────────
+var PTYPES=[
+  {id:'logo',  lb:'ロゴ',        ic:'🔤',css:'logo', base:80000,  days:3, ph:0,sk:['design']},
+  {id:'meishi',lb:'名刺',        ic:'💳',css:'logo', base:30000,  days:2, ph:0,sk:['design']},
+  {id:'lp',    lb:'LP',          ic:'🖥️',css:'lp',  base:200000, days:5, ph:0,sk:['design','ui']},
+  {id:'banner',lb:'バナー',      ic:'🖼️',css:'lp',  base:50000,  days:2, ph:0,sk:['design']},
+  {id:'app',   lb:'アプリUI',    ic:'📱',css:'app', base:800000, days:10,ph:1,sk:['ui','logic']},
+  {id:'web',   lb:'Webサービス', ic:'🌐',css:'web', base:1500000,days:14,ph:1,sk:['ui','logic','design']},
+  {id:'brand', lb:'ブランディング',ic:'💎',css:'brand',base:3000000,days:18,ph:2,sk:['design','comm']},
+  {id:'ai',    lb:'AIプロダクト',ic:'🤖',css:'ai',  base:5000000,days:22,ph:3,sk:['logic','ui','design']},
+];
+var CTYPES=[
+  {id:'god',  lb:'神クライアント',        cls:'cgod',  ic:'😇',mr:5, pm:1.3, rg:4,rl:-1,desc:'予算潤沢・修正少・人格者'},
+  {id:'norm', lb:'普通の会社',             cls:'cnorm', ic:'🏢',mr:28,pm:1.0, rg:1,rl:1, desc:'可もなく不可もなく'},
+  {id:'start',lb:'意識高いスタートアップ',cls:'cstart',ic:'🚀',mr:52,pm:0.78,rg:2,rl:2, desc:'世界を変えたいが予算低い'},
+  {id:'agency',lb:'大手代理店経由',        cls:'cagency',ic:'😤',mr:62,pm:0.85,rg:1,rl:3, desc:'中間マージン大・担当コロコロ'},
+  {id:'pres', lb:'地方の社長',             cls:'cpres', ic:'👴',mr:72,pm:1.1, rg:1,rl:2, desc:'シンプルに→豪華に を繰り返す'},
+  {id:'gov',  lb:'お役所',                 cls:'cgov',  ic:'📄',mr:38,pm:1.4, rg:0,rl:0, desc:'仕様書250ページ・MS明朝指定'},
+  {id:'vnt',  lb:'シリーズAスタートアップ',cls:'cvnt',  ic:'💼',mr:42,pm:1.15,rg:3,rl:1, desc:'資金調達済み・でも急ぎ'},
+  {id:'indie',lb:'個人事業主',             cls:'cind',  ic:'🙋',mr:55,pm:0.5, rg:1,rl:1, desc:'予算5万・要求100万相当'},
+];
+var PNAMES={
+  logo:  ['地方菓子メーカーのロゴ','カフェのロゴリデザイン','スタートアップロゴ','医療クリニックシンボル','不動産会社ロゴ','ヨガスタジオのマーク'],
+  meishi:['税理士の名刺200枚','フリーコンサルの名刺','経営者名刺リデザイン'],
+  lp:    ['新商品ランディングページ','セミナー集客LP','採用サイトLP','ECトップページ'],
+  banner:['Google広告バナー一式','SNS広告バナーセット','メルマガヘッダー'],
+  app:   ['フードデリバリーアプリUI','医療予約アプリUI','フィンテックアプリUI','ギグワーカーアプリUI'],
+  web:   ['BtoB SaaS管理画面','マッチングサービスUI','ECプラットフォームUI'],
+  brand: ['大手食品メーカーリブランド','スタートアップブランド構築','自治体シティブランド'],
+  ai:    ['AI搭載ツールのUX','生成AIサービスUI','AIコンシェルジュIF'],
+};
+var MODS=[
+  {tx:'「全体的にもっとポップにしてください」', em:'🌈',dm:-8, at:'かしこまりました…',rt:'ポップとはどういう意味でしょうか？',rp:-6},
+  {tx:'「なんかちょっと違うんですよね〜」',      em:'😑',dm:-10,at:'修正します',rt:'具体的にどこが違いますか？',rp:-3},
+  {tx:'「前のデザインに戻してください」',         em:'😤',dm:-15,at:'もちろんです（2週間返して）',rt:'それは難しいです…',rp:-10},
+  {tx:'「ロゴを100案出してもらえますか？」',     em:'💀',dm:-25,at:'はい…（廃人確定）',rt:'50案ではいかがでしょう',rp:-12},
+  {tx:'「息子がもっと豪華にと言ってます」',       em:'👨‍👦',dm:-12,at:'豪華にします',rt:'社長のご判断にお任せを',rp:-15},
+  {tx:'「担当者が変わりました。引き継ぎゼロです」',em:'😭',dm:-20,at:'最初から説明します',rt:'引き継ぎ資料をください',rp:-5},
+  {tx:'「前と違う方向で全部やり直しで」',         em:'🔄',dm:-30,at:'はい…（深夜確定）',rt:'追加費用が発生します',rp:-10},
+  {tx:'「シンプルに→豪華に→やっぱりシンプルに」',em:'🔁',dm:-35,at:'了解です（三往復目）',rt:'方向性を決めていただきたい',rp:-8},
+  {tx:'「なんかぐっとこないんです」',             em:'🤔',dm:-8, at:'ぐっとくる方向で',rt:'具体的なFBをお願いします',rp:-3},
+  {tx:'「無料でもう3案作ってもらえますか？」',    em:'💸',dm:-18,at:'わかりました（涙）',rt:'追加案件として対応します',rp:-8},
+  {tx:'「他社に頼もうか迷ってます」',             em:'😨',dm:-12,at:'値引きします',rt:'ぜひご検討ください',rp:-20},
+  {tx:'「昨日送ったデータ、差し替えで」（納品後）',em:'😤',dm:-20,at:'対応します（無料で）',rt:'追加料金が発生します',rp:-12},
+];
+var EVTS=[
+  {id:'figma_down',ic:'💀',ty:'danger',tt:'Figmaが落ちた！',
+   ds:'締め切り3時間前、Figmaのサーバーがダウン。\nステータスページは「investigating」。',
+   ch:[{tx:'Sketchで作業続行',ef:'全メンタル-5',fn:function(){G.s.staff.forEach(function(s){s.mental=clamp(s.mental-5,0,100);});notify('Sketchで凌ぎます…','warn');}},
+       {tx:'復旧を待つ（そわそわ）',ef:'全メンタル-12',fn:function(){G.s.staff.forEach(function(s){s.mental=clamp(s.mental-12,0,100);});addLog('Figma復旧待ち中…全員精神消耗','bad');}}]},
+  {id:'client_bomb',ic:'💢',ty:'danger',tt:'クライアントが爆発！',
+   ds:'担当者から突然、長文の怒りのメールが届きました。\n理由がよくわかりません。でも激しく怒っています。',
+   ch:[{tx:'謝り倒す（土下座スタイル）',ef:'評判-5、メンタル-15',fn:function(){G.s.rep=clamp(G.s.rep-5,0,100);G.s.staff.forEach(function(s){s.mental=clamp(s.mental-15,0,100);});addLog('クライアントに謝罪。疲弊。','bad');}},
+       {tx:'冷静に事実確認する',ef:'評判-2、改善の可能性',fn:function(){G.s.rep=clamp(G.s.rep-2,0,100);notify('冷静対応。事態が落ち着いた。','ok');}}]},
+  {id:'inf_mod',ic:'♾️',ty:'danger',tt:'無限修正地獄突入',
+   ds:'「もう一声」\n「もう一声」\n「もう一声」\nこのクライアント、止まる気がありません。',
+   ch:[{tx:'受け続ける（廃人ルート）',ef:'全メンタル-30、ブラック+10',fn:function(){G.s.staff.forEach(function(s){s.mental=clamp(s.mental-30,0,100);});G.s.totalMods+=10;G.s.black=clamp(G.s.black+10,0,100);addLog('無限修正地獄…社員が壊れていく','bad');SFX.bad();}},
+       {tx:'追加費用を請求する',ef:'+10万円、評判-5',fn:function(){G.s.money+=100000;G.s.rep=clamp(G.s.rep-5,0,100);addLog('追加費用請求で修正を打ち切った。','good');}}]},
+  {id:'quit',ic:'🚶',ty:'warn',tt:'社員が退職を申し出た',
+   ds:'「少しお話があるんですが…」\n社員の1人が、静かに退職を申し出ました。',
+   ch:[{tx:'給与を上げて引き止める',ef:'-20万円、引き止め',fn:function(){if(G.s.money>=200000){G.s.money-=200000;notify('給与UPで引き止め成功！','ok');}else{fireRandom();notify('資金不足で引き止められなかった…','danger');}}},
+       {tx:'快く送り出す',ef:'評判-3、人員-1',fn:function(){fireRandom();addLog('社員が旅立った。','bad');}},
+       {tx:'業務改善を約束する',ef:'ブラック-10、成功率50%',fn:function(){if(Math.random()<0.5){G.s.black=clamp(G.s.black-10,0,100);notify('改善約束で引き止め成功！','ok');}else{fireRandom();notify('それでも去っていった…','danger');}}}]},
+  {id:'font_acc',ic:'🔤',ty:'danger',tt:'フォント事故発生！',
+   ds:'納品データに未購入の商用フォントが混入していました。\n「印刷できません」と連絡が来ています。',
+   ch:[{tx:'即座に修正版を送る',ef:'メンタル-10、-3万円',fn:function(){G.s.staff.forEach(function(s){s.mental=clamp(s.mental-10,0,100);});G.s.money-=30000;addLog('フォント事故対応。出費あり。','bad');}},
+       {tx:'フリーフォントに差し替え',ef:'品質ダウン、評判-5',fn:function(){G.s.rep=clamp(G.s.rep-5,0,100);addLog('フリーフォント差し替え。品質妥協。','bad');}}]},
+  {id:'fire_sns',ic:'🔥',ty:'danger',tt:'SNS炎上発生！',
+   ds:'「このデザインひどくない？」の声がXで広まっています。\nトレンドに載るかもしれません。',
+   ch:[{tx:'謝罪文を丁寧に出す',ef:'炎上-15、評判-10',fn:function(){G.s.fire=clamp(G.s.fire-15,0,100);G.s.rep=clamp(G.s.rep-10,0,100);addLog('謝罪文公開。炎上が少し収まった。','bad');}},
+       {tx:'完全沈黙で乗り切る',ef:'炎上+8',fn:function(){G.s.fire=clamp(G.s.fire+8,0,100);addLog('沈黙作戦。まだ燃えている…','bad');}},
+       {tx:'デザインの意図を説明する',ef:'成功か炎上か50/50',fn:function(){if(Math.random()<0.45){G.s.fire=clamp(G.s.fire-20,0,100);G.s.rep=clamp(G.s.rep+5,0,100);notify('説明が共感を呼び炎上鎮火！','ok');}else{G.s.fire=clamp(G.s.fire+15,0,100);notify('さらに炎上してしまった…','danger');}}}]},
+  {id:'sns_buzz',ic:'🚀',ty:'success',tt:'SNSでバズった！',
+   ds:'納品した案件のビジュアルがSNSで大きくバズりました！\nデザイン好きのアカウントが続々とリポスト。',
+   ch:[{tx:'積極的に拡散する',ef:'SNS+500、評判+8',fn:function(){G.s.sns+=500;G.s.rep=clamp(G.s.rep+8,0,100);addLog('SNSバズで認知急拡大！','good');SFX.good();}},
+       {tx:'静かに喜ぶ',ef:'SNS+150、評判+3',fn:function(){G.s.sns+=150;G.s.rep=clamp(G.s.rep+3,0,100);addLog('静かにバズりを享受した。','good');}}]},
+  {id:'award',ic:'🏆',ty:'success',tt:'デザイン賞を受賞！',
+   ds:'グッドデザイン賞の一次審査を通過しました！',
+   ch:[{tx:'プレスリリースを積極展開',ef:'評判+25、SNS+400',fn:function(){G.s.rep=clamp(G.s.rep+25,0,100);G.s.sns+=400;G.s.awards++;addLog('グッドデザイン賞受賞！業界騒然！','good');SFX.fanfare();}},
+       {tx:'実績として淡々と記録',ef:'評判+12',fn:function(){G.s.rep=clamp(G.s.rep+12,0,100);G.s.awards++;addLog('デザイン賞受賞。実績として記録。','good');}}]},
+  {id:'god_cli',ic:'😇',ty:'success',tt:'神クライアント登場！',
+   ds:'「予算は十分あります。修正もほぼしません。」\n夢のようなクライアントが現れました。',
+   ch:[{tx:'ぜひお願いします！',ef:'高額案件+300〜500万円',fn:function(){var e=3000000+ri(0,2000000);G.s.money+=e;G.s.rep=clamp(G.s.rep+10,0,100);addLog('神クライアントと契約！'+fY(e)+'！','good');SFX.fanfare();}}]},
+  {id:'media',ic:'📰',ty:'success',tt:'メディア取材依頼！',
+   ds:'デザイン専門メディアから取材の申し込みが来ました。',
+   ch:[{tx:'受ける（今がチャンス）',ef:'評判+22、SNS+300',fn:function(){G.s.rep=clamp(G.s.rep+22,0,100);G.s.sns+=300;addLog('メディア取材掲載。認知度爆上がり。','good');SFX.good();}},
+       {tx:'今は忙しいので断る',ef:'チャンスを逃す',fn:function(){notify('次の機会を待とう…','warn');}}]},
+  {id:'study',ic:'📚',ty:'success',tt:'社内勉強会が盛り上がった！',
+   ds:'自主的な勉強会が始まり、全社員が熱心に参加しています。',
+   ch:[{tx:'業務時間内でやろう',ef:'全スキル+3、メンタル+10',fn:function(){G.s.staff.forEach(function(s){Object.keys(s.stats).forEach(function(k){s.stats[k]=clamp(s.stats[k]+3,0,99);});s.mental=clamp(s.mental+10,0,100);});notify('全社員スキルUP！メンタル回復！','ok');SFX.good();}}]},
+  {id:'nft',ic:'🎨',ty:'warn',tt:'NFT案件のオファー',
+   ds:'「報酬はトークンでお支払いします！未来の価値に期待を！」',
+   ch:[{tx:'受ける（トークンで）',ef:'収入あるが炎上+15',fn:function(){G.s.money+=150000;G.s.fire=clamp(G.s.fire+15,0,100);addLog('NFT案件受注。トークン受け取り。将来が心配。','warn');}},
+       {tx:'現金払いなら受ける',ef:'普通の案件として受注',fn:function(){G.s.money+=200000;addLog('現金払い交渉成功。','good');}},
+       {tx:'断る（正解の予感）',ef:'安全。炎上回避',fn:function(){notify('NFT案件を断った。正解かも。','ok');}}]},
+  {id:'ai_wave',ic:'🤖',ty:'warn',tt:'AIの波が来た…',
+   ds:'「AIでデザインできるらしいですね。御社に頼む必要ありますか？」',
+   ch:[{tx:'AIを積極活用する戦略へ',ef:'AI活用技術解放',fn:function(){G.s.tech['ai_design']=true;notify('AI活用スタジオとして進化宣言！','ok');addLog('AI活用方針を発表。','good');}},
+       {tx:'人間の価値を丁寧に説明する',ef:'評判+5',fn:function(){G.s.rep=clamp(G.s.rep+5,0,100);addLog('人間デザインの価値を説明。共感を得た。','good');}}]},
+  {id:'overtime',ic:'😫',ty:'warn',tt:'残業が続いている…',
+   ds:'締め切りが重なり、社員の残業が3週間続いています。',
+   ch:[{tx:'残業制限を設ける',ef:'ブラック-20、メンタル+10',fn:function(){G.s.black=clamp(G.s.black-20,0,100);G.s.staff.forEach(function(s){s.mental=clamp(s.mental+10,0,100);});addLog('残業制限設定。ブラック度低下。','good');}},
+       {tx:'残業代を出して継続',ef:'-30万円、社員は疲弊',fn:function(){G.s.money-=300000;addLog('残業代を支払って継続。社員は疲弊。','bad');}}]},
+  {id:'birthday',ic:'🎂',ty:'success',tt:'社員の誕生日！',
+   ds:'今日は大切な社員の誕生日です。',
+   ch:[{tx:'サプライズパーティー',ef:'全メンタル+15',fn:function(){G.s.staff.forEach(function(s){s.mental=clamp(s.mental+15,0,100);});notify('サプライズ成功！全員ハッピー！','ok');SFX.coin();}}]},
+  {id:'big_deal',ic:'🎯',ty:'success',tt:'大型案件の直接オファー！',
+   ds:'業界の有名企業から直接指名でオファーが届きました。',
+   ch:[{tx:'受ける！',ef:'+200〜500万円',fn:function(){var e=2000000+ri(0,3000000);G.s.money+=e;G.s.rep=clamp(G.s.rep+10,0,100);addLog('大型直接案件！'+fY(e)+'！','good');SFX.fanfare();}},
+       {tx:'キャパが心配なので断る',ef:'評判-2',fn:function(){G.s.rep=clamp(G.s.rep-2,0,100);addLog('大型案件を断った。','');}}]},
+  {id:'veteran',ic:'👴',ty:'success',tt:'業界の重鎮からアドバイス',
+   ds:'著名デザイナーから直接フィードバックをもらえる機会が訪れました。',
+   ch:[{tx:'全社員で話を聞く',ef:'全スキル+5、評判+8',fn:function(){G.s.staff.forEach(function(s){Object.keys(s.stats).forEach(function(k){s.stats[k]=clamp(s.stats[k]+5,0,99);});});G.s.rep=clamp(G.s.rep+8,0,100);addLog('重鎮のアドバイスで全員成長！','good');SFX.good();}}]},
+  {id:'note_viral',ic:'✍️',ty:'success',tt:'社員のnoteがバズった！',
+   ds:'社員が書いたデザイン論のnoteがビジネス界隈でバズっています。',
+   ch:[{tx:'積極的にシェア',ef:'SNS+600、採用問い合わせ急増',fn:function(){G.s.sns+=600;G.s.rep=clamp(G.s.rep+12,0,100);addLog('note記事バズ！採用問い合わせ急増！','good');SFX.good();}},
+       {tx:'静かにバックアップ',ef:'SNS+200',fn:function(){G.s.sns+=200;G.s.rep=clamp(G.s.rep+5,0,100);addLog('note記事で認知度UP。','good');}}]},
+  {id:'cash_crunch',ic:'💸',ty:'danger',tt:'資金ショート寸前！',
+   ds:'入金遅延が重なり、口座残高が危険域に達しました。',
+   ch:[{tx:'緊急で安い案件を受ける',ef:'+10〜20万円',fn:function(){var e=100000+ri(0,100000);G.s.money+=e;addLog('緊急案件で'+fY(e)+'を確保','good');}},
+       {tx:'銀行に融資を相談する',ef:'+100万円（借入）',fn:function(){G.s.money+=1000000;G.s.black=clamp(G.s.black+5,0,100);addLog('銀行融資100万円確保。返済が必要。','warn');}}]},
+];
+var TECHS=[
+  {row:'基礎技術',nodes:[
+    {id:'figma_basic',  nm:'Figma基礎',      ic:'🎨',cost:0,      req:[],                      ef:'+品質5%',  desc:'基本ツール（習得済み）'},
+    {id:'design_system',nm:'デザインシステム',ic:'🧩',cost:300000, req:['figma_basic'],          ef:'+品質10%', desc:'コンポーネント管理で品質安定'},
+    {id:'ux_research',  nm:'UXリサーチ',      ic:'🔬',cost:200000, req:['figma_basic'],          ef:'+UI品質15%',desc:'UX・IA設計を習得'},
+  ]},
+  {row:'応用技術',nodes:[
+    {id:'motion',       nm:'モーション',       ic:'🎬',cost:500000, req:['design_system'],       ef:'+評判5',   desc:'AfterEffects・Lottie'},
+    {id:'branding',     nm:'ブランド戦略',     ic:'💎',cost:800000, req:['design_system','ux_research'],ef:'単価UP',desc:'ブランディング案件解放'},
+    {id:'three_d',      nm:'3Dデザイン',       ic:'🌐',cost:600000, req:['motion'],               ef:'+差別化',  desc:'Spline・Blender対応'},
+  ]},
+  {row:'エキスパート技術',nodes:[
+    {id:'ai_design',    nm:'AIデザイン',       ic:'🤖',cost:1000000,req:['branding'],             ef:'AI案件解放',desc:'生成AI活用・AIプロダクト解放'},
+    {id:'global',       nm:'グローバル展開',   ic:'🌍',cost:3000000,req:['branding','ai_design'], ef:'世界エンド', desc:'海外クライアント・世界エンド解放'},
+  ]},
+];
+var OFFICES=[
+  {nm:'コワーキング',  ic:'☕',  cost:0,        rp:0, mc:0,       desc:'2畳のスペース。家賃0円。でも集中できない。'},
+  {nm:'渋谷オフィス',  ic:'🏙️',cost:2000000, rp:10,mc:300000,  desc:'渋谷の小さなオフィス。採用力UP。家賃30万/月。'},
+  {nm:'表参道オフィス',ic:'🌿',  cost:8000000, rp:25,mc:800000,  desc:'洗練されたオフィス。案件単価UP。家賃80万/月。'},
+  {nm:'世界進出',      ic:'🌍',  cost:30000000,rp:60,mc:3000000, desc:'NY・LDN・TOKYOにオフィス。世界エンド確定。'},
+];
+var OFF_LB=['COWORKING SPACE','SHIBUYA OFFICE','OMOTESANDO OFFICE','GLOBAL STUDIO'];
+var HIRE_POOL=[
+  {nm:'田中 さくら',role:'UIデザイナー',  ic:'🎨',sal:350000,st:{design:72,speed:80,logic:65,ui:85,comm:60},mental:80,risk:'Xでデザイン論争をよくやる',ph:0},
+  {nm:'鈴木 ゆうき',role:'グラフィック', ic:'✏️',sal:320000,st:{design:88,speed:55,logic:50,ui:60,comm:70},mental:75,risk:'UIには苦手意識がある',ph:0},
+  {nm:'山田 あおい',role:'PM',            ic:'📋',sal:420000,st:{design:45,speed:70,logic:90,ui:55,comm:92},mental:85,risk:'会議を増やす傾向がある',ph:0},
+  {nm:'佐藤 はな',  role:'UX',            ic:'🔬',sal:380000,st:{design:60,speed:60,logic:88,ui:75,comm:78},mental:80,risk:'「それUIの話では？」と言いがち',ph:0},
+  {nm:'伊藤 けんた',role:'エンジニア',    ic:'💻',sal:500000,st:{design:40,speed:92,logic:85,ui:65,comm:60},mental:70,risk:'「実装できないんですけど」と言う',ph:1},
+  {nm:'渡辺 みお',  role:'コピーライター',ic:'✍️',sal:300000,st:{design:55,speed:65,logic:72,ui:50,comm:88},mental:82,risk:'言語化の要求レベルが高い',ph:0},
+  {nm:'中村 りょう',role:'モーショナー',  ic:'🎬',sal:450000,st:{design:78,speed:60,logic:55,ui:70,comm:65},mental:78,risk:'「動きで解決」思考で費用がかかる',ph:1},
+  {nm:'小林 なつみ',role:'グラフィック', ic:'🖌️',sal:280000,st:{design:65,speed:70,logic:60,ui:55,comm:55},mental:65,risk:'センスが採用後に判明するタイプ',ph:0},
+  {nm:'加藤 しんや',role:'AIデザイナー', ic:'🤖',sal:600000,st:{design:60,speed:95,logic:80,ui:75,comm:65},mental:75,risk:'「AIっぽい」と言われやすい',ph:2},
+  {nm:'吉田 えみ',  role:'UIデザイナー', ic:'🎨',sal:400000,st:{design:80,speed:75,logic:70,ui:92,comm:72},mental:78,risk:'前の会社の愚痴を言いがち',ph:0},
+  {nm:'松本 そら',  role:'UX',            ic:'🔍',sal:440000,st:{design:65,speed:62,logic:91,ui:80,comm:82},mental:83,risk:'ユーザーインタビューを多用する',ph:1},
+  {nm:'井上 たける',role:'エンジニア',    ic:'⚙️',sal:550000,st:{design:35,speed:88,logic:90,ui:70,comm:68},mental:72,risk:'デザインより実装を優先する',ph:1},
+  {nm:'木村 ゆな',  role:'PM',            ic:'📊',sal:480000,st:{design:42,speed:75,logic:88,ui:60,comm:90},mental:88,risk:'プロセスを重視しすぎる',ph:2},
+  {nm:'林 まさと',  role:'グラフィック', ic:'🎨',sal:360000,st:{design:91,speed:50,logic:48,ui:55,comm:72},mental:70,risk:'完璧主義で納期が危ないことがある',ph:1},
+  {nm:'高橋 りな',  role:'UIデザイナー', ic:'🎨',sal:380000,st:{design:76,speed:72,logic:68,ui:88,comm:75},mental:82,risk:'ピクセル単位にこだわりすぎる',ph:0},
+  {nm:'近藤 まや',  role:'コピーライター',ic:'📝',sal:320000,st:{design:52,speed:68,logic:75,ui:48,comm:92},mental:85,risk:'言葉の力を信じすぎてビジュアルを軽視',ph:0},
+];
+var ENDINGS=[
+  {id:'world', tt:'🌍 世界的デザインスタジオ',col:'var(--gold)',
+   cond:function(s){return s.rep>=90&&s.awards>=3&&s.tech['global'];},
+   story:'ADCグランプリ受賞。NY、LDN、TOKYOにオフィスを構えた。\n世界中のブランドが「あなたの会社に頼みたい」と言ってくれる。\n最初の2畳のコワーキングスペースが、遠い昔のように感じられる。\n\nすべてのデザインに込めた愛は、ちゃんと世界に届いていた。'},
+  {id:'product',tt:'🚀 プロダクト企業への転身',col:'var(--teal)',
+   cond:function(s){return s.tech['ai_design']&&s.projDone>=30&&s.totalRev>=50000000;},
+   story:'「元デザイン会社」として業界に語り継がれることになる。\n自社プロダクトのDAUが10万を超えた。\nデザインの力で、世界の使い方を変えることができた。'},
+  {id:'god',   tt:'✨ 神スタジオ（Best Ending）',col:'var(--acc2)',
+   cond:function(s){return s.staff.length>=5&&s.staff.every(function(x){return x.mental>=70;})&&s.rep>=75;},
+   story:'小さいけれど、最高の会社。\n社員全員のメンタルが高く、クオリティも評判も申し分ない。\n「規模じゃない、愛だ」という結論に至った。\n\n誰もが羨む、本物のスタジオ。\n社員全員が「ここで働けてよかった」と言ってくれた。'},
+  {id:'ipo',   tt:'📈 上場！',col:'var(--gold)',
+   cond:function(s){return s.totalRev>=100000000&&s.fire<=20&&s.staff.length>=20;},
+   story:'株式上場を果たした。\nCFO採用・IR資料作成・投資家説明会。\n「デザインよりIR資料の方が忙しい」という\n想定外の日常が待っていた。\n\nそれでも、会社は大きくなった。'},
+  {id:'fire',  tt:'🔥 炎上解散…',col:'var(--red)',
+   cond:function(s){return s.fire>=90;},
+   story:'炎上メーターが限界を超えた。\n社長のXポストが発端で業界全体を敵に回した。\n\n「あの時代の反面教師」として、業界に貢献することができた。\nある意味、これも一つのレガシー。'},
+  {id:'nft',   tt:'🎨 NFTで破滅',col:'#e040fb',
+   cond:function(s){return s.fire>=60&&s.money<=0;},
+   story:'受け取ったトークンが全部紙くずになった。\n「信じてたのに」というテロップが流れ続ける。\n\n次のバブルには乗らないと誓った。\nでも、また乗ってしまうかもしれない。それが人間だから。'},
+  {id:'broke', tt:'💸 資金ショート倒産',col:'var(--red)',
+   cond:function(s){return s.money<=-1000000;},
+   story:'口座がマイナスになった。\nキャッシュフローはデザインより重要という\n残酷な真実を知った。\n\n次は経営を学んでから始めよう。'},
+];
+
+// ─── STATE & LOG ─────────────────────────────────────────────
+var gLog=[];
+function addLog(txt,type){gLog.unshift({t:txt,ty:type||'',w:G.s.turn});if(gLog.length>60)gLog.pop();renderLog();}
+function renderLog(){var el=q('glog');if(!el)return;var h='';gLog.slice(0,30).forEach(function(l){h+='<div class="le '+l.ty+'"><span class="le-t">T'+l.w+'▶</span><span class="le-x">'+esc(l.t)+'</span></div>';});el.innerHTML=h;}
+function fireRandom(){var ns=G.s.staff.filter(function(s){return!s.isSelf;});if(!ns.length)return;var s=pick(ns);G.s.actives.forEach(function(p){if(p.asgn===s.id)p.asgn=null;});G.s.staff=G.s.staff.filter(function(x){return x.id!==s.id;});G.s.rep=clamp(G.s.rep-3,0,100);addLog(s.nm+'が退職した。','bad');notify(s.nm+'が退職してしまいました…','danger');SFX.bad();}
+
+// ─── MAIN GAME OBJECT ────────────────────────────────────────
+var G={
+  s:{},
+  busy:false,
+  curTab:'dash',
+  ocId:null,tcId:null,
+  revCb:null,
+
+  initState:function(){
+    G.s={
+      turn:1,money:38000,rep:12,fire:0,sns:84,black:5,
+      phase:0,offLevel:0,compName:'個人事務所',
+      tech:{figma_basic:true},
+      totalRev:0,totalProj:0,projDone:0,totalMods:0,awards:0,
+      staff:[],actives:[],avail:[],hirePool:[],monthNum:0,oAnim:0
+    };
+    G.staffPos=[];
+    G.autoPlay=true;
+    G.autoSpeed=2500;
+    G.autoTimer=null;
+  },
+
+  toggleAuto:function(){
+    G.autoPlay=!G.autoPlay;
+    var btn=q('btn-auto');
+    if(G.autoPlay){
+      btn.textContent='▶ AUTO';btn.classList.add('on');
+      notify('自動進行ON（スペースで停止）','ok',2000);
+      G.scheduleAuto();
+    } else {
+      btn.textContent='⏸ AUTO';btn.classList.remove('on');
+      if(G.autoTimer){clearTimeout(G.autoTimer);G.autoTimer=null;}
+      notify('自動進行OFF','warn',1500);
+    }
+  },
+
+  setAutoSpeed:function(v){G.autoSpeed=parseInt(v);},
+
+  scheduleAuto:function(){
+    if(!G.autoPlay)return;
+    if(G.autoTimer)clearTimeout(G.autoTimer);
+    G.autoTimer=setTimeout(function(){
+      if(!G.autoPlay||G.busy)return G.scheduleAuto();
+      var anyModal=q('modal-ev').classList.contains('open')||q('modal-mod').classList.contains('open')||q('modal-rev').classList.contains('open');
+      if(anyModal){G.scheduleAuto();return;}
+      G.nextTurn();
+    },G.autoSpeed);
+  },
+
+  mkSelf:function(){return{id:'self',nm:'あなた',role:'UIデザイナー',ic:'🧑‍💻',sal:0,stats:{design:65,speed:70,logic:60,ui:72,comm:65},mental:90,status:'idle',isSelf:true,sense:70};},
+
+  genProjects:function(){
+    var avail=PTYPES.filter(function(p){return p.ph<=G.s.phase;});
+    var cnt=3+G.s.phase;G.s.avail=[];
+    for(var i=0;i<cnt;i++){
+      var pt=pick(avail),ct=pick(CTYPES);
+      var nm=pick(PNAMES[pt.id]||[pt.lb+'案件']);
+      var pm=0.75+Math.random()*0.55,diff=clamp(1+Math.floor(Math.random()*3+G.s.phase*0.6),1,5);
+      var tb=G.s.tech['design_system']?1.1:1;
+      G.s.avail.push({id:'p'+Date.now()+i,tid:pt.id,tlb:pt.lb,tic:pt.ic,tcss:pt.css,nm:nm,cli:ct,
+        price:Math.round(pt.base*pm*(1+G.s.phase*0.4)*ct.pm*tb),days:pt.days+ri(0,3),
+        diff:diff,dead:ri(3,8),urg:Math.random()>0.75,sk:pt.sk,prog:0,asgn:null,modCnt:0});
+    }
+  },
+
+  genHire:function(){
+    var pool=HIRE_POOL.filter(function(h){
+      if(h.ph>G.s.phase)return false;
+      if(h.role==='AIデザイナー'&&!G.s.tech['ai_design'])return false;
+      if(G.s.staff.some(function(s){return s.nm===h.nm;}))return false;
+      return true;
+    });
+    G.s.hirePool=shuffle(pool).slice(0,4+G.s.phase*2);
+  },
+
+  // ─ CANVAS: OFFICE ─
+  startOC:function(){
+    var cv=q('ocv');if(!cv)return;
+    cv.width=cv.parentElement.clientWidth;cv.height=240;
+    if(G.ocId)cancelAnimationFrame(G.ocId);
+    (function loop(){G.drawOC(cv);G.ocId=requestAnimationFrame(loop);})();
+  },
+
+  drawOC:function(cv){
+    var ctx=cv.getContext('2d'), W=cv.width, H=cv.height;
+    G.s.oAnim=(G.s.oAnim||0)+1;
+    var t=G.s.oAnim, lv=G.s.offLevel;
+
+    // ━━ PIXEL SCALE ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    var PX=2; // ピクセルサイズ（2倍拡大でドット感UP）
+
+    function px(x,y,w,h,col){ ctx.fillStyle=col; ctx.fillRect(x*PX,y*PX,w*PX,h*PX); }
+    function line(x1,y1,x2,y2,col,wd){
+      ctx.strokeStyle=col; ctx.lineWidth=(wd||1)*PX;
+      ctx.beginPath(); ctx.moveTo(x1*PX,y1*PX); ctx.lineTo(x2*PX,y2*PX); ctx.stroke();
+    }
+
+    var CW=Math.floor(W/PX), CH=Math.floor(H/PX); // キャンバスの論理サイズ
+
+    // ━━ FLOOR ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // Gatherライクな明るいグレー床
+    var floorBase=[
+      ['#c8ccd0','#bec2c6'],  // コワーキング（ライトグレー）
+      ['#d0d4d8','#c6cacd'],  // 渋谷（少し明るく）
+      ['#d4d8dc','#cacdd1'],  // 表参道（さらに明るく）
+      ['#d8dce0','#ced2d6'],  // グローバル（最明）
+    ];
+    var fb=floorBase[lv];
+    var TILE=8;
+    for(var ty=0;ty<CH;ty+=TILE){
+      for(var tx=0;tx<CW;tx+=TILE){
+        var f2=(((tx/TILE)+(ty/TILE))%2===0);
+        ctx.fillStyle=f2?fb[0]:fb[1];
+        ctx.fillRect(tx*PX,ty*PX,TILE*PX,TILE*PX);
+      }
+    }
+
+    // ━━ WALL (top strip) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // Gatherは上部に壁がある
+    var wallH=12;
+    var wallCols=['#b8a898','#c8b8a8','#d8c8b8','#e8d8c8'];
+    px(0,0,CW,wallH,wallCols[lv]);
+    // 壁の下のシャドウ
+    px(0,wallH,CW,2,'rgba(0,0,0,0.15)');
+    // 壁の窓（lv>=1）
+    if(lv>=1){
+      var winNum=Math.min(2+lv,4);
+      for(var wi=0;wi<winNum;wi++){
+        var wx=Math.floor(CW/(winNum+1))*(wi+1)-6;
+        px(wx,1,12,9,'#88b8e0');  // 窓ガラス（空の青）
+        px(wx,1,12,1,'rgba(255,255,255,0.5)');  // 光の反射
+        px(wx,1,1,9,'rgba(255,255,255,0.3)');
+        px(wx,0,12,1,'#998877');  // 窓枠
+        px(wx,10,12,1,'#998877');
+        px(wx,0,1,11,'#998877');
+        px(wx+11,0,1,11,'#998877');
+      }
+    }
+    // 左右の壁
+    px(0,0,3,CH,'#a09080');
+    px(CW-3,0,3,CH,'#a09080');
+
+    // ━━ DESK DRAW FUNCTION (Gather風：上面俯瞰) ━━━━━━━━━━━━━
+    function drawDesk(dx,dy,staffIdx){
+      var DW=22, DH=12;
+      var hasStaff=(staffIdx>=0&&staffIdx<G.s.staff.length);
+      var s2=hasStaff?G.s.staff[staffIdx]:null;
+
+      // デスク天板（上面：少し台形）
+      ctx.fillStyle='#f0f0f0';
+      ctx.beginPath();
+      ctx.moveTo((dx-DW)*PX,(dy-2)*PX);
+      ctx.lineTo((dx+DW)*PX,(dy-2)*PX);
+      ctx.lineTo((dx+DW-1)*PX,(dy+DH)*PX);
+      ctx.lineTo((dx-DW+1)*PX,(dy+DH)*PX);
+      ctx.closePath(); ctx.fill();
+      // デスクの縁（立体感のある影）
+      ctx.fillStyle='#c0c4c8';
+      ctx.beginPath();
+      ctx.moveTo((dx-DW+1)*PX,(dy+DH)*PX);
+      ctx.lineTo((dx+DW-1)*PX,(dy+DH)*PX);
+      ctx.lineTo((dx+DW-1)*PX,(dy+DH+2)*PX);
+      ctx.lineTo((dx-DW+1)*PX,(dy+DH+2)*PX);
+      ctx.closePath(); ctx.fill();
+      // デスク左面
+      ctx.fillStyle='#d0d4d8';
+      ctx.fillRect((dx-DW)*PX,(dy-2)*PX,2*PX,(DH+2)*PX);
+
+      // ── モニター ──
+      var mc=hasStaff&&s2.status==='working'?
+        [[90,120,220],[60,180,120],[200,80,140]][staffIdx%3]:[80,80,90];
+      // モニターフレーム
+      ctx.fillStyle='#303030';
+      ctx.fillRect((dx-10)*PX,(dy-16)*PX,20*PX,12*PX);
+      // モニター画面
+      ctx.fillStyle='rgb('+mc[0]+','+mc[1]+','+mc[2]+')';
+      ctx.fillRect((dx-9)*PX,(dy-15)*PX,18*PX,10*PX);
+      // 画面グロー（作業中のみ）
+      if(hasStaff&&s2.status==='working'){
+        ctx.shadowColor='rgb('+mc[0]+','+mc[1]+','+mc[2]+')';
+        ctx.shadowBlur=8*PX;
+        ctx.fillStyle='rgba('+mc[0]+','+mc[1]+','+mc[2]+',0.3)';
+        ctx.fillRect((dx-9)*PX,(dy-15)*PX,18*PX,10*PX);
+        ctx.shadowBlur=0;
+        // 画面の「コード」ライン
+        var li2=Math.floor(t*0.08)%4;
+        for(var rw=0;rw<4;rw++){
+          var rw2=rw===li2;
+          ctx.fillStyle=rw2?'rgba(255,255,255,0.9)':'rgba(255,255,255,0.35)';
+          ctx.fillRect((dx-8+rw)*PX,(dy-14+rw*2)*PX,(10-rw*1.5)*PX,1*PX);
+        }
+      } else {
+        // スタンバイ
+        ctx.fillStyle='rgba(255,255,255,0.15)';
+        ctx.fillRect((dx-9)*PX,(dy-15)*PX,18*PX,10*PX);
+      }
+      // モニター台座
+      ctx.fillStyle='#505050';
+      ctx.fillRect((dx-2)*PX,(dy-4)*PX,4*PX,4*PX);
+      ctx.fillRect((dx-4)*PX,(dy-1)*PX,8*PX,2*PX);
+
+      // ── キーボード ──
+      ctx.fillStyle='#d8d8d8';
+      ctx.fillRect((dx-8)*PX,(dy+2)*PX,16*PX,5*PX);
+      ctx.fillStyle='#a0a0a0';
+      for(var ki=0;ki<5;ki++){ctx.fillRect((dx-7+ki*3)*PX,(dy+3)*PX,2*PX,1*PX);}
+
+      // ── マウス ──
+      ctx.fillStyle='#d8d8d8';
+      ctx.fillRect((dx+7)*PX,(dy+2)*PX,4*PX,5*PX);
+      ctx.fillStyle='#c0c0c0';
+      ctx.fillRect((dx+8)*PX,(dy+2)*PX,2*PX,2*PX);
+
+      // ── コーヒー（50%確率） ──
+      if((staffIdx+lv)%2===0){
+        ctx.fillStyle='#cc8844';
+        ctx.fillRect((dx-DW+3)*PX,(dy+1)*PX,5*PX,5*PX);
+        ctx.fillStyle='#553311';
+        ctx.fillRect((dx-DW+4)*PX,(dy+2)*PX,3*PX,3*PX);
+        // 湯気アニメ
+        if(Math.sin(t*0.06+staffIdx)>0){
+          ctx.fillStyle='rgba(200,200,220,0.5)';
+          ctx.fillRect((dx-DW+5)*PX,(dy-2+Math.floor(Math.sin(t*0.1+staffIdx)*2))*PX,1*PX,3*PX);
+        }
+      }
+
+      // ── 植物（lv>=1の一部デスク） ──
+      if(lv>=1&&staffIdx%3===0){
+        ctx.fillStyle='#885522';
+        ctx.fillRect((dx+DW-6)*PX,(dy+1)*PX,4*PX,5*PX);
+        ctx.fillStyle='#228822';
+        ctx.fillRect((dx+DW-8)*PX,(dy-5)*PX,8*PX,8*PX);
+        ctx.fillStyle='#44aa44';
+        ctx.fillRect((dx+DW-7)*PX,(dy-7)*PX,5*PX,5*PX);
+      }
+    }
+
+    // ━━ 大型植物 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    function drawBigPlant(bx,by){
+      px(bx-5,by,10,8,'#664422');
+      px(bx-8,by-14,5,18,'#226622');
+      px(bx+3,by-16,5,18,'#228833');
+      px(bx-3,by-20,8,10,'#33aa33');
+      px(bx-10,by-12,4,8,'rgba(40,160,40,0.7)');
+      px(bx+6,by-10,4,8,'rgba(50,180,50,0.7)');
+      // 揺れ
+      ctx.fillStyle='rgba(40,140,40,0.5)';
+      ctx.fillRect((bx-6+Math.sin(t*0.025)*2)*PX,(by-18)*PX,3*PX,6*PX);
+    }
+
+    // ━━ ソファ（Gather風：オレンジ系） ━━━━━━━━━━━━━━━━━━━━━
+    function drawSofa(sx,sy){
+      // 背もたれ
+      px(sx-20,sy,40,6,'#c86828');
+      px(sx-20,sy,40,2,'#e08838');
+      // 座面
+      px(sx-18,sy+6,36,10,'#d87830');
+      px(sx-18,sy+6,36,2,'#e89840');
+      // アームレスト
+      px(sx-22,sy,6,14,'#b85818');
+      px(sx+16,sy,6,14,'#b85818');
+      // 影
+      px(sx-18,sy+16,36,2,'rgba(0,0,0,0.2)');
+      // クッション
+      px(sx-10,sy+7,9,7,'#c87028');
+      px(sx+1,sy+7,9,7,'#c87028');
+      px(sx-10,sy+7,9,1,'rgba(255,255,255,0.2)');
+      px(sx+1,sy+7,9,1,'rgba(255,255,255,0.2)');
+    }
+
+    // ━━ コーヒーテーブル ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    function drawTable(tx2,ty2){
+      px(tx2-12,ty2,24,10,'#d4b896');
+      px(tx2-12,ty2,24,1,'#e8ccaa');
+      px(tx2-12,ty2+10,24,2,'#b09070');
+    }
+
+    // ━━ スタンドランプ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    function drawLamp(lx,ly){
+      px(lx,ly,2,20,'#888888');
+      px(lx-5,ly-6,12,6,'#f0c040');
+      px(lx-5,ly-6,12,1,'#fff8c0');
+      if(Math.sin(t*0.03+lx)>0){
+        ctx.fillStyle='rgba(240,192,64,0.15)';
+        ctx.beginPath();
+        ctx.arc((lx+1)*PX,(ly-3)*PX,18*PX,0,Math.PI*2);
+        ctx.fill();
+      }
+    }
+
+    // ━━ ホワイトボード ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    function drawBoard(bx2,by2){
+      px(bx2-20,by2-28,40,30,'#f8f8f0');
+      px(bx2-20,by2-28,40,1,'rgba(255,255,255,0.8)');
+      px(bx2-20,by2+2,40,3,'#888888');
+      // フレーム
+      px(bx2-21,by2-29,1,32,'#666666');
+      px(bx2+20,by2-29,1,32,'#666666');
+      px(bx2-21,by2-29,42,1,'#666666');
+      // 書いてある内容
+      ctx.fillStyle='rgba(60,80,200,0.6)';
+      ctx.font=(5*PX)+'px monospace';
+      ctx.fillText('UI FLOW',(bx2-14)*PX,(by2-18)*PX);
+      // 矢印・図形
+      ctx.strokeStyle='rgba(200,60,60,0.6)';ctx.lineWidth=PX;
+      ctx.beginPath();ctx.moveTo((bx2-12)*PX,(by2-8)*PX);ctx.lineTo((bx2-4)*PX,(by2-4)*PX);ctx.stroke();
+      ctx.fillStyle='rgba(60,160,60,0.5)';
+      ctx.fillRect((bx2+2)*PX,(by2-12)*PX,8*PX,6*PX);
+    }
+
+    // ━━ 冷蔵庫 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    function drawFridge(fx,fy){
+      px(fx-7,fy-20,14,28,'#dde0e4');
+      px(fx-6,fy-19,12,12,'#f0f2f4');
+      px(fx-6,fy-6,12,13,'#f0f2f4');
+      px(fx-7,fy-20,14,1,'#b0b4b8');
+      px(fx-7,fy-7,14,1,'#b0b4b8');
+      px(fx+2,fy-14,2,3,'#888888');
+      px(fx+2,fy-3,2,3,'#888888');
+    }
+
+    // ━━ LAYOUT: デスク配置を計算 ━━━━━━━━━━━━━━━━━━━━━━━━━━
+    var deskRows=lv===0?1:lv===1?2:2;
+    var deskCols=lv===0?1:lv===1?2:lv===2?3:4;
+    var desks=[];
+    var startY=wallH+18;
+    var spaceY=(CH-startY-22)/(deskRows);
+    for(var row=0;row<deskRows;row++){
+      var dy2=startY+row*spaceY+spaceY*0.4;
+      for(var col=0;col<deskCols;col++){
+        var dx2=Math.floor(CW*(col+0.5+0.2)/(deskCols+0.4));
+        desks.push({x:dx2,y:dy2,idx:row*deskCols+col});
+      }
+    }
+
+    // ━━ STATIC OBJECTS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 角の大型植物（常に）
+    drawBigPlant(9, wallH+16);
+    drawBigPlant(CW-9, wallH+16);
+
+    // Lv1以上：ホワイトボード+ソファエリア
+    if(lv>=1){
+      drawBoard(Math.floor(CW*0.5), wallH+4);
+    }
+    if(lv>=1){
+      var sofaX=Math.floor(CW*0.75), sofaY=CH-22;
+      drawSofa(sofaX, sofaY);
+      drawTable(sofaX, sofaY+12);
+      drawLamp(sofaX+25, sofaY-5);
+    }
+    if(lv>=2){
+      drawFridge(10, CH-14);
+      drawBigPlant(Math.floor(CW*0.3), CH-14);
+      drawLamp(Math.floor(CW*0.5)-30, CH-8);
+    }
+    if(lv>=3){
+      drawSofa(Math.floor(CW*0.25), CH-22);
+      drawBigPlant(Math.floor(CW*0.6), CH-14);
+    }
+
+    // ━━ DESKS (下→上の順で描画でz-order正しく) ━━━━━━━━━━━
+    desks.slice().reverse().forEach(function(d){
+      drawDesk(d.x, d.y, d.idx);
+    });
+
+    // ━━ STAFF CHARACTERS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    if(!G.staffPos)G.staffPos=[];
+
+    // スタッフ位置の更新
+    G.s.staff.forEach(function(s,i){
+      var desk=desks[i]||desks[desks.length-1]||{x:CW/2,y:CH/2};
+      if(!G.staffPos[i]){
+        G.staffPos[i]={x:desk.x, y:desk.y+14, tx:desk.x, ty:desk.y+14, timer:0, state:'sit', flipTimer:0};
+      }
+      var sp=G.staffPos[i];
+      sp.timer--;
+      if(sp.timer<=0){
+        var r2=Math.random();
+        if(s.status==='working'||r2<0.62){
+          // デスクに座る
+          sp.tx=desk.x+(Math.random()-0.5)*4;
+          sp.ty=desk.y+14+(Math.random()-0.5)*3;
+          sp.state='sit'; sp.timer=80+Math.floor(Math.random()*140);
+        } else if(r2<0.78&&lv>=1&&desks.length>=2){
+          // 他のデスクへ移動（立って歩く）
+          var otherDesk=desks[Math.floor(Math.random()*desks.length)];
+          sp.tx=otherDesk.x+(Math.random()-0.5)*6;
+          sp.ty=otherDesk.y+14;
+          sp.state='walk'; sp.timer=30+Math.floor(Math.random()*50);
+        } else if(r2<0.88&&lv>=1){
+          // ソファエリアへ
+          sp.tx=Math.floor(CW*0.7)+(Math.random()-0.5)*15;
+          sp.ty=CH-18+(Math.random()-0.5)*5;
+          sp.state='relax'; sp.timer=35+Math.floor(Math.random()*60);
+        } else {
+          // うろうろ
+          sp.tx=12+Math.random()*(CW-24);
+          sp.ty=wallH+20+Math.random()*(CH-wallH-32);
+          sp.state='walk'; sp.timer=20+Math.floor(Math.random()*35);
+        }
+      }
+      // 滑らか移動
+      sp.x+=(sp.tx-sp.x)*0.07;
+      sp.y+=(sp.ty-sp.y)*0.07;
+    });
+
+    // キャラクター描画関数（Gather風：後ろ向きピクセルキャラ）
+    var HAIR_COLS=['#3a2010','#c8b060','#102840','#501010','#282828','#8060a0','#204030'];
+    var SKIN_COLS=['#f0c890','#d4a070','#a06840','#805028','#c09878'];
+    var SHIRT_COLS=['#5060d0','#30a060','#c04060','#d0a020','#606080','#c06030','#40a0b0'];
+
+    G.s.staff.forEach(function(s,i){
+      var sp=G.staffPos[i]; if(!sp)return;
+      var px2=sp.x, py2=sp.y;
+      var tired=s.mental<30, busy=s.status==='working';
+
+      // 歩きボブ
+      var bob=sp.state==='sit'?Math.sin(t*0.025+i*1.4)*0.4
+             :sp.state==='walk'?Math.sin(t*0.18+i)*1.2
+             :Math.sin(t*0.03+i)*0.3;
+
+      // ━ 影 ━
+      ctx.fillStyle='rgba(0,0,0,0.18)';
+      ctx.beginPath();
+      ctx.ellipse(px2*PX,(py2+9)*PX,8*PX,2.5*PX,0,0,Math.PI*2);
+      ctx.fill();
+
+      ctx.save();
+      ctx.translate(px2*PX,(py2+bob)*PX);
+
+      // ━ 足（歩きアニメ） ━
+      var legSwing=sp.state==='walk'?Math.sin(t*0.22+i)*3:0;
+      ctx.fillStyle=SKIN_COLS[i%5];
+      ctx.fillRect((-3)*PX,(6+legSwing)*PX,3*PX,4*PX);  // 左足
+      ctx.fillRect((0)*PX,(6-legSwing)*PX,3*PX,4*PX);   // 右足
+
+      // ━ 体 ━
+      var shirtCol=tired?'#806060':SHIRT_COLS[i%7];
+      ctx.fillStyle=shirtCol;
+      ctx.fillRect(-4*PX,0*PX,8*PX,7*PX);
+      // 体の光
+      ctx.fillStyle='rgba(255,255,255,0.12)';
+      ctx.fillRect(-4*PX,0*PX,8*PX,2*PX);
+
+      // ━ 頭 ━
+      ctx.fillStyle=SKIN_COLS[i%5];
+      ctx.fillRect(-4*PX,-8*PX,8*PX,8*PX);
+      // 後ろ向きなので耳だけ
+      ctx.fillStyle=SKIN_COLS[(i+1)%5];
+      ctx.fillRect(-5*PX,-5*PX,2*PX,3*PX);  // 左耳
+      ctx.fillRect(3*PX,-5*PX,2*PX,3*PX);   // 右耳
+
+      // ━ 髪 ━
+      ctx.fillStyle=HAIR_COLS[i%7];
+      ctx.fillRect(-4*PX,-9*PX,8*PX,3*PX);  // 後頭部の髪
+      ctx.fillRect(-5*PX,-8*PX,2*PX,5*PX);  // 左サイド
+      ctx.fillRect(3*PX,-8*PX,2*PX,5*PX);   // 右サイド
+
+      // ━ ヘッドフォン（作業中） ━
+      if(busy){
+        ctx.fillStyle='#202020';
+        ctx.fillRect(-6*PX,-10*PX,2*PX,6*PX);  // 左アーム
+        ctx.fillRect(4*PX,-10*PX,2*PX,6*PX);   // 右アーム
+        ctx.fillRect(-6*PX,-11*PX,12*PX,2*PX); // バンド
+        ctx.fillStyle='#404040';
+        ctx.fillRect(-7*PX,-7*PX,3*PX,4*PX);   // 左イヤー
+        ctx.fillRect(4*PX,-7*PX,3*PX,4*PX);    // 右イヤー
+      }
+
+      // ━ 手・タイピング（デスクにいる時） ━
+      if(sp.state==='sit'&&busy){
+        var tkL=Math.sin(t*0.2+i)>0;
+        ctx.fillStyle=SKIN_COLS[i%5];
+        ctx.fillRect((-6)*PX,(3+(!tkL?1:0))*PX,3*PX,2*PX);
+        ctx.fillRect((3)*PX,(3+(tkL?1:0))*PX,3*PX,2*PX);
+      }
+
+      // ━ zzz（疲弊時） ━
+      if(tired){
+        ctx.fillStyle='rgba(255,80,80,0.9)';
+        ctx.font=(5*PX)+'px monospace';
+        ctx.fillText('z',2*PX,-12*PX);
+        if(Math.sin(t*0.04+i)>0){ctx.fillText('z',5*PX,-17*PX);}
+      }
+
+      ctx.restore();
+
+      // ━ 名前バッジ（Gather風：黒背景+名前） ━
+      var nm2=s.nm.split(' ')[0];
+      var badgeW=nm2.length*4+10;
+      // バッジ背景
+      ctx.fillStyle=busy?'rgba(20,20,50,0.88)':'rgba(20,20,30,0.75)';
+      ctx.beginPath();
+      var bx3=(px2-badgeW/2)*PX, by3=(py2+bob+11)*PX;
+      ctx.roundRect(bx3,by3,badgeW*PX,9*PX,2*PX);
+      ctx.fill();
+      // 名前テキスト
+      ctx.fillStyle=busy?'#aaccff':'#ccccee';
+      ctx.font=(5*PX)+'px monospace';
+      ctx.fillText(nm2,(px2-badgeW/2+2)*PX,(py2+bob+18)*PX);
+      // ステータスドット
+      var dotC=tired?'#ff4040':busy?'#7c70f5':'#40cc70';
+      ctx.fillStyle=dotC;
+      ctx.beginPath();
+      ctx.arc((px2+badgeW/2-4)*PX,(py2+bob+15)*PX,2*PX,0,Math.PI*2);
+      ctx.fill();
+
+      // ━ 作業中：吹き出し ━
+      if(busy&&Math.sin(t*0.04+i*3.1)>0.65){
+        var msgs=['…','✓','!!','?!','👍','OK'];
+        var msg=msgs[(i+Math.floor(t*0.02))%msgs.length];
+        ctx.fillStyle='rgba(255,255,255,0.92)';
+        var bx4=(px2+3)*PX, by4=(py2+bob-20)*PX;
+        ctx.beginPath();
+        ctx.roundRect(bx4,by4,20*PX,10*PX,2*PX);
+        ctx.fill();
+        // 吹き出しの尾
+        ctx.beginPath();
+        ctx.moveTo(bx4+2*PX,by4+10*PX);
+        ctx.lineTo(bx4,by4+14*PX);
+        ctx.lineTo(bx4+6*PX,by4+10*PX);
+        ctx.closePath(); ctx.fill();
+        ctx.fillStyle='rgba(60,60,100,0.9)';
+        ctx.font=(5*PX)+'px monospace';
+        ctx.fillText(msg,bx4+2*PX,by4+8*PX);
+      }
+    });
+
+    // ━━ PROGRESS BAR (bottom overlay) ━━━━━━━━━━━━━━━━━━━━━━
+    var pr=G.s.actives.length>0?
+      G.s.actives.reduce(function(a,p){return a+p.prog;},0)/G.s.actives.length:0;
+    var tpEl=q('tp-bar'), ttEl=q('tp-txt');
+    if(tpEl)tpEl.style.setProperty('--tp',Math.min(100,pr)+'%');
+    if(ttEl){
+      if(G.busy)ttEl.textContent='処理中...';
+      else if(G.s.actives.length===0)ttEl.textContent='案件なし ─ 受注してください';
+      else ttEl.textContent='案件進捗 '+Math.round(pr)+'%'+(G.autoPlay?' ▶ AUTO':'　▶▶ SPACE');
+    }
+  },
+
+  startTC:function(){
+    (function loop(){G.drawTC();G.tcId=requestAnimationFrame(loop);})();
+  },
+  drawTC:function(){
+    var cv=q('tcv');if(!cv)return;
+    var ctx=cv.getContext('2d'),W=cv.width,H=cv.height,t=Date.now()/1000;
+    ctx.fillStyle='#f0efff';ctx.fillRect(0,0,W,H);
+    for(var i=0;i<65;i++){var blink=Math.sin(t*0.5+i)*0.5+0.5;ctx.fillStyle='rgba(120,100,220,'+(blink*0.6)+')';ctx.fillRect((Math.sin(i*127.1)*0.5+0.5)*W,(Math.cos(i*311.7)*0.5+0.5)*H*0.65,1,1);}
+    var blds=[{x:0,w:.08,y:.30},{x:.07,w:.06,y:.50},{x:.12,w:.11,y:.20},{x:.22,w:.07,y:.40},{x:.28,w:.13,y:.15},{x:.40,w:.08,y:.45},{x:.47,w:.14,y:.18},{x:.60,w:.09,y:.35},{x:.68,w:.11,y:.22},{x:.78,w:.07,y:.42},{x:.84,w:.10,y:.28},{x:.92,w:.08,y:.48}];
+    blds.forEach(function(b){
+      ctx.fillStyle='#d8d5f8';ctx.fillRect(b.x*W,b.y*H,b.w*W,(1-b.y)*H);
+      var wc=Math.floor(b.w*W/9),wr=Math.floor((1-b.y)*H*0.55/11);
+      var cols=[[124,112,245],[240,98,146],[69,212,168],[240,192,64]];
+      for(var r=0;r<wr;r++)for(var c=0;c<wc;c++)if(Math.sin(t*0.3+b.x*10+r*3.8+c*2.2)>0.15){var cl=cols[(r+c)%4];ctx.fillStyle='rgba('+cl[0]+','+cl[1]+','+cl[2]+',.62)';ctx.fillRect(b.x*W+c*9+2,b.y*H+10+r*11,4,5);}
+    });
+    var gg=ctx.createLinearGradient(0,H*.83,0,H);gg.addColorStop(0,'rgba(124,112,245,0.1)');gg.addColorStop(1,'rgba(124,112,245,0.03)');ctx.fillStyle=gg;ctx.fillRect(0,H*.83,W,H*.17);
+    ctx.fillStyle='#e8e6ff';ctx.fillRect(0,H*.84,W,H*.16);
+    var ds=(t*20)%40;for(var rx=-40+ds;rx<W;rx+=40){ctx.fillStyle='rgba(240,192,64,0.3)';ctx.fillRect(rx,H*.91,18,2);}
+    ctx.font='18px serif';ctx.fillText('🧑‍💻',W/2-9,H*.82+Math.sin(t*2)*2);
+  },
+
+  // ─ GAME FLOW ─
+  newGame:function(){
+    SFX.click();G.initState();G.s.staff=[G.mkSelf()];G.genProjects();G.genHire();
+    G.autoPlay=true;G.staffPos=[];G.autoSpeed=2500;
+    if(G.tcId){cancelAnimationFrame(G.tcId);G.tcId=null;}
+    q('SCR_TITLE').style.display='none';q('GAME').style.display='flex';
+    G.startOC();gLog=[];
+    addLog('フリーランスとしてのキャリアをスタート！','sys');
+    addLog('口座残高：38,000円。まずは案件を受注しよう！','sys');
+    G.renderAll();G.tab('proj');
+    setTimeout(function(){
+      var ab=q('btn-auto');if(ab){ab.textContent='▶ AUTO';ab.classList.add('on');}
+      notify('AUTO進行ON ─ 案件を受注してアサインしよう！','ok',5000);
+      G.scheduleAuto();
+    },500);
+    window.addEventListener('resize',function(){var cv=q('ocv');if(cv){cv.width=cv.parentElement.clientWidth;cv.height=240;}});
+  },
+
+  save:function(){
+    SFX.click();
+    var d=JSON.parse(JSON.stringify(G.s));
+    d.tech=G.s.tech;
+    localStorage.setItem('dcfk_v3',JSON.stringify(d));
+    notify('セーブしました！','ok');SFX.coin();
+  },
+
+  load:function(){
+    SFX.click();var raw=localStorage.getItem('dcfk_v3');
+    if(!raw){notify('セーブデータがありません','warn');return;}
+    try{G.initState();var d=JSON.parse(raw);G.s=d;
+      G.autoPlay=true;G.staffPos=[];G.autoSpeed=2500;
+      if(G.tcId){cancelAnimationFrame(G.tcId);G.tcId=null;}
+      q('SCR_TITLE').style.display='none';q('GAME').style.display='flex';
+      G.startOC();gLog=[];addLog('ロード完了！','sys');G.renderAll();G.tab('dash');
+      setTimeout(function(){
+        var ab=q('btn-auto');if(ab){ab.textContent='▶ AUTO';ab.classList.add('on');}
+        G.scheduleAuto();
+      },500);
+      notify('ロードしました！AUTO進行ON','ok');SFX.good();
+    }catch(e){notify('セーブデータが壊れています','danger');console.error(e);}
+  },
+
+  restart:function(){
+    q('SCR_END').classList.remove('open');q('GAME').style.display='none';
+    q('SCR_TITLE').style.display='flex';
+    if(G.ocId){cancelAnimationFrame(G.ocId);G.ocId=null;}
+    G.startTC();
+  },
+
+  howto:function(){
+    alert('デザイン会社発展国 - 遊び方\n\n▶ 基本の流れ\n1.「案件」タブで案件を選んで受注\n2.「制作」タブで社員をアサインする\n3.「次の週へ」ボタンで時間を進める\n4. 案件完了→評価・報酬を受け取る\n5. 収益で社員採用・技術習得・オフィス拡張\n\n▶ 重要パラメータ\n💰 資金：月次コスト（給与+家賃）が払えないとゲームオーバー\n⭐ 評判：高いと高単価案件が来る\n🔥 炎上：90%超えで炎上エンド\n😈 ブラック度：高いと社員が辞める\n\n▶ エンディング7種\n・神スタジオ（Best）・世界進出・プロダクト企業\n・上場・炎上解散・NFT破滅・資金ショート\n\n▶ キーボード\nスペース: 次の週へ\n1-7: タブ切替\nCtrl+S: セーブ');
+  },
+
+  // ─ TURN ENGINE ─
+  nextTurn:function(){
+    if(G.busy)return;G.busy=true;SFX.click();
+    var btn=q('btn-turn');btn.disabled=true;btn.textContent='処理中...';
+    G.s.turn++;
+    G.s.actives.forEach(function(p){
+      var spd=G.projSpeed(p);p.prog=Math.min(100,p.prog+spd);
+      if(p.asgn){var s=G.s.staff.find(function(x){return x.id===p.asgn;});if(s)s.mental=clamp(s.mental-3,0,100);}
+    });
+    var done=G.s.actives.filter(function(p){return p.prog>=100;});
+    G.s.actives=G.s.actives.filter(function(p){return p.prog<100;});
+    var idx=0;
+    function nextDone(){
+      if(idx>=done.length){G.doMonthly();return;}
+      G.complete(done[idx],function(){idx++;setTimeout(nextDone,120);});
+    }
+    nextDone();
+  },
+
+  doMonthly:function(){
+    if(G.s.turn%4===0){
+      G.s.monthNum++;
+      var sals=G.s.staff.filter(function(s){return!s.isSelf;}).reduce(function(a,s){return a+s.sal;},0);
+      var rent=OFFICES[G.s.offLevel].mc,total=sals+rent;
+      if(total>0){G.s.money-=total;addLog('月次コスト：給与'+fY(sals)+'+家賃'+fY(rent)+'='+fY(total),'bad');
+        if(G.s.money<0)notify('⚠ 資金がマイナスになりました！','danger',5000);
+        else if(G.s.money<300000)notify('💰 資金が少なくなっています！','warn',4000);}
+      G.s.staff.forEach(function(s){s.mental=clamp(s.mental+12,0,100);});
+      G.s.staff.forEach(function(s){if(s.status==='working'){var k=pick(Object.keys(s.stats));s.stats[k]=clamp(s.stats[k]+1,0,99);}});
+      var avgM=G.s.staff.reduce(function(a,s){return a+s.mental;},0)/Math.max(1,G.s.staff.length);
+      if(avgM<40)G.s.black=clamp(G.s.black+8,0,100);else if(avgM>75)G.s.black=clamp(G.s.black-2,0,100);
+      G.genProjects();G.genHire();addLog('月次更新。新案件が届いた。','sys');
+    }
+    G.s.avail.forEach(function(p){p.dead--;});
+    var exp=G.s.avail.filter(function(p){return p.dead<=0;});
+    exp.forEach(function(p){addLog('「'+p.nm+'」の締め切りが過ぎた。','bad');});
+    G.s.avail=G.s.avail.filter(function(p){return p.dead>0;});
+    if(G.s.black>60){var qr=G.s.staff.filter(function(s){return!s.isSelf&&s.mental<30;});
+      if(qr.length>0&&Math.random()<0.4){G.showEv(EVTS.find(function(e){return e.id==='quit';}),G.afterEv);return;}}
+    if(G.s.fire>=50&&Math.random()<0.2){G.showEv(EVTS.find(function(e){return e.id==='fire_sns';}),G.afterEv);return;}
+    if(Math.random()<0.28){G.showEv(pick(EVTS),G.afterEv);return;}
+    G.afterEv();
+  },
+
+  afterEv:function(){
+    G.phaseCheck();if(G.endingCheck())return;
+    G.updateHUD();G.renderAll();
+    var btn=q('btn-turn');btn.disabled=false;btn.textContent='▶▶ 次の週へ';
+    G.busy=false;if(G.s.turn%5===0)G.save();
+    if(G.autoPlay)G.scheduleAuto();
+  },
+
+  // ─ PROJECT LOGIC ─
+  projSpeed:function(p){
+    var base=8;
+    if(p.asgn){var s=G.s.staff.find(function(x){return x.id===p.asgn;});
+      if(s){base=Math.max(4,Math.round((s.stats.speed+s.stats.design+s.stats.ui)/3*(s.mental/100)));
+        if(G.s.tech['design_system'])base=Math.round(base*1.1);
+        if(G.s.tech['ux_research']&&(p.tid==='app'||p.tid==='web'))base=Math.round(base*1.1);}}
+    return base;
+  },
+
+  quality:function(p){
+    var q2=50;
+    if(p.asgn){var s=G.s.staff.find(function(x){return x.id===p.asgn;});
+      if(s){q2=(s.stats.design+s.stats.ui+s.stats.speed)/3*(s.mental/100)*(1+(s.sense||60)/200);
+        if(G.s.tech['design_system'])q2*=1.1;
+        if(G.s.tech['ux_research']&&(p.tid==='app'||p.tid==='web'))q2*=1.12;
+        if(G.s.tech['branding']&&p.tid==='brand')q2*=1.2;}}
+    return clamp(Math.round(q2),0,100);
+  },
+
+  complete:function(p,cb){
+    var qual=G.quality(p);G.s.projDone++;G.s.totalProj++;
+    if(Math.random()*100<p.cli.mr){var mod=pick(MODS);G.showMod(mod,p,function(){G.doFinish(p,qual,cb);});return;}
+    G.doFinish(p,qual,cb);
+  },
+
+  doFinish:function(p,qual,cb){
+    var earned=Math.round(p.price*p.cli.pm);
+    if(qual>=85)earned=Math.round(earned*1.2);else if(qual<40)earned=Math.round(earned*0.7);
+    G.s.money+=earned;G.s.totalRev+=earned;
+    G.s.rep=clamp(G.s.rep+Math.floor(qual/14)+p.cli.rg,0,100);
+    if(Math.random()<0.3)G.s.sns+=ri(10,55);
+    if(p.asgn){var s=G.s.staff.find(function(x){return x.id===p.asgn;});
+      if(s){s.status='idle';if(p.sk)p.sk.forEach(function(k){if(s.stats[k]!==undefined)s.stats[k]=clamp(s.stats[k]+ri(1,3),0,99);});}}
+    var rv=G.getReview(qual,p.cli);
+    G.showRev(rv[0],rv[1],earned,p.tlb,function(){addLog('「'+p.nm+'」完了！'+rv[0]+' +'+fY(earned),'good');SFX.coin();G.updateHUD();if(cb)cb();});
+  },
+
+  getReview:function(qual,ct){
+    var d=[['★★★★★','完璧です！次もよろしくお願いします！'],['★★★★☆','とても良かったです。ありがとうございました。'],['★★★☆☆','まあ良かったです（そっけない）'],['★★☆☆☆','もうちょっと何とかなりませんでしたか…'],['★☆☆☆☆','思ってたのと違いました（最初から言え）']];
+    if(ct.id==='god'&&qual>=70)return['★★★★★','完璧です！SNSに上げていいですか？'];
+    if(ct.id==='pres')return['★★★☆☆','悪くないですね。息子も気に入ってました。'];
+    if(ct.id==='gov')return['★★★☆☆','ありがとうございます。検収書を送付します。'];
+    return d[qual>=85?0:qual>=70?1:qual>=55?2:qual>=40?3:4];
+  },
+
+  // ─ ACTIONS ─
+  accept:function(id){
+    SFX.click();var p=G.s.avail.find(function(x){return x.id===id;});if(!p)return;
+    var mx=Math.max(2,G.s.staff.length);
+    if(G.s.actives.length>=mx){notify('同時進行は最大'+mx+'件です！','warn');return;}
+    var ap=JSON.parse(JSON.stringify(p));ap.prog=0;ap.asgn=null;ap.modCnt=0;
+    G.s.actives.push(ap);G.s.avail=G.s.avail.filter(function(x){return x.id!==id;});
+    addLog('「'+p.nm+'」を受注！社員をアサインしよう！','good');
+    notify('「'+p.nm+'」受注！制作タブでアサインしてください！','ok');
+    SFX.good();G.renderAll();G.tab('active');
+  },
+
+  assign:function(pid,sid){
+    SFX.click();var p=G.s.actives.find(function(x){return x.id===pid;});var s=G.s.staff.find(function(x){return x.id===sid;});
+    if(!p||!s)return;
+    if(s.status==='working'&&p.asgn!==sid){notify(s.nm+'は別の案件担当中です！','warn');return;}
+    if(p.asgn){var prev=G.s.staff.find(function(x){return x.id===p.asgn;});if(prev)prev.status='idle';}
+    p.asgn=sid;s.status='working';
+    addLog('「'+p.nm+'」に'+s.nm+'をアサイン','');notify(s.nm+'をアサインしました！','ok');G.renderAll();
+  },
+
+  unassign:function(pid){
+    SFX.click();var p=G.s.actives.find(function(x){return x.id===pid;});if(!p)return;
+    if(p.asgn){var s=G.s.staff.find(function(x){return x.id===p.asgn;});if(s)s.status='idle';}
+    p.asgn=null;notify('アサインを解除しました','warn');G.renderAll();
+  },
+
+  hire:function(idx){
+    SFX.click();var h=G.s.hirePool[idx];if(!h)return;
+    var cost=h.sal*2;if(G.s.money<cost){notify('資金不足！採用コスト：'+fY(cost),'danger');return;}
+    var mx=4+G.s.phase*6;if(G.s.staff.length>=mx){notify('社員数上限（'+mx+'名）に達しています！','warn');return;}
+    G.s.money-=cost;
+    var emp={id:'e'+Date.now(),nm:h.nm,role:h.role,ic:h.ic,sal:h.sal,stats:JSON.parse(JSON.stringify(h.st)),mental:h.mental,status:'idle',isSelf:false,sense:ri(40,85)};
+    G.s.staff.push(emp);G.s.hirePool.splice(idx,1);
+    addLog(emp.nm+'（'+emp.role+'）が入社！','good');notify(emp.nm+'が入社しました！採用コスト：'+fY(cost),'ok');
+    SFX.good();G.updateHUD();G.renderAll();
+  },
+
+  fire:function(id){
+    if(!confirm('本当に解雇しますか？'))return;SFX.click();
+    var s=G.s.staff.find(function(x){return x.id===id;});if(!s||s.isSelf)return;
+    G.s.actives.forEach(function(p){if(p.asgn===id)p.asgn=null;});
+    G.s.staff=G.s.staff.filter(function(x){return x.id!==id;});
+    G.s.rep=clamp(G.s.rep-3,0,100);addLog(s.nm+'が退職した。評判-3。','bad');
+    notify(s.nm+'が退職しました。','warn');SFX.bad();G.updateHUD();G.renderAll();
+  },
+
+  unlock:function(id){
+    SFX.click();var nd=TECHS.reduce(function(a,r){return a.concat(r.nodes);},[]).find(function(n){return n.id===id;});if(!nd)return;
+    if(G.s.tech[id]){notify('既に習得済みです','warn');return;}
+    if(!nd.req.every(function(r){return G.s.tech[r];})){notify('前提技術を先に習得してください','warn');return;}
+    if(G.s.money<nd.cost){notify('資金不足！必要：'+fY(nd.cost),'danger');return;}
+    G.s.money-=nd.cost;G.s.tech[id]=true;
+    addLog('技術「'+nd.nm+'」を習得！'+nd.ef,'good');notify('「'+nd.nm+'」を習得！'+nd.ef,'ok');
+    SFX.lvup();G.updateHUD();G.renderTech();
+  },
+
+  office:function(lv){
+    SFX.click();var od=OFFICES[lv];
+    if(G.s.offLevel>=lv){notify('既にこのレベル以上です','warn');return;}
+    if(G.s.money<od.cost){notify('資金不足！必要：'+fY(od.cost),'danger');return;}
+    G.s.money-=od.cost;G.s.offLevel=lv;G.s.rep=clamp(G.s.rep+od.rp,0,100);
+    addLog('オフィスを「'+od.nm+'」に移転！評判+'+od.rp,'good');notify('「'+od.nm+'」に移転！評判+'+od.rp,'ok');
+    q('olb').textContent=OFF_LB[lv];SFX.lvup();G.updateHUD();G.renderProg();
+  },
+
+  // ─ PHASE / ENDING ─
+  phaseCheck:function(){
+    var old=G.s.phase;
+    if(G.s.totalRev>=50000000&&G.s.staff.length>=8)G.s.phase=Math.max(G.s.phase,3);
+    else if(G.s.totalRev>=8000000&&G.s.staff.length>=5)G.s.phase=Math.max(G.s.phase,2);
+    else if(G.s.totalRev>=1500000&&G.s.staff.length>=2)G.s.phase=Math.max(G.s.phase,1);
+    if(G.s.phase>old){var ns=['個人事務所','デザイン事務所','デザインスタジオ','デザイン会社'];
+      addLog('🎉 フェーズアップ！→「'+ns[G.s.phase]+'」','sys');
+      notify('🎉 PHASE '+G.s.phase+'「'+ns[G.s.phase]+'」へ進化！','ok',5000);
+      SFX.lvup();G.genProjects();}
+  },
+
+  endingCheck:function(){
+    for(var i=0;i<ENDINGS.length;i++){if(ENDINGS[i].cond(G.s)){G.showEnding(ENDINGS[i]);return true;}}return false;
+  },
+
+  showEnding:function(e){
+    var scr=q('SCR_END');q('end-t').textContent=e.tt;q('end-t').style.color=e.col;q('end-s').textContent=e.story;
+    var avgM=G.s.staff.length>0?Math.round(G.s.staff.reduce(function(a,s){return a+s.mental;},0)/G.s.staff.length):0;
+    q('end-st').innerHTML='<div class="si">累計収益<b>'+fY(G.s.totalRev)+'</b></div><div class="si">完了案件<b>'+G.s.projDone+'件</b></div><div class="si">総修正回数<b>'+G.s.totalMods+'回</b></div><div class="si">受賞歴<b>'+G.s.awards+'件</b></div><div class="si">最終ターン<b>第'+G.s.turn+'週</b></div><div class="si">社員数<b>'+G.s.staff.length+'名</b></div><div class="si">SNS<b>'+G.s.sns.toLocaleString()+'</b></div><div class="si">平均メンタル<b>'+avgM+'</b></div>';
+    scr.classList.add('open');SFX.fanfare();G.busy=false;
+  },
+
+  // ─ MODALS ─
+  showEv:function(ev,cb){
+    if(!ev){if(cb)cb();return;}SFX.ev();
+    var mb=q('mbox-ev');mb.className='mbox '+(ev.ty||'');
+    q('mev-ic').textContent=ev.ic;q('mev-tt').textContent=ev.tt;q('mev-ds').textContent=ev.ds;
+    var el=q('mev-ch');el.innerHTML='';
+    ev.ch.forEach(function(c){
+      var btn=document.createElement('button');btn.className='mch';
+      btn.innerHTML='<span>'+esc(c.tx)+'</span><span class="ef">'+esc(c.ef)+'</span>';
+      btn.onclick=function(){SFX.click();try{c.fn();}catch(e2){console.error(e2);}
+        q('modal-ev').classList.remove('open');G.updateHUD();G.renderAll();addLog('[イベント] '+ev.tt,'evt');if(cb)cb();};
+      el.appendChild(btn);
+    });
+    q('modal-ev').classList.add('open');
+  },
+
+  showMod:function(mod,proj,cb){
+    SFX.alert();proj.modCnt=(proj.modCnt||0)+1;G.s.totalMods++;
+    q('mod-cnt').textContent='第'+proj.modCnt+'回';
+    q('mod-face').textContent=proj.modCnt<=3?'😤':proj.modCnt<=6?'😡':'💀';
+    q('mod-pn').textContent='「'+proj.nm+'」';q('mod-tx').textContent=mod.tx;
+    var el=q('mod-ch');el.innerHTML='';
+    [{tx:mod.at,ef:'メンタル'+mod.dm,fn:function(){if(proj.asgn){var s=G.s.staff.find(function(x){return x.id===proj.asgn;});if(s)s.mental=clamp(s.mental+mod.dm,0,100);}G.s.black=clamp(G.s.black+3,0,100);}},
+     {tx:mod.rt,ef:'評判'+mod.rp,fn:function(){G.s.rep=clamp(G.s.rep+mod.rp,0,100);proj.price=Math.round(proj.price*0.9);}}
+    ].forEach(function(c){
+      var btn=document.createElement('button');btn.className='mch';
+      btn.innerHTML='<span>'+esc(c.tx)+'</span><span class="ef">'+esc(c.ef)+'</span>';
+      btn.onclick=function(){SFX.click();c.fn();q('modal-mod').classList.remove('open');G.updateHUD();if(cb)cb();};
+      el.appendChild(btn);
+    });
+    q('modal-mod').classList.add('open');
+  },
+
+  showRev:function(stars,comment,earned,typeLb,cb){
+    q('rev-st').textContent=stars;q('rev-cm').textContent=comment;
+    q('rev-ef').innerHTML='<span style="color:var(--ok)">+'+fY(earned)+'</span>　<span style="color:var(--t3)">'+esc(typeLb)+'案件完了</span>';
+    q('modal-rev').classList.add('open');G.revCb=cb;
+    q('btn-ok-rev').onclick=function(){q('modal-rev').classList.remove('open');SFX.coin();if(G.revCb){G.revCb();G.revCb=null;}};
+  },
+
+  // ─ HUD ─
+  updateHUD:function(){
+    q('hco').textContent=G.s.compName||'個人事務所';
+    var m=G.s.money,hm=q('hmoney');hm.textContent=fY(m).replace('円','');hm.className='hs-v g'+(m<100000?' blink':'');
+    q('hrep').textContent=G.s.rep;
+    var hf=q('hfire');hf.textContent=G.s.fire;hf.className='hs-v r'+(G.s.fire>=50?' blink':'');
+    q('hsns').textContent=fM(G.s.sns);q('hstaff').textContent=G.s.staff.length;q('hblack').textContent=G.s.black;
+    q('hph').textContent='PHASE '+G.s.phase;
+    q('olb').textContent=OFF_LB[G.s.offLevel];
+    // 年月日計算: 2025年4月スタート / 1週=7日
+    var startY=2025, startM=4;
+    var totalWeeks=G.s.turn-1;
+    var totalMonths=Math.floor(totalWeeks/4);
+    var weekInMonth=(totalWeeks%4)+1;
+    var absMonth=startM-1+totalMonths;
+    var dispY=startY+Math.floor(absMonth/12);
+    var dispM=(absMonth%12)+1;
+    var jpM=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+    var dm=q('hdate-main'); if(dm)dm.textContent=dispY+'年'+jpM[dispM-1];
+    var dd=q('hdate-day'); if(dd)dd.textContent='第'+weekInMonth+'週';
+    var fw=q('wb-fire');if(fw)fw.style.display=G.s.fire>=50?'block':'none';
+    var mw=q('wb-money');if(mw)mw.style.display=(G.s.money<200000&&G.s.money>=0)?'block':'none';
+    var bp=q('bdg-proj');if(bp)bp.textContent=G.s.avail.length;
+    var phN=['個人事務所','デザイン事務所','デザインスタジオ','デザイン会社'];
+    var ti=q('tinfo');if(ti){var wInM=(G.s.turn%4||4);var remW=4-wInM;
+  ti.innerHTML='<b>'+dispY+'年'+jpM[dispM-1]+'・第'+weekInMonth+'週</b> ／ '+phN[Math.min(G.s.phase,3)]+'<br><span class="hint">月次コスト あと'+remW+'週 ／ 案件'+G.s.avail.length+'件 ／ <kbd>SPACE</kbd> 次の週 ／ <kbd>A</kbd> オート</span>';}
+  },
+
+  // ─ TAB ─
+  tab:function(id){
+    SFX.click();G.curTab=id;
+    document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('on');});
+    document.querySelectorAll('.nb').forEach(function(b){b.classList.remove('on');});
+    var pan=q('pan-'+id),nav=q('nb-'+id);
+    if(pan)pan.classList.add('on');if(nav)nav.classList.add('on');
+    switch(id){
+      case 'dash':   G.renderDash();break;
+      case 'proj':   G.renderProj();break;
+      case 'active': G.renderActive();break;
+      case 'staff':  G.renderStaff();break;
+      case 'hire':   G.renderHire();break;
+      case 'tech':   G.renderTech();break;
+      case 'prog':   G.renderProg();break;
+    }
+  },
+
+  renderAll:function(){
+    G.updateHUD();renderLog();
+    switch(G.curTab){
+      case 'dash':   G.renderDash();break;
+      case 'proj':   G.renderProj();break;
+      case 'active': G.renderActive();break;
+      case 'staff':  G.renderStaff();break;
+      case 'hire':   G.renderHire();break;
+      case 'tech':   G.renderTech();break;
+      case 'prog':   G.renderProg();break;
+    }
+  },
+
+  // ─ RENDER DASH ─
+  renderDash:function(){
+    var avgM=G.s.staff.length>0?Math.round(G.s.staff.reduce(function(a,s){return a+s.mental;},0)/G.s.staff.length):0;
+    var stats=[
+      {l:'評　判',v:G.s.rep,mx:100,c:'var(--teal)'},
+      {l:'炎上率',v:G.s.fire,mx:100,c:'var(--red)'},
+      {l:'SNSフォロワー',v:G.s.sns,mx:Math.max(10000,G.s.sns),c:'var(--acc2)'},
+      {l:'社員メンタル平均',v:avgM,mx:100,c:avgM<40?'var(--red)':'var(--ok)'},
+      {l:'累計収益',v:G.s.totalRev,mx:Math.max(100000000,G.s.totalRev),c:'var(--gold)',fmt:'Y'},
+      {l:'ブラック度',v:G.s.black,mx:100,c:'var(--warn)'},
+    ];
+    var h='';stats.forEach(function(s){h+='<div class="dc"><div class="dc-l">'+s.l+'</div><div class="dc-v" style="color:'+s.c+'">'+(s.fmt==='Y'?fY(s.v):s.v.toLocaleString())+'</div><div class="dc-b"><div class="dc-bf" style="width:'+Math.min(100,s.v/s.mx*100)+'%;background:'+s.c+'"></div></div></div>';});
+    q('dgrid').innerHTML=h;
+    var cnt=q('dash-cnt');if(cnt)cnt.textContent=G.s.actives.length+'件';
+    var el=q('dash-ap');if(!el)return;
+    if(!G.s.actives.length){el.innerHTML='<div class="empty">進行中の案件なし。<br>案件受注タブから受注してください。</div>';return;}
+    el.innerHTML=G.s.actives.map(function(p){return G.buildAP(p,true);}).join('');
+    renderLog();
+  },
+
+  // ─ RENDER PROJ ─
+  renderProj:function(){
+    var hint=q('proj-hint');if(hint)hint.textContent='次の更新まで'+(4-(G.s.turn%4||4))+'週';
+    var el=q('proj-list');if(!el)return;
+    if(!G.s.avail.length){el.innerHTML='<div class="empty">受注可能な案件なし。<br>「次の週へ」で新案件が届きます。</div>';return;}
+    var mx=Math.max(2,G.s.staff.length);
+    el.innerHTML=G.s.avail.map(function(p){
+      return '<div class="pc"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span class="ptype '+p.tcss+'">'+p.tic+' '+p.tlb+'</span><span class="pst">'+'★'.repeat(p.diff)+'☆'.repeat(5-p.diff)+'</span></div>'
+        +'<div class="pn">'+esc(p.nm)+'</div>'
+        +'<div class="cli '+p.cli.cls+'">'+p.cli.ic+' '+p.cli.lb+'</div>'
+        +'<div class="pm"><span>修正リスク:'+p.cli.mr+'%</span><span>難易度:'+p.diff+'</span><span>〆'+p.dead+'週</span></div>'
+        +'<div class="pdesc">「'+p.cli.desc+'」</div>'
+        +'<div class="pf"><span class="ppr">'+fY(p.price)+'</span>'
+        +'<span class="pdl'+(p.urg?' urg':'')+'">'+( p.urg?'⚡緊急 ':'')+p.dead+'週</span>'
+        +'<button class="btn-acc" '+(G.s.actives.length>=mx?'disabled':'')+' onclick="G.accept(\''+p.id+'\')">受注する</button></div></div>';
+    }).join('');
+  },
+
+  // ─ RENDER ACTIVE ─
+  renderActive:function(){
+    var el=q('active-list');if(!el)return;
+    if(!G.s.actives.length){el.innerHTML='<div class="empty">進行中の案件なし。<br>案件受注タブから受注してください。</div>';return;}
+    el.innerHTML=G.s.actives.map(function(p){return G.buildAP(p,false);}).join('');
+  },
+
+  buildAP:function(p,compact){
+    var assigned=p.asgn?G.s.staff.find(function(s){return s.id===p.asgn;}):null;
+    var spd=G.projSpeed(p),left=spd>0?Math.ceil((100-p.prog)/spd):99;
+    var html='<div class="ap"><div class="ap-h"><div><span class="ptype '+p.tcss+'" style="font-size:6px;padding:1px 4px">'+p.tic+' '+p.tlb+'</span><div class="ap-n" style="margin-top:3px">'+esc(p.nm)+'</div></div><div style="text-align:right"><div class="ap-pct">'+p.prog+'%</div><div style="font-size:7px;color:var(--t3)">残約'+left+'週</div></div></div>'
+      +'<div class="ap-m"><span>'+p.cli.ic+' '+p.cli.lb+'</span><span>'+fY(p.price)+'</span>'+(assigned?'<span>👤 '+assigned.nm+'</span>':'<span style="color:var(--warn)">⚠ 未アサイン</span>')+'<span>修正'+( p.modCnt||0)+'回</span></div>'
+      +'<div class="apbar"><div class="apbf" style="width:'+p.prog+'%"></div></div>';
+    if(!compact){
+      var idle=G.s.staff.filter(function(s){return s.status==='idle'||s.id===p.asgn;});
+      var chips=idle.map(function(s){var cur=p.asgn===s.id;var busy=s.status==='working'&&!cur;return'<button class="ach'+(cur?' sel':'')+(busy?' bsy':'')+'" onclick="G.assign(\''+p.id+'\',\''+s.id+'\')">'+s.ic+' '+s.nm+'</button>';}).join('');
+      var unBtn=assigned?'<button class="ach" style="color:var(--red)" onclick="G.unassign(\''+p.id+'\')">✕ 解除</button>':'';
+      html+='<div class="apass"><span class="apal">アサイン：</span>'+chips+unBtn+'</div>';
+    }
+    html+='</div>';return html;
+  },
+
+  // ─ RENDER STAFF ─
+  renderStaff:function(){
+    var cnt=q('staff-cnt');if(cnt)cnt.textContent=G.s.staff.length+'名 / 上限'+(4+G.s.phase*6)+'名';
+    var el=q('staff-list');if(!el)return;
+    if(!G.s.staff.length){el.innerHTML='<div class="empty">社員がいません</div>';return;}
+    el.innerHTML=G.s.staff.map(function(s){
+      var dotC=s.mental<30?'var(--red)':s.status==='working'?'var(--acc)':'var(--ok)';
+      var mCls='sbf mn'+(s.mental<40?' low':'');
+      var stCls=s.mental<30?'st-tire':s.status==='working'?'st-work':'st-idle';
+      var stTx=s.mental<30?'😫 疲弊中':s.status==='working'?'⚙️ 制作中':'✅ 待機中';
+      var ap2=G.s.actives.find(function(p){return p.asgn===s.id;});
+      return'<div class="sc"><div class="sc-av">'+s.ic+'<div class="sc-dot" style="background:'+dotC+'"></div></div>'
+        +'<div class="sc-b"><div class="sc-n">'+esc(s.nm)+(s.isSelf?' <span style="font-size:7px;color:var(--t3)">(あなた)</span>':'')+'</div>'
+        +'<div class="sc-r">'+esc(s.role)+(s.isSelf?'':' ／ 月給'+fY(s.sal))+'</div>'
+        +'<div class="sbars">'
+        +'<div class="srow"><span class="sl">デザイン</span><div class="sb"><div class="sbf d" style="width:'+s.stats.design+'%"></div></div><span class="sn">'+s.stats.design+'</span></div>'
+        +'<div class="srow"><span class="sl">スピード</span><div class="sb"><div class="sbf sp" style="width:'+s.stats.speed+'%"></div></div><span class="sn">'+s.stats.speed+'</span></div>'
+        +'<div class="srow"><span class="sl">ロジック</span><div class="sb"><div class="sbf lg" style="width:'+s.stats.logic+'%"></div></div><span class="sn">'+s.stats.logic+'</span></div>'
+        +'<div class="srow"><span class="sl">UI力</span><div class="sb"><div class="sbf ui" style="width:'+s.stats.ui+'%"></div></div><span class="sn">'+s.stats.ui+'</span></div>'
+        +'<div class="srow"><span class="sl">コミュ力</span><div class="sb"><div class="sbf cm" style="width:'+s.stats.comm+'%"></div></div><span class="sn">'+s.stats.comm+'</span></div>'
+        +'<div class="srow"><span class="sl">メンタル</span><div class="sb"><div class="'+mCls+'" style="width:'+s.mental+'%"></div></div><span class="sn">'+s.mental+'</span></div>'
+        +'</div>'
+        +'<div class="sc-f"><span class="stbadge '+stCls+'">'+stTx+'</span>'+(ap2?'<span style="font-size:7px;color:var(--acc)">「'+ap2.nm+'」</span>':'')+(s.mental<40&&!s.isSelf?'<span style="font-size:7px;color:var(--red)">⚠ 休息が必要</span>':'')
+        +(!s.isSelf?'<button class="btn-fir" onclick="G.fire(\''+s.id+'\')">解雇</button>':'')+'</div></div></div>';
+    }).join('');
+  },
+
+  // ─ RENDER HIRE ─
+  renderHire:function(){
+    var el=q('hire-list');if(!el)return;
+    if(!G.s.hirePool.length){el.innerHTML='<div class="empty">現在、採用候補がいません。<br>次の月次更新で候補が増えます。</div>';return;}
+    var mx=4+G.s.phase*6;
+    el.innerHTML=G.s.hirePool.map(function(h,i){
+      var cost=h.sal*2,ok=G.s.money>=cost&&G.s.staff.length<mx;
+      return'<div class="hc"><div class="hc-h"><div><div class="hc-n">'+h.ic+' '+esc(h.nm)+'</div><div class="hc-ro">'+esc(h.role)+'</div></div><div class="hc-sl">'+fY(h.sal).replace('円','')+'<span>/月</span></div></div>'
+        +'<div class="sbars" style="margin-bottom:8px">'
+        +'<div class="srow"><span class="sl">デザイン</span><div class="sb"><div class="sbf d" style="width:'+h.st.design+'%"></div></div><span class="sn">'+h.st.design+'</span></div>'
+        +'<div class="srow"><span class="sl">スピード</span><div class="sb"><div class="sbf sp" style="width:'+h.st.speed+'%"></div></div><span class="sn">'+h.st.speed+'</span></div>'
+        +'<div class="srow"><span class="sl">UI力</span><div class="sb"><div class="sbf ui" style="width:'+h.st.ui+'%"></div></div><span class="sn">'+h.st.ui+'</span></div>'
+        +'<div class="srow"><span class="sl">コミュ力</span><div class="sb"><div class="sbf cm" style="width:'+h.st.comm+'%"></div></div><span class="sn">'+h.st.comm+'</span></div>'
+        +'<div class="srow"><span class="sl">メンタル</span><div class="sb"><div class="sbf mn" style="width:'+h.mental+'%"></div></div><span class="sn">'+h.mental+'</span></div>'
+        +'</div>'
+        +'<div class="hc-risk">⚠ '+esc(h.risk)+'</div>'
+        +'<div class="hc-f"><div class="hc-co">採用コスト：'+fY(cost)+'</div>'
+        +'<button class="btn-hire" '+(ok?'':'disabled ')+' onclick="G.hire('+i+')">'+(G.s.staff.length>=mx?'定員満員':G.s.money<cost?'資金不足':'採用する')+'</button></div></div>';
+    }).join('');
+  },
+
+  // ─ RENDER TECH ─
+  renderTech:function(){
+    var el=q('tech-tree');if(!el)return;
+    var html='';
+    TECHS.forEach(function(row){
+      html+='<div class="tt-sec"><div class="sh" style="margin-bottom:8px">'+row.row+'</div><div class="tech-row">';
+      row.nodes.forEach(function(n){
+        var un=!!G.s.tech[n.id];
+        var av=!un&&n.req.every(function(r){return G.s.tech[r];});
+        var cls=un?'un':av?'av':'lk';
+        var oc=av?' onclick="G.unlock(\'' +n.id+ '\')"':'';
+        html+='<div class="tn '+cls+'"'+oc+'>';
+        html+='<div class="tn-ic">'+n.ic+'</div>';
+        html+='<div class="tn-nm">'+esc(n.nm)+'</div>';
+        html+='<div class="tn-co">'+(n.cost?fY(n.cost):'無料')+'</div>';
+        html+='<div class="tn-st">'+(un?'✓ 習得済み':av?'▶ 習得可能':'🔒 要前提')+'</div>';
+        html+='<div class="tn-ef">'+esc(n.ef)+'</div>';
+        html+='<div style="font-size:6px;color:var(--t4);margin-top:1px">'+esc(n.desc)+'</div>';
+        html+='</div>';
+      });
+      html+='</div></div>';
+    });
+    el.innerHTML=html;
+  },
+
+  // ─ RENDER PROGRESS ─
+  renderProg:function(){
+    var phDefs=[{nm:'個人事務所',s:'収益150万+社員2名'},{nm:'デザイン事務所',s:'収益800万+社員5名'},{nm:'デザインスタジオ',s:'収益5000万+社員8名'},{nm:'デザイン会社',s:'エンディング条件へ'}];
+    q('phases').innerHTML=phDefs.map(function(p,i){return'<div class="ph '+(i<G.s.phase?'done':i===G.s.phase?'cur':'')+'"><div class="ph-n">'+(i<G.s.phase?'✓':i===G.s.phase?'●':i)+'</div><div class="ph-nm">'+p.nm+'</div><div class="ph-s">'+p.s+'</div></div>';}).join('');
+    q('of-cards').innerHTML=OFFICES.map(function(o,i){var cur=G.s.offLevel===i,past=G.s.offLevel>i,can=G.s.offLevel===i-1;
+      return'<div class="ofc'+(cur?' cur':past?' past':'')+'"><div class="ofc-ic">'+o.ic+'</div><div class="ofc-n">'+esc(o.nm)+(cur?' ✓':'')+'</div><div class="ofc-d">'+esc(o.desc)+'</div><div style="font-size:7px;color:var(--t3);margin-bottom:5px">評判+'+o.rp+' / 家賃'+fY(o.mc)+'/月</div><div class="ofc-f"><span class="ofc-p">'+(o.cost?fY(o.cost):'無料')+'</span>'+(can?'<button class="btn-up" '+(G.s.money<o.cost?'disabled':'')+' onclick="G.office('+i+')">移転する</button>':cur?'<span style="font-size:7px;color:var(--teal)">✓ 現在地</span>':past?'<span style="font-size:7px;color:var(--t4)">通過済み</span>':'<span style="font-size:7px;color:var(--t4)">🔒</span>')+'</div></div>';
+    }).join('');
+    var avgM=G.s.staff.length>0?Math.round(G.s.staff.reduce(function(a,s){return a+s.mental;},0)/G.s.staff.length):0;
+    q('statbox').innerHTML='<div class="si">累計収益<b>'+fY(G.s.totalRev)+'</b></div><div class="si">完了案件<b>'+G.s.projDone+'件</b></div><div class="si">総修正回数<b>'+G.s.totalMods+'回</b></div><div class="si">受賞歴<b>'+G.s.awards+'件</b></div><div class="si">社員数<b>'+G.s.staff.length+'名</b></div><div class="si">SNS<b>'+G.s.sns.toLocaleString()+'</b></div><div class="si">平均メンタル<b>'+avgM+'</b></div><div class="si">現在資産<b>'+fY(G.s.money)+'</b></div><div class="si">炎上<b>'+G.s.fire+'%</b></div><div class="si">ブラック度<b>'+G.s.black+'%</b></div>';
+  },
+};
+
+// ─── INIT ────────────────────────────────────────────────────
+window.addEventListener('load',function(){
+  initAC();
+  setTimeout(function(){
+    q('SCR_LOAD').style.display='none';
+    q('SCR_TITLE').style.display='flex';
+    G.startTC();
+    if(!localStorage.getItem('dcfk_v3')){var bl=document.querySelector('.t-btn.sec');if(bl)bl.style.opacity='.4';}
+    var lf=document.createElement('link');lf.rel='stylesheet';lf.href='https://fonts.googleapis.com/css2?family=DotGothic16&display=swap';document.head.appendChild(lf);
+  },1700);
+});
+
+document.addEventListener('keydown',function(e){
+  if(!q('GAME')||q('GAME').style.display==='none')return;
+  if(q('modal-ev').classList.contains('open')||q('modal-mod').classList.contains('open')||q('modal-rev').classList.contains('open'))return;
+  if(e.key===' '){e.preventDefault();G.nextTurn();}
+  else if(e.key==='a'||e.key==='A'){e.preventDefault();G.toggleAuto();}
+  else if(e.key==='1')G.tab('dash');
+  else if(e.key==='2')G.tab('proj');
+  else if(e.key==='3')G.tab('active');
+  else if(e.key==='4')G.tab('staff');
+  else if(e.key==='5')G.tab('hire');
+  else if(e.key==='6')G.tab('tech');
+  else if(e.key==='7')G.tab('prog');
+  else if((e.ctrlKey||e.metaKey)&&e.key==='s'){e.preventDefault();G.save();}
+});
+
+document.addEventListener('click',function(){if(AC&&AC.state==='suspended')AC.resume();},{ once:true });
+
+</script>
+</body>
+</html>
