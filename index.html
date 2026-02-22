@@ -471,17 +471,248 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;outline:no
   border-radius:5px;backdrop-filter:blur(4px);
 }
 
-/* ── NOTIFS ── */
-#notifs{position:fixed;bottom:14px;right:14px;z-index:600;display:flex;flex-direction:column;gap:5px;pointer-events:none;max-width:270px}
-.nf{
-  background:#fff;border-left:3px solid var(--acc);padding:8px 11px;font-size:8px;
-  box-shadow:var(--sh-l);animation:nfi .3s ease;border-radius:0 6px 6px 0;color:var(--t1);
+/* ── NOTIF PANEL (別ウィンドウ) ── */
+#notif-panel{
+  position:fixed;top:60px;right:0;z-index:700;
+  width:220px;
+  background:var(--bg2);
+  border:1px solid var(--bord);
+  border-right:none;
+  border-radius:8px 0 0 8px;
+  box-shadow:-3px 3px 14px rgba(0,0,0,0.15);
+  display:flex;flex-direction:column;
+  transform:translateX(calc(100% - 28px));
+  transition:transform .28s cubic-bezier(.4,0,.2,1);
+  pointer-events:auto;
+  font-family:inherit;
+  overflow:hidden;
+  max-height:calc(100vh - 80px);
 }
-.nf.out{animation:nfo .3s ease forwards}
+#notif-panel:hover,#notif-panel.open{transform:translateX(0);}
+#notif-panel-tab{
+  position:absolute;left:0;top:50%;transform:translateY(-50%);
+  width:28px;
+  writing-mode:vertical-rl;
+  font-size:7px;font-weight:700;letter-spacing:1px;
+  color:var(--t3);padding:8px 5px;cursor:pointer;
+  background:var(--bg2);border-right:1px solid var(--bord2);
+  border-radius:8px 0 0 8px;
+  user-select:none;
+}
+#notif-list{
+  margin-left:28px;
+  overflow-y:auto;
+  display:flex;flex-direction:column;gap:1px;
+  max-height:calc(100vh - 140px);
+  padding:4px 0;
+}
+#notif-list::-webkit-scrollbar{width:3px;}
+#notif-list::-webkit-scrollbar-thumb{background:var(--bord2);}
+.nf{
+  background:var(--bg1);border-left:3px solid var(--acc);padding:6px 8px;font-size:7.5px;
+  border-radius:0;color:var(--t1);line-height:1.5;
+  animation:nfi .2s ease;
+}
+.nf.out{animation:nfo .25s ease forwards}
 .nf.danger{border-left-color:var(--red)}.nf.ok{border-left-color:var(--ok)}.nf.warn{border-left-color:var(--warn)}
-@keyframes nfi{from{transform:translateX(110%);opacity:0}to{transform:translateX(0);opacity:1}}
-@keyframes nfo{to{transform:translateX(110%);opacity:0}}
+@keyframes nfi{from{opacity:0;transform:translateX(8px)}to{opacity:1;transform:translateX(0)}}
+@keyframes nfo{to{opacity:0;transform:translateX(6px)}}
+#notif-hdr{
+  margin-left:28px;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:5px 8px;border-bottom:1px solid var(--bord2);
+  font-size:7.5px;font-weight:700;color:var(--t2);
+}
+#notif-badge{
+  position:absolute;left:2px;top:8px;
+  background:var(--red);color:#fff;border-radius:50%;
+  width:12px;height:12px;font-size:7px;font-weight:700;
+  display:none;align-items:center;justify-content:center;
+  line-height:1;
+}
+/* 旧notifs非表示 */
+#notifs{display:none!important;}
 .empty{font-size:9px;color:var(--t3);padding:16px;text-align:center;line-height:2}
+
+/* ══════════════════════════════════════
+   AI MODE  (白テーマ対応)
+══════════════════════════════════════ */
+
+/* ── AIトグルボタン ── */
+#btn-ai{
+  display:flex;align-items:center;gap:6px;
+  background:var(--bg3);border:1px solid var(--bord2);color:var(--t2);
+  padding:5px 13px;font-size:9px;border-radius:7px;font-weight:700;
+  transition:all .25s;white-space:nowrap;cursor:pointer;
+  letter-spacing:.3px;
+}
+#btn-ai:hover{background:var(--bg4);border-color:var(--bord);}
+#btn-ai.on{
+  background:linear-gradient(135deg,#4f46e5,#7c3aed);
+  border-color:transparent;color:#fff;
+  box-shadow:0 2px 10px rgba(79,70,229,.45);
+  animation:aipulse 2s ease-in-out infinite;
+}
+.ai-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:rgba(255,255,255,.5);flex-shrink:0;
+  display:none;
+}
+#btn-ai.on .ai-dot{
+  display:inline-block;background:#fff;
+  animation:blink .7s step-end infinite;
+}
+@keyframes aipulse{
+  0%,100%{box-shadow:0 2px 10px rgba(79,70,229,.4)}
+  50%{box-shadow:0 4px 20px rgba(79,70,229,.65),0 0 0 3px rgba(79,70,229,.1)}
+}
+
+/* ── AI思考バブル（左下） ── */
+/* #ai-log は廃止（AIパネル内に統合） */
+#ai-log{display:none!important;}
+/* AIパネル内のライブフィード */
+.ai-bubble{
+  background:var(--bg1);
+  border-left:3px solid #6366f1;
+  color:var(--t1);font-size:8px;
+  padding:8px 10px;
+  border-bottom:1px solid var(--bord2);
+  line-height:1.7;
+}
+.ai-bubble:first-child{background:rgba(99,102,241,0.04);}
+.ai-tag{
+  font-size:6.5px;color:#6366f1;font-weight:800;letter-spacing:1.5px;
+  display:flex;align-items:center;gap:4px;margin-bottom:3px;
+}
+.ai-tag::before{
+  content:'';width:5px;height:5px;border-radius:50%;
+  background:#6366f1;flex-shrink:0;
+}
+@keyframes bubbleIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+@keyframes bubbleOut{to{opacity:0}}
+
+/* ── AIモード中の操作ロック ── */
+body.ai-mode .btn-acc,
+body.ai-mode .btn-hire,
+body.ai-mode .ach,
+body.ai-mode .btn-up,
+body.ai-mode .btn-fir,
+body.ai-mode .tn.av{
+  opacity:.25;pointer-events:none;
+  position:relative;
+}
+body.ai-mode .pc:hover,
+body.ai-mode .hc:hover{
+  transform:none;box-shadow:var(--sh-s);
+}
+
+/* ── TROWのAIモード演出 ── */
+body.ai-mode .trow{
+  background:linear-gradient(135deg,rgba(79,70,229,.06),rgba(255,255,255,1));
+  border-color:#c7d2fe;border-left-color:#6366f1;
+}
+body.ai-mode .btn-turn{
+  background:linear-gradient(135deg,#4f46e5,#7c3aed);
+  animation:turnpulse 2s ease-in-out infinite;
+}
+
+/* ── AIバナー（trowの上） ── */
+#ai-banner{
+  display:none;background:linear-gradient(135deg,#ede9fe,#faf5ff);
+  border:1px solid #c4b5fd;border-radius:8px;
+  padding:8px 14px;margin-bottom:10px;
+  font-size:8px;color:#5b21b6;font-weight:500;line-height:1.6;
+}
+#ai-banner strong{font-weight:700;color:#4f46e5}
+body.ai-mode #ai-banner{display:block;}
+
+/* ── オフィスオーバーレイ（AI稼働中の薄紫グリッド） ── */
+#ai-overlay{
+  position:absolute;inset:0;pointer-events:none;z-index:5;
+  background:
+    linear-gradient(rgba(99,102,241,.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(99,102,241,.03) 1px,transparent 1px);
+  background-size:20px 20px;
+  border-top:2px solid rgba(99,102,241,.25);
+  display:none;
+}
+body.ai-mode #ai-overlay{display:block;}
+
+/* ── AI稼働ステータスバー（オフィス上部） ── */
+#ai-status{
+  position:absolute;top:8px;left:50%;transform:translateX(-50%);
+  background:rgba(255,255,255,.92);
+  border:1px solid #c7d2fe;
+  color:#4f46e5;font-size:7px;
+  padding:4px 16px;border-radius:20px;
+  white-space:nowrap;font-weight:700;letter-spacing:.5px;
+  z-index:11;pointer-events:none;display:none;
+  backdrop-filter:blur(8px);
+  box-shadow:0 2px 10px rgba(99,102,241,.2);
+}
+body.ai-mode #ai-status{display:block;}
+#ai-status .st-dot{
+  display:inline-block;width:5px;height:5px;border-radius:50%;
+  background:#6366f1;margin-right:5px;vertical-align:middle;
+  animation:blink .7s step-end infinite;
+}
+
+/* ── AI専用タブパネル ── */
+#pan-ai{font-size:9px;}
+.ai-dash-header{
+  background:linear-gradient(135deg,#ede9fe,#faf5ff);
+  border:1px solid #c4b5fd;border-radius:12px;
+  padding:16px 20px;margin-bottom:14px;
+  display:flex;align-items:center;gap:16px;
+}
+.ai-avatar{font-size:36px;flex-shrink:0;filter:drop-shadow(0 2px 4px rgba(99,102,241,.3))}
+.ai-dash-title{font-size:14px;font-weight:700;color:#3730a3;margin-bottom:2px}
+.ai-dash-sub{font-size:9px;color:#6d28d9;line-height:1.6}
+.ai-toggle-big{
+  margin-left:auto;background:var(--acc);color:#fff;
+  padding:10px 22px;font-size:10px;border-radius:10px;font-weight:700;
+  transition:all .2s;box-shadow:0 2px 10px rgba(79,70,229,.4);
+  white-space:nowrap;
+}
+.ai-toggle-big:hover{background:#4338ca;box-shadow:0 4px 16px rgba(79,70,229,.5);transform:translateY(-1px)}
+.ai-toggle-big.on{background:linear-gradient(135deg,#ef4444,#dc2626);box-shadow:0 2px 10px rgba(220,38,38,.4)}
+
+.ai-kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin-bottom:14px}
+.ai-kpi{background:#fff;border:1px solid var(--bord);border-radius:8px;padding:10px 12px;box-shadow:var(--sh-s)}
+.ai-kpi-l{font-size:7px;color:var(--t3);letter-spacing:1px;text-transform:uppercase;margin-bottom:2px;font-weight:600}
+.ai-kpi-v{font-size:16px;font-weight:700;color:var(--acc)}
+.ai-kpi-d{font-size:7px;color:var(--t3);margin-top:2px}
+
+/* AIアクションログ */
+.ai-log-panel{
+  background:#fff;border:1px solid var(--bord);border-radius:10px;
+  padding:12px;max-height:200px;overflow-y:auto;
+}
+.ai-log-row{
+  display:flex;gap:8px;align-items:flex-start;
+  padding:5px 0;border-bottom:1px solid var(--bord);font-size:8px;
+}
+.ai-log-row:last-child{border-bottom:none}
+.ai-log-turn{
+  background:var(--acc-lt);color:var(--acc);
+  font-size:7px;font-weight:700;padding:1px 5px;border-radius:4px;
+  flex-shrink:0;white-space:nowrap;
+}
+.ai-log-action{color:var(--t1);flex:1;line-height:1.6}
+.ai-log-type{
+  font-size:7px;font-weight:700;padding:1px 6px;border-radius:10px;
+  flex-shrink:0;white-space:nowrap;
+}
+.ai-log-type.order{background:#dcfce7;color:#15803d}
+.ai-log-type.hire{background:#dbeafe;color:#1d4ed8}
+.ai-log-type.tech{background:#fef9c3;color:#92400e}
+.ai-log-type.risk{background:#fee2e2;color:#dc2626}
+.ai-log-type.assign{background:#ede9fe;color:#5b21b6}
+.ai-log-type.other{background:var(--bg3);color:var(--t3)}
+
+/* AIモード中のナビタブハイライト */
+body.ai-mode #nb-ai{background:var(--acc-lt);border-color:#c7d2fe;color:var(--acc);}
+body.ai-mode #nb-ai span{color:var(--acc)}
 </style>
 </head>
 <body>
@@ -514,9 +745,12 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;outline:no
       <div class="hs" title="SNS">📢 <span class="hs-lbl">SNS</span><span class="hs-v p" id="hsns">84</span></div>
       <div class="hs" title="社員">👥 <span class="hs-lbl">社員</span><span class="hs-v" id="hstaff">1</span><span class="hs-lbl">名</span></div>
       <div class="hs" title="ブラック">😈 <span class="hs-lbl">BK</span><span class="hs-v" id="hblack">5</span><span class="hs-lbl">%</span></div>
+      <div class="hs" id="hdau-wrap" style="display:none" title="DAU">📱 <span class="hs-lbl">DAU</span><span class="hs-v" style="color:#00d4aa" id="hdau">--</span></div>
+      <div class="hs" id="harr-wrap" style="display:none" title="ARR">💹 <span class="hs-lbl">ARR</span><span class="hs-v" style="color:#6366f1" id="harr">--</span></div>
     </div>
     <div class="hdate" id="hdate">📅 <span id="hdate-main">2025年4月</span> <span class="hdate-day" id="hdate-day">第1週</span></div>
     <div class="hph" id="hph">PHASE 0</div>
+    <button id="btn-ai" onclick="G.toggleAI()"><span class="ai-dot" style="display:none"></span>🤖 AIモード</button>
   </div>
   <div id="main">
     <div id="nav">
@@ -529,6 +763,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;outline:no
       <div class="nsep"></div>
       <button class="nb"    id="nb-tech"   onclick="G.tab('tech')">🔬<span>技術</span></button>
       <button class="nb"    id="nb-prog"   onclick="G.tab('prog')">📈<span>成長</span></button>
+      <div class="nsep"></div>
+      <button class="nb" id="nb-ai" onclick="G.tab('ai')">🤖<span>AI</span></button>
+      <button class="nb" id="nb-murmur" onclick="G.tab('murmur')">💬<span>呟き</span><span class="nbadge" id="bdg-murmur" style="display:none">new</span></button>
       <div class="nsep" style="margin-top:auto"></div>
       <button class="nb" onclick="G.save()" title="セーブ" style="font-size:13px">💾<span>保存</span></button>
     </div>
@@ -537,6 +774,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;outline:no
   <canvas id="ocv"></canvas>
   <div class="olb" id="olb">COWORKING SPACE</div>
   <div class="otm" id="otm"></div>
+  <div id="ai-overlay"></div>
+  <div id="ai-status"><span class="st-dot"></span><span id="ai-status-txt">AI AGENT 稼働中</span></div>
   <div id="turn-progress">
     <div id="tp-bar"></div>
     <div id="tp-txt">週を進めてください</div>
@@ -555,6 +794,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;outline:no
         <div class="panel on" id="pan-dash">
           <div class="wbar" id="wb-fire">⚠ 炎上メーターが危険域です！</div>
           <div class="ibar" id="wb-money">💰 資金が少なくなっています！</div>
+          <div id="ai-banner">
+            <strong>🤖 AI経営エージェント稼働中</strong> ─ 受注・採用・アサインを全て自動で処理します。<br>
+            あなたがすべきことは <strong>週を進めること</strong> だけです。
+          </div>
           <div class="trow">
             <div class="tinfo" id="tinfo"></div>
             <button class="btn-turn" id="btn-turn" onclick="G.nextTurn()">▶ 次の週へ</button>
@@ -587,6 +830,27 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;outline:no
           <p style="font-size:7px;color:var(--t3);margin-bottom:10px">技術習得で受注範囲・品質・単価が向上。クリックで習得。</p>
           <div id="tech-tree"></div>
         </div>
+        <div class="panel" id="pan-ai">
+          <div class="ai-dash-header">
+            <div class="ai-avatar">🤖</div>
+            <div>
+              <div class="ai-dash-title" id="ai-dash-title">AI経営エージェント</div>
+              <div class="ai-dash-sub" id="ai-dash-sub">
+                受注・アサイン・採用・技術習得・オフィス移転を<br>
+                全自動で最適判断します。あなたは働くだけ。
+              </div>
+            </div>
+            <button class="ai-toggle-big" id="ai-toggle-big" onclick="G.toggleAI()">🤖 AIモード ON</button>
+          </div>
+          <div class="sh">AI経営指標</div>
+          <div class="ai-kpi-grid" id="ai-kpi-grid"></div>
+          <div class="sh" id="ai-live-sh" style="display:none">AI ライブ判断 <span style="font-size:6px;color:var(--ok);letter-spacing:1px">● LIVE</span></div>
+          <div id="ai-live-feed" style="display:none;flex-direction:column;overflow-y:auto;max-height:180px;border:1px solid var(--bord2);border-radius:6px;margin-bottom:10px"></div>
+          <div class="sh">AI決定ログ <span class="ct" id="ai-log-cnt"></span></div>
+          <div class="ai-log-panel" id="ai-action-log">
+            <div class="empty">AIモードをONにするとここに経営判断が記録されます</div>
+          </div>
+        </div>
         <div class="panel" id="pan-prog">
           <div class="sh">フェーズ進行</div>
           <div class="phases" id="phases"></div>
@@ -594,6 +858,15 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;outline:no
           <div class="ofgrid" id="of-cards"></div>
           <div class="sh">統計</div>
           <div class="statbox" id="statbox"></div>
+        </div>
+        <div class="panel" id="pan-murmur">
+          <div class="sh">社員の呟き <span class="ct" id="murmur-cnt"></span></div>
+          <div style="font-size:7.5px;color:var(--t3);padding:4px 12px 8px;line-height:1.8">
+            社員たちのリアルな本音。キャンバスビューに時々表示されます。
+          </div>
+          <div id="murmur-log" style="display:flex;flex-direction:column;gap:1px;overflow-y:auto;max-height:calc(100vh - 180px)">
+            <div class="empty">まだ誰も呟いていません</div>
+          </div>
         </div>
       </div>
     </div>
@@ -604,7 +877,17 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;outline:no
 <div class="mbg" id="modal-mod"><div class="mbox danger"><div style="font-size:7px;color:var(--red);letter-spacing:2px;text-align:center;margin-bottom:5px">修正依頼 <span id="mod-cnt">第1回</span></div><div class="mic" id="mod-face">😤</div><div class="mtt" style="color:var(--red);font-size:11px" id="mod-pn"></div><div class="mds" id="mod-tx"></div><div class="mch-list" id="mod-ch"></div></div></div>
 <div class="mbg" id="modal-rev"><div class="mbox rev-box"><div class="mtt" style="color:var(--gold)">📬 納品完了！クライアント評価</div><div class="rev-st" id="rev-st"></div><div class="rev-cm" id="rev-cm"></div><div class="rev-ef" id="rev-ef"></div><button class="btn-ok" id="btn-ok-rev">　OK　</button></div></div>
 <div id="SCR_END"><div class="end-t" id="end-t"></div><div class="end-s" id="end-s"></div><div class="end-st" id="end-st"></div><button class="btn-re" onclick="G.restart()">▶ もう一周やる</button></div>
-<div id="notifs"></div>
+<div id="ai-log"></div>
+<div id="notif-panel">
+  <div id="notif-tab" onclick="document.getElementById('notif-panel').classList.toggle('open')">📢 通知</div>
+  <div id="notif-badge">0</div>
+  <div id="notif-hdr">
+    <span>📢 通知ログ</span>
+    <button onclick="document.getElementById('notif-list').innerHTML=''" style="background:none;border:none;font-size:7px;color:var(--t3);cursor:pointer">クリア</button>
+  </div>
+  <div id="notif-list"></div>
+</div>
+<div id="notifs" style="display:none"></div>
 
 <script>
 'use strict';
@@ -653,10 +936,27 @@ function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').repl
 function q(id){return document.getElementById(id);}
 
 // ─── NOTIFY ──────────────────────────────────────────────────
+var _notifCount=0;
 function notify(msg,type,dur){
-  var area=q('notifs');var el=document.createElement('div');el.className='nf '+(type||'');el.textContent=msg;area.appendChild(el);
-  setTimeout(function(){el.classList.add('out');setTimeout(function(){if(el.parentNode)el.parentNode.removeChild(el);},350);},(dur||3000));
+  var list=q('notif-list');
+  var el=document.createElement('div');el.className='nf '+(type||'');
+  var now=new Date();var ts=now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
+  el.innerHTML='<span style="color:var(--t4);font-size:6.5px">'+ts+'</span> '+msg;
+  list.insertBefore(el,list.firstChild);
+  // パネル自動オープン（重要通知のみ）
+  var panel=q('notif-panel');
+  if(type==='danger'){panel.classList.add('open');setTimeout(function(){panel.classList.remove('open');},4000);}
+  // バッジ
+  _notifCount++;var bdg=q('notif-badge');if(bdg){bdg.textContent=_notifCount>9?'9+':_notifCount;bdg.style.display=_notifCount>0?'flex':'none';}
+  // 古いものを削除（30件超えたら）
+  while(list.children.length>30){list.removeChild(list.lastChild);}
+  // フェードアウト（ただし消えずリストに残る）
+  setTimeout(function(){el.style.opacity='0.6';},dur||4000);
 }
+// パネルをクリックしたらバッジをリセット
+document.addEventListener('DOMContentLoaded',function(){
+  var p=q('notif-panel');if(p)p.addEventListener('click',function(){_notifCount=0;var b=q('notif-badge');if(b)b.style.display='none';});
+});
 
 // ─── STATIC DATA ─────────────────────────────────────────────
 var PTYPES=[
@@ -667,7 +967,11 @@ var PTYPES=[
   {id:'app',   lb:'アプリUI',    ic:'📱',css:'app', base:800000, days:10,ph:1,sk:['ui','logic']},
   {id:'web',   lb:'Webサービス', ic:'🌐',css:'web', base:1500000,days:14,ph:1,sk:['ui','logic','design']},
   {id:'brand', lb:'ブランディング',ic:'💎',css:'brand',base:3000000,days:18,ph:2,sk:['design','comm']},
-  {id:'ai',    lb:'AIプロダクト',ic:'🤖',css:'ai',  base:5000000,days:22,ph:3,sk:['logic','ui','design']},
+  {id:'ai',    lb:'AIプロダクト',  ic:'🤖',css:'ai',   base:5000000, days:22,ph:3,sk:['logic','ui','design']},
+  {id:'saas',  lb:'自社SaaS開発', ic:'⚡',css:'saas',  base:20000000,days:35,ph:4,sk:['logic','ui','design'],prod:true},
+  {id:'growth',lb:'グロース施策', ic:'📈',css:'saas',  base:8000000, days:20,ph:4,sk:['logic','comm'],prod:true},
+  {id:'platform',lb:'プラットフォーム',ic:'🌐',css:'plat',base:80000000,days:60,ph:5,sk:['logic','ui','comm'],prod:true},
+  {id:'ma',    lb:'M&A・買収',    ic:'🤝',css:'plat',  base:500000000,days:90,ph:5,sk:['logic','comm'],prod:true},
 ];
 var CTYPES=[
   {id:'god',  lb:'神クライアント',        cls:'cgod',  ic:'😇',mr:5, pm:1.3, rg:4,rl:-1,desc:'予算潤沢・修正少・人格者'},
@@ -688,6 +992,10 @@ var PNAMES={
   web:   ['BtoB SaaS管理画面','マッチングサービスUI','ECプラットフォームUI'],
   brand: ['大手食品メーカーリブランド','スタートアップブランド構築','自治体シティブランド'],
   ai:    ['AI搭載ツールのUX','生成AIサービスUI','AIコンシェルジュIF'],
+  saas:  ['デザイン管理SaaS β版','クリエイター向けSaaS開発','マーケ自動化ツール構築','FinTech BtoB SaaS','HR-Tech プロダクト'],
+  growth:['DAU改善A/Bテスト施策','チャーン率削減プロジェクト','グロースループ設計','LTV最大化施策','バイラル機能実装'],
+  platform:['デザインマーケットプレイス','クリエイターエコノミー基盤','エンタープライズデザインOS','APIプラットフォーム構築'],
+  ma:    ['急成長AIスタートアップ買収','デザインツール企業統合','海外プロダクト企業M&A'],
 };
 var MODS=[
   {tx:'「全体的にもっとポップにしてください」', em:'🌈',dm:-8, at:'かしこまりました…',rt:'ポップとはどういう意味でしょうか？',rp:-6},
@@ -779,6 +1087,60 @@ var EVTS=[
    ds:'入金遅延が重なり、口座残高が危険域に達しました。',
    ch:[{tx:'緊急で安い案件を受ける',ef:'+10〜20万円',fn:function(){var e=100000+ri(0,100000);G.s.money+=e;addLog('緊急案件で'+fY(e)+'を確保','good');}},
        {tx:'銀行に融資を相談する',ef:'+100万円（借入）',fn:function(){G.s.money+=1000000;G.s.black=clamp(G.s.black+5,0,100);addLog('銀行融資100万円確保。返済が必要。','warn');}}]},
+  // ── プロダクトフェーズ専用イベント ──
+  // ─── 追加イベント（フェーズ0-3）───
+  {id:'design_award',ic:'🏆',ty:'success',tt:'デザイン賞にノミネート',
+   ds:'大手デザイン誌のアワードにノミネートされた。受賞すれば評判が大きく上がる。',
+   ch:[{tx:'渾身の作品で応募する',ef:'評判+15、SNS+3000、受賞+1',fn:function(){G.s.rep=clamp(G.s.rep+15,0,100);G.s.sns+=3000;G.s.awards=(G.s.awards||0)+1;addLog('🏆 デザインアワード受賞！評判急上昇！','good');SFX.fanfare();}},
+       {tx:'今回はパス',ef:'変化なし',fn:function(){addLog('今回は見送り。','sys');}}]},
+  {id:'remote_request',ic:'🏠',ty:'warn',tt:'全員リモートワーク希望が出た',
+   ds:'スタッフ全員が「週3リモートにしてほしい」と言ってきた。どうする？',
+   ch:[{tx:'全面リモートOK',ef:'全メンタル+15、評判-5',fn:function(){G.s.staff.forEach(function(s){s.mental=clamp(s.mental+15,0,100);});G.s.rep=clamp(G.s.rep-5,0,100);addLog('リモート全面OK。スタッフ喜ぶ。','good');}},
+       {tx:'週2リモートで折衷案',ef:'全メンタル+8',fn:function(){G.s.staff.forEach(function(s){s.mental=clamp(s.mental+8,0,100);});addLog('週2リモート合意。落ち着いた。','sys');}},
+       {tx:'出社必須を維持',ef:'メンタル-8、ブラック+5',fn:function(){G.s.staff.forEach(function(s){s.mental=clamp(s.mental-8,0,100);});G.s.black=clamp(G.s.black+5,0,100);addLog('出社必須継続。不満が溜まりそう。','warn');}}]},
+  {id:'big_client',ic:'🤝',ty:'success',tt:'大手企業から直接指名！',
+   ds:'上場企業のCMOから直接連絡が来た。「リブランディング全体を任せたい」と言っている。',
+   ch:[{tx:'全力で受ける',ef:'+500万 難易度MAX',fn:function(){G.s.money+=5000000;G.s.totalRev+=5000000;addLog('🎉 大手リブランディング受注！+500万！','good');SFX.fanfare();}},
+       {tx:'条件交渉して受ける',ef:'+350万 難易度4',fn:function(){G.s.money+=3500000;G.s.totalRev+=3500000;addLog('大手案件を交渉して受注。+350万。','good');SFX.good();}},
+       {tx:'今は断る',ef:'機会損失',fn:function(){addLog('大手案件を断った。','warn');}}]},
+  {id:'tool_update',ic:'⚙️',ty:'info',tt:'デザインツールが大型アップデート',
+   ds:'Figmaが大型アップデート。新機能を使いこなせれば生産性UP。慣れるまでは少し大変。',
+   ch:[{tx:'全社員で習得',ef:'全スキル+5',fn:function(){G.s.staff.forEach(function(s){Object.keys(s.stats).forEach(function(k){s.stats[k]=clamp(s.stats[k]+5,0,99);});});addLog('新ツール機能習得完了！全員スキルUP！','good');}},
+       {tx:'主要メンバーのみ',ef:'選抜スキル+8',fn:function(){G.s.staff.slice(0,Math.min(3,G.s.staff.length)).forEach(function(s){Object.keys(s.stats).forEach(function(k){s.stats[k]=clamp(s.stats[k]+8,0,99);});});addLog('主要スタッフがツール新機能を習得。','good');}},
+       {tx:'様子見',ef:'変化なし',fn:function(){addLog('旧バージョンで続ける。','sys');}}]},
+  {id:'investor_meet',ic:'💼',ty:'info',tt:'エンジェル投資家と食事',
+   ds:'知人の紹介でエンジェル投資家と会食することになった。出資の話になるかもしれない。',
+   ch:[{tx:'積極的にアピール',ef:'30%で出資+300万',fn:function(){if(Math.random()<0.3){G.s.money+=3000000;G.s.totalRev+=3000000;addLog('🎉 エンジェルから300万円出資！','good');SFX.fanfare();}else{G.s.rep=clamp(G.s.rep+3,0,100);addLog('良い話し合い。評判+3。','good');}}},
+       {tx:'サービスへの想いを語る',ef:'評判+5、SNS+1000',fn:function(){G.s.rep=clamp(G.s.rep+5,0,100);G.s.sns+=1000;addLog('熱い話し合い。評判とSNSが上がった。','good');}},
+       {tx:'条件が合わず断る',ef:'変化なし',fn:function(){addLog('条件が合わず断った。','warn');}}]},
+  {id:'freelance_collab',ic:'🤜',ty:'info',tt:'フリーランスコラボ依頼',
+   ds:'有名フリーランスデザイナーから「一緒に仕事しませんか」と声がかかった。',
+   ch:[{tx:'業務委託で依頼',ef:'-20万、案件受注力UP',fn:function(){G.s.money-=200000;G.s.rep=clamp(G.s.rep+8,0,100);G.s.sns+=500;addLog('フリーランスとコラボ！評判+8、SNS+500！','good');SFX.good();}},
+       {tx:'採用を打診する',ef:'採用候補に追加',fn:function(){G.genHire();addLog('フリーランスを採用候補として追加した。','good');}},
+       {tx:'今は難しい',ef:'変化なし',fn:function(){addLog('今回は見送り。','sys');}}]},
+
+  {id:'vc_offer',ic:'💰',ty:'success',tt:'VCから投資オファー！',
+   ds:'シリーズAの投資家が「御社に投資したい」と連絡してきました。\n評価額50億円、出資5億円の提案です。',
+   ch:[{tx:'受け入れる（5億調達）',ef:'+5億円',fn:function(){if(G.s.phase>=4){G.s.money+=500000000;G.s.funding+=500000000;addLog('🎉 シリーズA 5億円調達成功！','good');SFX.fanfare();notify('💰 シリーズA 5億円調達！','ok',5000);}else{notify('まだプロダクトフェーズではない','warn');}}},
+       {tx:'条件を交渉する（+1億）',ef:'+6億円',fn:function(){if(G.s.phase>=4){G.s.money+=600000000;G.s.funding+=600000000;addLog('交渉成功！シリーズA 6億円調達！','good');SFX.fanfare();}else{notify('まだ交渉できるフェーズではない','warn');}}},
+       {tx:'見送る（まだ早い）',ef:'機会損失',fn:function(){notify('次のラウンドで勝負しよう','warn');}}]},
+  {id:'dau_spike',ic:'📈',ty:'success',tt:'DAUが急上昇！',
+   ds:'プロダクトがSNSで突然バズり、ユーザーが爆増しています。\nサーバーが悲鳴を上げています…',
+   ch:[{tx:'インフラ即増強（-3000万）',ef:'DAU×3',fn:function(){if(G.s.dau>0){G.s.dau=Math.round(G.s.dau*3);G.s.money-=30000000;addLog('インフラ増強でDAU爆増！','good');SFX.good();}else{notify('まだプロダクトフェーズではない','warn');}}},
+       {tx:'節約して耐える',ef:'DAU×1.5、評判-5',fn:function(){if(G.s.dau>0){G.s.dau=Math.round(G.s.dau*1.5);G.s.rep=clamp(G.s.rep-5,0,100);addLog('インフラ節約。ユーザーが少し離脱。','warn');}}}]},
+  {id:'competitor_entry',ic:'⚔️',ty:'danger',tt:'大手が類似プロダクトをリリース！',
+   ds:'GAFAクラスの企業が「うちもやります」とアナウンス。\n「これ終わりじゃないですか…」とSlackに流れた。',
+   ch:[{tx:'差別化を徹底強化する',ef:'評判+10、-5000万',fn:function(){G.s.rep=clamp(G.s.rep+10,0,100);G.s.money-=50000000;addLog('差別化戦略に全力投資。独自路線で対抗。','good');}},
+       {tx:'ニッチ特化で生き残る',ef:'規模縮小、チャーン低下',fn:function(){if(G.s.dau>0)G.s.dau=Math.round(G.s.dau*0.7);G.s.rep=clamp(G.s.rep+5,0,100);addLog('ニッチ特化。コアユーザーを固める。','good');}},
+       {tx:'買収提案を受け入れる',ef:'+50億円でM&A EXIT',fn:function(){G.s.money+=5000000000;addLog('競合との統合成立！+50億円！','good');SFX.fanfare();notify('🤝 M&A成立！50億円！','ok',6000);}}]},
+  {id:'talent_poach',ic:'🏃',ty:'danger',tt:'優秀な社員が引き抜かれそう！',
+   ds:'GAFAが「年収3倍オファーします」とうちの社員に直接連絡してきました。\n「どうしようか迷ってます」と報告が来ています。',
+   ch:[{tx:'ストックオプションを付与',ef:'信頼UP、引き止め成功',fn:function(){var cost=Math.max(1000000,Math.round(G.s.totalRev*0.005));G.s.money-=cost;notify('SO付与で引き止め成功！','ok');addLog('ストックオプション付与。引き止め成功。','good');}},
+       {tx:'給与を大幅UP',ef:'-月給+50万、引き止め',fn:function(){var ns=G.s.staff.filter(function(s){return!s.isSelf;});if(ns.length>0){var top=ns.sort(function(a,b){return(b.stats.logic+b.stats.ui)-(a.stats.logic+a.stats.ui);})[0];top.sal+=500000;G.s.money-=3000000;notify(top.nm+'の給与UPで引き止め！','ok');}}}]},
+  {id:'media_unicorn',ic:'📺',ty:'success',tt:'「次のユニコーン候補」特集！',
+   ds:'日経・TechCrunch・Forbesから\n「次のユニコーン候補10社」に選出されました！',
+   ch:[{tx:'積極的に露出する',ef:'評判+30、DAU+10万',fn:function(){G.s.rep=clamp(G.s.rep+30,0,100);if(G.s.dau>0)G.s.dau+=100000;G.s.sns+=10000;addLog('メディア特集！DAU+10万、評判爆上がり！','good');SFX.fanfare();}},
+       {tx:'プロダクトで語らせる',ef:'評判+12、DAU+2万',fn:function(){G.s.rep=clamp(G.s.rep+12,0,100);if(G.s.dau>0)G.s.dau+=20000;addLog('プロダクトの成長が評価された。','good');}}]},
 ];
 var TECHS=[
   {row:'基礎技術',nodes:[
@@ -795,14 +1157,27 @@ var TECHS=[
     {id:'ai_design',    nm:'AIデザイン',       ic:'🤖',cost:1000000,req:['branding'],             ef:'AI案件解放',desc:'生成AI活用・AIプロダクト解放'},
     {id:'global',       nm:'グローバル展開',   ic:'🌍',cost:3000000,req:['branding','ai_design'], ef:'世界エンド', desc:'海外クライアント・世界エンド解放'},
   ]},
+  {row:'🚀 プロダクト技術',nodes:[
+    {id:'product_mgmt', nm:'プロダクト戦略',   ic:'🎯',cost:5000000, req:['ai_design'],           ef:'自社SaaS解放・DAU開始',desc:'OKR・PMF・ロードマップ設計。Phase4へ解放'},
+    {id:'growth_hack',  nm:'グロースハック',   ic:'📈',cost:4000000, req:['product_mgmt'],        ef:'DAU成長+30%',         desc:'A/Bテスト・リテンション・バイラルループ'},
+    {id:'data_infra',   nm:'データ基盤',       ic:'📊',cost:6000000, req:['product_mgmt'],        ef:'ARR精度UP・意思決定加速',desc:'BigQuery・BIダッシュボード・ファネル分析'},
+  ]},
+  {row:'🌐 スケール技術',nodes:[
+    {id:'platform_biz', nm:'プラットフォーム化',ic:'🌐',cost:15000000,req:['growth_hack','data_infra'],ef:'Phase5・M&A解放',desc:'APIエコノミー・マーケットプレイス展開'},
+    {id:'corp_gov',     nm:'コーポレートガバナンス',ic:'⚖️',cost:20000000,req:['platform_biz'],   ef:'IPOエンド解放',       desc:'取締役会・監査・コンプライアンス整備'},
+    {id:'global_expand',nm:'グローバル本社',   ic:'🌏',cost:30000000,req:['platform_biz','data_infra'],ef:'テックジャイアントエンド',desc:'NY・LDN・SGにオフィス展開'},
+  ]},
 ];
 var OFFICES=[
-  {nm:'コワーキング',  ic:'☕',  cost:0,        rp:0, mc:0,       desc:'2畳のスペース。家賃0円。でも集中できない。'},
-  {nm:'渋谷オフィス',  ic:'🏙️',cost:2000000, rp:10,mc:300000,  desc:'渋谷の小さなオフィス。採用力UP。家賃30万/月。'},
-  {nm:'表参道オフィス',ic:'🌿',  cost:8000000, rp:25,mc:800000,  desc:'洗練されたオフィス。案件単価UP。家賃80万/月。'},
-  {nm:'世界進出',      ic:'🌍',  cost:30000000,rp:60,mc:3000000, desc:'NY・LDN・TOKYOにオフィス。世界エンド確定。'},
+  {nm:'コワーキング',    ic:'☕',  cost:0,          rp:0,  mc:0,         desc:'2畳のスペース。家賃0円。でも集中できない。'},
+  {nm:'渋谷オフィス',    ic:'🏙️',cost:2000000,   rp:10, mc:300000,    desc:'渋谷の小さなオフィス。採用力UP。家賃30万/月。'},
+  {nm:'表参道オフィス',  ic:'🌿',  cost:8000000,   rp:25, mc:800000,    desc:'洗練されたオフィス。案件単価UP。家賃80万/月。'},
+  {nm:'世界スタジオ',    ic:'🌍',  cost:30000000,  rp:60, mc:3000000,   desc:'NY・LDN・TOKYOにオフィス。世界エンド確定。'},
+  {nm:'プロダクト本社',  ic:'🚀',  cost:100000000, rp:75, mc:10000000,  desc:'赤坂の本社ビル。プロダクト企業の証。DAU急加速。'},
+  {nm:'テックキャンパス', ic:'🏢',  cost:500000000, rp:90, mc:40000000,  desc:'六本木Hills級。プラットフォーム帝国の本拠地。'},
+  {nm:'グローバルHQ',    ic:'🌐',  cost:2000000000,rp:100,mc:150000000, desc:'世界5都市に同時展開。テックジャイアントの証明。'},
 ];
-var OFF_LB=['COWORKING SPACE','SHIBUYA OFFICE','OMOTESANDO OFFICE','GLOBAL STUDIO'];
+var OFF_LB=['COWORKING SPACE','SHIBUYA OFFICE','OMOTESANDO OFFICE','GLOBAL STUDIO','PRODUCT HQ','TECH CAMPUS','GLOBAL HQ'];
 var HIRE_POOL=[
   {nm:'田中 さくら',role:'UIデザイナー',  ic:'🎨',sal:350000,st:{design:72,speed:80,logic:65,ui:85,comm:60},mental:80,risk:'Xでデザイン論争をよくやる',ph:0},
   {nm:'鈴木 ゆうき',role:'グラフィック', ic:'✏️',sal:320000,st:{design:88,speed:55,logic:50,ui:60,comm:70},mental:75,risk:'UIには苦手意識がある',ph:0},
@@ -820,20 +1195,42 @@ var HIRE_POOL=[
   {nm:'林 まさと',  role:'グラフィック', ic:'🎨',sal:360000,st:{design:91,speed:50,logic:48,ui:55,comm:72},mental:70,risk:'完璧主義で納期が危ないことがある',ph:1},
   {nm:'高橋 りな',  role:'UIデザイナー', ic:'🎨',sal:380000,st:{design:76,speed:72,logic:68,ui:88,comm:75},mental:82,risk:'ピクセル単位にこだわりすぎる',ph:0},
   {nm:'近藤 まや',  role:'コピーライター',ic:'📝',sal:320000,st:{design:52,speed:68,logic:75,ui:48,comm:92},mental:85,risk:'言葉の力を信じすぎてビジュアルを軽視',ph:0},
+  // ── フェーズ4: プロダクト企業 ──
+  {nm:'福田 あきら',role:'プロダクトマネジャー',ic:'🎯',sal:900000, st:{design:55,speed:78,logic:95,ui:70,comm:90},mental:82,risk:'「ユーザーが言ってない」が口癖',ph:4},
+  {nm:'西村 ひかり',role:'データサイエンティスト',ic:'📊',sal:1100000,st:{design:30,speed:85,logic:98,ui:50,comm:68},mental:72,risk:'「統計的有意性」しか信じない',ph:4},
+  {nm:'坂本 ともや',role:'エンジニアリングマネジャー',ic:'⚙️',sal:1300000,st:{design:35,speed:90,logic:95,ui:62,comm:80},mental:75,risk:'技術負債の話で目が輝く',ph:4},
+  {nm:'岡田 れいな',role:'グロースPM',    ic:'📈',sal:1000000,st:{design:50,speed:88,logic:90,ui:72,comm:85},mental:78,risk:'A/Bテストを何にでも適用しようとする',ph:4},
+  // ── フェーズ5: プラットフォーム ──
+  {nm:'田村 しょう',role:'BizDev/アライアンス',ic:'🤝',sal:1500000,st:{design:45,speed:80,logic:88,ui:55,comm:97},mental:80,risk:'「アライアンス」という言葉が好きすぎる',ph:5},
+  {nm:'橋本 みらい',role:'CPO',           ic:'🌟',sal:2200000,st:{design:72,speed:82,logic:95,ui:88,comm:92},mental:85,risk:'前職でも一度経営失敗経験あり',ph:5},
+  {nm:'村田 こうじ',role:'CFO',           ic:'💹',sal:2800000,st:{design:20,speed:75,logic:99,ui:30,comm:90},mental:80,risk:'数字以外に興味が完全にない',ph:5},
+  {nm:'清水 なお',  role:'CTO',           ic:'🔧',sal:2500000,st:{design:40,speed:95,logic:99,ui:55,comm:78},mental:77,risk:'モノリスをマイクロサービスにするのが夢',ph:5},
 ];
 var ENDINGS=[
   {id:'world', tt:'🌍 世界的デザインスタジオ',col:'var(--gold)',
    cond:function(s){return s.rep>=90&&s.awards>=3&&s.tech['global'];},
    story:'ADCグランプリ受賞。NY、LDN、TOKYOにオフィスを構えた。\n世界中のブランドが「あなたの会社に頼みたい」と言ってくれる。\n最初の2畳のコワーキングスペースが、遠い昔のように感じられる。\n\nすべてのデザインに込めた愛は、ちゃんと世界に届いていた。'},
   {id:'product',tt:'🚀 プロダクト企業への転身',col:'var(--teal)',
-   cond:function(s){return s.tech['ai_design']&&s.projDone>=30&&s.totalRev>=50000000;},
+   cond:function(s){return s.tech['ai_design']&&s.projDone>=30&&s.totalRev>=50000000&&!s.tech['product_mgmt'];},
    story:'「元デザイン会社」として業界に語り継がれることになる。\n自社プロダクトのDAUが10万を超えた。\nデザインの力で、世界の使い方を変えることができた。'},
   {id:'god',   tt:'✨ 神スタジオ（Best Ending）',col:'var(--acc2)',
    cond:function(s){return s.staff.length>=5&&s.staff.every(function(x){return x.mental>=70;})&&s.rep>=75;},
    story:'小さいけれど、最高の会社。\n社員全員のメンタルが高く、クオリティも評判も申し分ない。\n「規模じゃない、愛だ」という結論に至った。\n\n誰もが羨む、本物のスタジオ。\n社員全員が「ここで働けてよかった」と言ってくれた。'},
+  {id:'saas_unicorn',tt:'⚡ SaaSユニコーン達成！',col:'#00d4aa',
+   cond:function(s){return (s.dau||0)>=500000&&(s.arr||0)>=2000000000;},
+   story:'DAU 50万人、ARR 20億円を突破。\nシリーズCで300億円の資金調達に成功した。\nかつてロゴを頼んでいたクライアントが\n「うちのデザインもお願いできますか」と言ってくる。\n\nデザイン会社が、世界を変えるプロダクトになった。'},
+  {id:'platform_empire',tt:'🌐 プラットフォーム帝国',col:'#6366f1',
+   cond:function(s){return s.tech['platform_biz']&&(s.dau||0)>=2000000&&s.totalRev>=10000000000;},
+   story:'100カ国のクリエイターが使うプラットフォームへ成長。\nApple・Google・Microsoftから買収オファーが届いた。\n\nあの2畳のコワーキングスペースで\n「とりあえず名刺作ります」と言っていた自分に見せたい景色がある。'},
+  {id:'acquired',tt:'🤝 テックジャイアントに買収！',col:'#f59e0b',
+   cond:function(s){return s.tech['platform_biz']&&s.totalRev>=5000000000&&(s.dau||0)>=1000000;},
+   story:'GAFAクラスのテック企業からの買収オファー。\n金額は非公開だが、全社員が生涯遊んで暮らせる額だという。\n\n「デザイン会社を買収する」という前例のないM&A。\n業界に新しい文脈を作ることができた。'},
   {id:'ipo',   tt:'📈 上場！',col:'var(--gold)',
-   cond:function(s){return s.totalRev>=100000000&&s.fire<=20&&s.staff.length>=20;},
+   cond:function(s){return s.tech['corp_gov']&&s.totalRev>=100000000&&s.fire<=20&&s.staff.length>=20;},
    story:'株式上場を果たした。\nCFO採用・IR資料作成・投資家説明会。\n「デザインよりIR資料の方が忙しい」という\n想定外の日常が待っていた。\n\nそれでも、会社は大きくなった。'},
+  {id:'burnout_collapse',tt:'😵 急成長の代償',col:'#ef4444',
+   cond:function(s){return (s.dau||0)>=100000&&s.black>=85;},
+   story:'DAUは増え続けているのに、社員が次々と倒れていく。\n「スケールするプロダクト」と「スケールしない人間」の間で\n会社は崩壊した。\n\n成長の速度を、人の限界に合わせるべきだった。'},
   {id:'fire',  tt:'🔥 炎上解散…',col:'var(--red)',
    cond:function(s){return s.fire>=90;},
    story:'炎上メーターが限界を超えた。\n社長のXポストが発端で業界全体を敵に回した。\n\n「あの時代の反面教師」として、業界に貢献することができた。\nある意味、これも一つのレガシー。'},
@@ -865,12 +1262,18 @@ var G={
       phase:0,offLevel:0,compName:'個人事務所',
       tech:{figma_basic:true},
       totalRev:0,totalProj:0,projDone:0,totalMods:0,awards:0,
+      dau:0,arr:0,burnRate:0,prodStage:0,funding:0,
       staff:[],actives:[],avail:[],hirePool:[],monthNum:0,oAnim:0
     };
     G.staffPos=[];
+    G.murmurLog=[];
+    G._murmurShown={};
+    G._murmurActive={};
     G.autoPlay=true;
     G.autoSpeed=2500;
     G.autoTimer=null;
+    G.aiMode=false;
+    G.aiActionLog=[];
   },
 
   toggleAuto:function(){
@@ -889,13 +1292,267 @@ var G={
 
   setAutoSpeed:function(v){G.autoSpeed=parseInt(v);},
 
+  // ══════════════════════════════════════
+  // AI MODE — 全経営をAIエージェントに委譲
+  // ══════════════════════════════════════
+  toggleAI:function(){
+    G.aiMode=!G.aiMode;
+    var btn=q('btn-ai');
+    if(G.aiMode){
+      // ── ON ──
+      if(btn){
+        btn.innerHTML='<span class="ai-dot"></span>🤖 AI稼働中';
+        btn.classList.add('on');
+      }
+      document.body.classList.add('ai-mode');
+      if(!G.autoPlay){
+        G.autoPlay=true;
+        var ab=q('btn-auto');if(ab){ab.textContent='▶ AUTO';ab.classList.add('on');}
+      }
+      G.autoSpeed=1800;
+      var spd=q('auto-speed');if(spd)spd.value='1800';
+      var lf=q('ai-live-feed');if(lf){lf.innerHTML='';lf.style.display='flex';}
+      var ls=q('ai-live-sh');if(ls)ls.style.display='';
+      G.aiThink('BOOT',
+        'AI AGENT 起動完了。\n' +
+        '全経営権限を委譲されました。\n' +
+        '受注・採用・配置・技術・移転\n' +
+        '全て自動で判断します。');
+      addLog('🤖 AIモード ON ─ 全経営権限を委譲','sys');
+      notify('🤖 AIモード ON ─ 経営を全てAIに委譲','ok',4000);
+      if(G.curTab==='ai')G.renderAI();
+      if(!G.busy)G.scheduleAuto();
+    } else {
+      // ── OFF ──
+      if(btn){
+        btn.innerHTML='<span class="ai-dot" style="display:none"></span>🤖 AIモード';
+        btn.classList.remove('on');
+      }
+      document.body.classList.remove('ai-mode');
+      G.aiThink('SHUTDOWN','経営権限を人間に返還。\nお疲れ様でした。');
+      var lf2=q('ai-live-feed');if(lf2)lf2.style.display='none';
+      var ls2=q('ai-live-sh');if(ls2)ls2.style.display='none';
+      addLog('🤖 AIモード OFF ─ 経営権を取り戻した','sys');
+      notify('🤖 AIモード OFF ─ 経営権を取り戻した','warn',3000);
+      if(G.curTab==='ai')G.renderAI();
+    }
+  },
+
+  // AI思考バブルを画面左下に表示
+  aiThink:function(tag,msg){
+    // ライブフィード（AIタブ内）に表示
+    var feed=q('ai-live-feed');
+    if(feed){
+      var sh=q('ai-live-sh');if(sh)sh.style.display='';
+      feed.style.display='flex';
+      var div=document.createElement('div');
+      div.className='ai-bubble';
+      div.style.animation='bubbleIn .2s ease';
+      var lines=msg.split('\n').map(function(l){return esc(l);}).join('<br>');
+      div.innerHTML='<div class="ai-tag">'+esc(tag)+'</div>'+lines;
+      feed.insertBefore(div,feed.firstChild);
+      while(feed.children.length>8){feed.removeChild(feed.lastChild);}
+    }
+    // AIタブが開いていなければバッジ表示
+    if(G.curTab!=='ai'){
+      var nb=q('nb-ai');if(nb&&!nb.classList.contains('on')){
+        nb.style.outline='2px solid #6366f1';
+        setTimeout(function(){if(nb)nb.style.outline='';},3000);
+      }
+    } else {
+      G.renderAI();
+    }
+  },
+
+  // AIエージェントの経営判断エンジン（nextTurn冒頭で呼ばれる）
+  aiDecide:function(){
+    if(!G.aiMode)return;
+    var s=G.s;
+    var acts=[];
+
+    // ① 受注判断：空きスロット × アイドルスタッフがいれば高スコア案件を受注
+    var maxSlots=Math.max(2,s.staff.length);
+    var freeSlots=maxSlots-s.actives.length;
+    var idleStaff=s.staff.filter(function(st){return st.status==='idle';});
+    if(freeSlots>0&&s.avail.length>0&&(idleStaff.length>0||s.actives.length===0)){
+      var fireRisk=s.fire>=50;  // 炎上警戒中
+      var ranked=s.avail.slice().sort(function(a,b){
+        function score(p){
+          var base=p.price;
+          base*=(p.cli.id==='god'?1.35:p.cli.id==='norm'?1.1:p.cli.id==='agency'?0.7:p.cli.id==='startup'?0.9:1.0);
+          base*=(p.diff<=2?1.2:p.diff===3?1.0:p.diff>=4?(fireRisk?0.4:0.75):1.0);
+          base*=(p.urg?(fireRisk?0.5:0.85):1.0);
+          // スキルマッチボーナス
+          if(p.sk&&s.staff.length>0){
+            var bestSkill=s.staff.reduce(function(mx,st){
+              return Math.max(mx, p.sk.reduce(function(sm,k){return sm+(st.stats[k]||0);},0));
+            },0);
+            base*=(1+bestSkill*0.002);
+          }
+          return base;
+        }
+        return score(b)-score(a);
+      });
+      ranked.slice(0,Math.min(freeSlots,idleStaff.length||1)).forEach(function(proj){
+        var ap=JSON.parse(JSON.stringify(proj));
+        ap.prog=0;ap.asgn=null;ap.modCnt=0;
+        s.actives.push(ap);
+        s.avail=s.avail.filter(function(x){return x.id!==proj.id;});
+        acts.push('受注:「'+proj.nm+'」'+fY(proj.price));
+        addLog('🤖「'+proj.nm+'」をAIが受注','sys');
+        G.aiActionLog.push({turn:G.s.turn,type:'order',msg:'「'+proj.nm+'」受注 '+fY(proj.price)});
+      });
+    }
+
+    // ② アサイン判断：未アサイン案件にスキルマッチ最優先でアサイン
+    s.actives.forEach(function(proj){
+      if(proj.asgn)return;
+      var avl=s.staff.filter(function(st){return st.status==='idle'&&st.mental>20;});
+      if(!avl.length)return;
+      var best=avl.slice().sort(function(a,b){
+        function sc(st){
+          var v=(st.stats.design+st.stats.ui+st.stats.speed)/3*(st.mental/100);
+          if(proj.sk)proj.sk.forEach(function(k){if(st.stats[k])v+=st.stats[k]*0.35;});
+          return v;
+        }
+        return sc(b)-sc(a);
+      })[0];
+      proj.asgn=best.id;best.status='working';
+      acts.push('担当:'+best.nm+'→「'+proj.nm+'」');
+      addLog('🤖 '+best.nm+'を「'+proj.nm+'」にアサイン','sys');
+      G.aiActionLog.push({turn:G.s.turn,type:'assign',msg:best.nm+' → 「'+proj.nm+'」'});
+    });
+
+    // ③ 採用判断：人手不足 & 資金余裕 → コスパ最良の人材を採用
+    var staffMax=[4,10,16,22,200,1000,5000][Math.min(s.phase,6)];
+    // 常にstaffMaxまで採用可能（資金制約のみ）
+    var targetStaff=staffMax;
+    var monthlyCost=s.staff.reduce(function(a,st){return a+st.sal;},0)*1.5;
+    if(s.money<monthlyCost*3)targetStaff=Math.min(s.staff.length+2,staffMax);
+    if(s.hirePool.length<4)G.genHire();
+    if(s.staff.length<targetStaff&&s.money>800000&&s.hirePool.length>0){
+      var bh=s.hirePool.slice().sort(function(a,b){
+        var va=(a.st.design+a.st.ui+a.st.speed+a.st.logic)/4/a.sal;
+        var vb=(b.st.design+b.st.ui+b.st.speed+b.st.logic)/4/b.sal;
+        return vb-va;
+      })[0];
+      var hcost=bh.sal*2;
+      if(s.money>hcost*3){
+        var emp={
+          id:'e'+Date.now(),nm:bh.nm,role:bh.role,ic:bh.ic,sal:bh.sal,
+          stats:JSON.parse(JSON.stringify(bh.st)),mental:bh.mental,
+          status:'idle',isSelf:false,sense:ri(40,85)
+        };
+        s.money-=hcost;s.staff.push(emp);
+        s.hirePool=s.hirePool.filter(function(h){return h.nm!==bh.nm;});
+        acts.push('採用:'+emp.nm+'('+emp.role+') '+fY(hcost));
+        addLog('🤖 '+emp.nm+'をAIが採用','sys');
+        G.aiActionLog.push({turn:G.s.turn,type:'hire',msg:emp.nm+'('+emp.role+') 採用 '+fY(hcost)});
+        SFX.good();G.updateHUD();G.renderAll();
+      }
+    }
+
+    // ④ 技術習得：資金2M超 & 前提クリア済みを優先順で1つ習得
+    if(s.money>2000000){
+      var allN=TECHS.reduce(function(a,r){return a.concat(r.nodes);},[]);
+      var buyable=allN.filter(function(n){
+        return !s.tech[n.id]
+          &&n.req.every(function(r){return s.tech[r];})
+          &&s.money>n.cost*2.5;
+      });
+      var prio=['design_system','figma_basic','ux_research','motion','branding','three_d','ai_design','global'];
+      var toLearn=null;
+      for(var pi=0;pi<prio.length;pi++){
+        toLearn=buyable.find(function(n){return n.id===prio[pi];});
+        if(toLearn)break;
+      }
+      if(!toLearn&&buyable.length)toLearn=buyable[0];
+      if(toLearn){
+        s.money-=toLearn.cost;s.tech[toLearn.id]=true;
+        acts.push('習得:「'+toLearn.nm+'」 '+fY(toLearn.cost));
+        addLog('🤖「'+toLearn.nm+'」をAIが習得','sys');
+        G.aiActionLog.push({turn:G.s.turn,type:'tech',msg:'「'+toLearn.nm+'」習得 '+fY(toLearn.cost)});
+        SFX.lvup();G.updateHUD();G.renderTech();
+      }
+    }
+
+    // ⑤ オフィス移転：評判・資金・フェーズが揃えば移転
+    var nextLv=s.offLevel+1;
+    if(nextLv<OFFICES.length){
+      var od=OFFICES[nextLv];
+      if(s.money>od.cost*1.8&&s.rep>=nextLv*18&&s.phase>=nextLv-1){
+        s.money-=od.cost;s.offLevel=nextLv;s.rep=clamp(s.rep+od.rp,0,100);
+        q('olb').textContent=OFF_LB[nextLv];
+        acts.push('移転:「'+od.nm+'」 評判+'+od.rp);
+        addLog('🤖「'+od.nm+'」にAIが移転','sys');
+        G.aiActionLog.push({turn:G.s.turn,type:'other',msg:'「'+od.nm+'」に移転 評判+'+od.rp});
+        SFX.lvup();G.updateHUD();G.renderProg();
+      }
+    }
+
+    // ⑥ 炎上対策：炎上60%超なら難案件を辞退してリスク低減
+    if(s.fire>=60&&s.actives.length>1){
+      var dp=s.actives.find(function(p){return p.diff>=4||p.cli.id==='agency';});
+      if(dp){
+        if(dp.asgn){var dSt=s.staff.find(function(x){return x.id===dp.asgn;});if(dSt)dSt.status='idle';}
+        s.actives=s.actives.filter(function(p){return p.id!==dp.id;});
+        acts.push('炎上対策:「'+dp.nm+'」辞退');
+        addLog('🤖 炎上対策で「'+dp.nm+'」を辞退','sys');
+        G.aiActionLog.push({turn:G.s.turn,type:'risk',msg:'炎上対策:「'+dp.nm+'」辞退'});
+      }
+    }
+
+    // ⑦ メンタル管理：メンタル30以下のスタッフを強制休養
+    s.actives.forEach(function(proj){
+      if(!proj.asgn)return;
+      var wk=s.staff.find(function(x){return x.id===proj.asgn;});
+      if(wk&&wk.mental<25){
+        wk.status='idle';proj.asgn=null;
+        acts.push('休養:'+wk.nm+' (メンタル低下)');
+        addLog('🤖 '+wk.nm+'をメンタル回復のため休養させた','sys');
+      }
+    });
+
+    // ⑧ 思考ログ出力
+    if(acts.length>0){
+      var tags=['STRATEGY','OPTIMIZE','EXECUTE','ANALYZE','DECIDE','MANAGE'];
+      var tagIdx=s.turn%tags.length;
+      G.aiThink(tags[tagIdx],acts.slice(0,3).join('\n')+(acts.length>3?'\n他'+(acts.length-3)+'件':''));
+    } else if(s.turn%3===0){
+      var status=[];
+      status.push('案件'+s.actives.length+'件進行中');
+      if(s.fire>30)status.push('炎上警戒 '+s.fire+'%');
+      status.push('資金 '+fY(s.money));
+      G.aiThink('MONITOR',status.join('\n'));
+    }
+
+    // AI KPI更新
+    if(G.curTab==='ai')G.renderAI();
+
+    // ステータスバーのテキストをリアルタイム生成
+    var stEl=q('ai-status-txt');
+    if(stEl){
+      var idleCount=s.staff.filter(function(x){return x.status==='idle';}).length;
+      var busyCount=s.actives.filter(function(x){return x.asgn;}).length;
+      var msgs=[
+        'AI AGENT 稼働中 ─ 案件'+s.actives.length+'件 進行中',
+        'AI AGENT ─ 余裕資金 '+fY(s.money),
+        'AI AGENT ─ 空きスタッフ '+idleCount+'名',
+        'AI AGENT ─ 担当中 '+busyCount+'件',
+        'AI AGENT ─ 炎上リスク '+s.fire+'%',
+        'AI AGENT ─ 評判スコア '+s.rep,
+      ];
+      stEl.textContent=msgs[s.turn%msgs.length];
+    }
+  },
+
   scheduleAuto:function(){
     if(!G.autoPlay)return;
     if(G.autoTimer)clearTimeout(G.autoTimer);
     G.autoTimer=setTimeout(function(){
       if(!G.autoPlay||G.busy)return G.scheduleAuto();
       var anyModal=q('modal-ev').classList.contains('open')||q('modal-mod').classList.contains('open')||q('modal-rev').classList.contains('open');
-      if(anyModal){G.scheduleAuto();return;}
+      if(anyModal&&!G.aiMode){G.scheduleAuto();return;}
       G.nextTurn();
     },G.autoSpeed);
   },
@@ -916,14 +1573,73 @@ var G={
     }
   },
 
+  // ── 手続き的スタッフ生成（フェーズ4以上で無制限採用を実現）──
+  genStaff:function(seed){
+    var LAST=['田中','鈴木','佐藤','山田','伊藤','渡辺','中村','小林','加藤','吉田',
+              '松本','井上','木村','林','清水','山本','森','池田','橋本','阿部',
+              '石川','山口','前田','藤田','後藤','岡田','村上','長谷川','近藤','石井',
+              '坂本','遠藤','青木','藤井','西村','福田','太田','三浦','岡本','高橋'];
+    var FIRST=['あおい','ゆき','さくら','みなみ','はな','れな','ひかり','まい','りな','ゆうな',
+               'たける','こうた','しょう','りょう','けんた','しんや','そら','はると','ゆうき','なお',
+               'あきら','みお','かな','つばさ','えま','ふみ','まゆ','のあ','いと','せな'];
+    var r=function(n){seed=(seed*1664525+1013904223)&0x7fffffff;return seed%n;};
+    var nm=LAST[r(LAST.length)]+' '+FIRST[r(FIRST.length)];
+    var ph=G.s.phase;
+    // フェーズ別ロール
+    var ROLES_BY_PHASE=[
+      [{role:'UIデザイナー',ic:'🎨',salBase:320000,sk:{design:[65,90],ui:[75,95],speed:[55,80],logic:[50,75],comm:[55,80]}},
+       {role:'グラフィック',ic:'✏️',salBase:300000,sk:{design:[70,95],ui:[50,70],speed:[50,75],logic:[40,65],comm:[55,75]}},
+       {role:'UX',ic:'🔬',salBase:370000,sk:{design:[55,75],ui:[70,90],speed:[55,75],logic:[75,92],comm:[70,90]}},
+       {role:'PM',ic:'📋',salBase:410000,sk:{design:[40,60],ui:[50,70],speed:[65,85],logic:[80,95],comm:[85,98]}}],
+      [{role:'エンジニア',ic:'💻',salBase:490000,sk:{design:[30,55],ui:[55,80],speed:[80,97],logic:[80,97],comm:[55,80]}},
+       {role:'モーショナー',ic:'🎬',salBase:440000,sk:{design:[70,90],ui:[65,85],speed:[55,75],logic:[50,70],comm:[58,80]}},
+       {role:'コピーライター',ic:'✍️',salBase:300000,sk:{design:[50,70],ui:[40,60],speed:[60,80],logic:[65,85],comm:[85,98]}}],
+      [{role:'AIデザイナー',ic:'🤖',salBase:580000,sk:{design:[55,80],ui:[70,92],speed:[85,98],logic:[75,95],comm:[55,80]}},
+       {role:'ブランドデザイナー',ic:'💎',salBase:500000,sk:{design:[80,98],ui:[65,85],speed:[50,75],logic:[60,80],comm:[70,90]}}],
+      [{role:'プロダクトマネジャー',ic:'🎯',salBase:850000,sk:{design:[50,70],ui:[65,85],speed:[70,90],logic:[88,98],comm:[85,98]}},
+       {role:'データサイエンティスト',ic:'📊',salBase:1050000,sk:{design:[25,45],ui:[40,65],speed:[80,95],logic:[92,99],comm:[60,80]}},
+       {role:'エンジニアリングマネジャー',ic:'⚙️',salBase:1200000,sk:{design:[30,50],ui:[55,75],speed:[85,98],logic:[90,99],comm:[75,92]}},
+       {role:'グロースPM',ic:'📈',salBase:950000,sk:{design:[45,65],ui:[65,85],speed:[82,97],logic:[85,97],comm:[80,95]}}],
+      [{role:'BizDevマネジャー',ic:'🤝',salBase:1100000,sk:{design:[40,60],ui:[50,70],speed:[70,90],logic:[82,97],comm:[90,99]}},
+       {role:'プロダクトリード',ic:'🌟',salBase:1400000,sk:{design:[65,85],ui:[80,97],speed:[75,95],logic:[88,99],comm:[85,98]}}],
+      [{role:'テックリード',ic:'🔧',salBase:1600000,sk:{design:[40,65],ui:[60,80],speed:[90,99],logic:[92,99],comm:[72,90]}},
+       {role:'VPoE',ic:'🏗️',salBase:2000000,sk:{design:[45,65],ui:[60,80],speed:[85,98],logic:[92,99],comm:[85,98]}}]
+    ];
+    var roleList=ROLES_BY_PHASE[Math.min(ph,ROLES_BY_PHASE.length-1)];
+    if(ph>=2&&r(3)===0)roleList=ROLES_BY_PHASE[Math.max(0,Math.min(ph-1,ROLES_BY_PHASE.length-1))];
+    var rd=roleList[r(roleList.length)];
+    var stat=function(rng){return clamp(rng[0]+r(rng[1]-rng[0]),0,99);};
+    var salVar=0.8+r(40)/100;
+    var ICS=['🎨','✏️','🔬','📋','💻','🎬','✍️','🤖','💎','🎯','📊','⚙️','📈','🤝','🌟','🔧'];
+    return {
+      nm:nm,role:rd.role,ic:rd.ic||ICS[r(ICS.length)],
+      sal:Math.round(rd.salBase*salVar/10000)*10000,
+      st:{design:stat(rd.sk.design),ui:stat(rd.sk.ui),speed:stat(rd.sk.speed),logic:stat(rd.sk.logic),comm:stat(rd.sk.comm)},
+      mental:70+r(25),ph:Math.min(ph,5)
+    };
+  },
+
   genHire:function(){
-    var pool=HIRE_POOL.filter(function(h){
-      if(h.ph>G.s.phase)return false;
+    var phase=G.s.phase;
+    // 固定プールから使えるものを収集
+    var fixed=HIRE_POOL.filter(function(h){
+      if(h.ph>phase)return false;
       if(h.role==='AIデザイナー'&&!G.s.tech['ai_design'])return false;
       if(G.s.staff.some(function(s){return s.nm===h.nm;}))return false;
       return true;
     });
-    G.s.hirePool=shuffle(pool).slice(0,4+G.s.phase*2);
+    // 全フェーズで手続き生成（無制限補充）
+    var showCount=Math.min(4+phase*2,20);
+    var existNames=new Set(G.s.staff.map(function(s){return s.nm;}));
+    fixed.forEach(function(h){existNames.add(h.nm);});
+    var generated=[],attempts=0,seed=Date.now()^(G.s.turn*7919+Math.random()*9999);
+    while(generated.length<showCount&&attempts<500){
+      attempts++;
+      seed=(seed*1664525+1013904223)&0x7fffffff;
+      var gen=G.genStaff(seed);
+      if(!existNames.has(gen.nm)){existNames.add(gen.nm);generated.push(gen);}
+    }
+    G.s.hirePool=shuffle(fixed).concat(generated).slice(0,showCount);
   },
 
   // ─ CANVAS: OFFICE ─
@@ -953,12 +1669,15 @@ var G={
     // ━━ FLOOR ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     // Gatherライクな明るいグレー床
     var floorBase=[
-      ['#c8ccd0','#bec2c6'],  // コワーキング（ライトグレー）
-      ['#d0d4d8','#c6cacd'],  // 渋谷（少し明るく）
-      ['#d4d8dc','#cacdd1'],  // 表参道（さらに明るく）
-      ['#d8dce0','#ced2d6'],  // グローバル（最明）
+      ['#c8ccd0','#bec2c6'],  // コワーキング
+      ['#d0d4d8','#c6cacd'],  // 渋谷
+      ['#d4d8dc','#cacdd1'],  // 表参道
+      ['#d8dce0','#ced2d6'],  // グローバル
+      ['#e8eaf0','#dfe1e8'],  // プロダクト本社（明るいモダン）
+      ['#1a1a2e','#16213e'],  // テックキャンパス（ダーク）
+      ['#0d1117','#0a0e18'],  // グローバルHQ（超ダーク）
     ];
-    var fb=floorBase[lv];
+    var fb=floorBase[Math.min(lv,floorBase.length-1)];
     var TILE=8;
     for(var ty=0;ty<CH;ty+=TILE){
       for(var tx=0;tx<CW;tx+=TILE){
@@ -971,8 +1690,8 @@ var G={
     // ━━ WALL (top strip) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     // Gatherは上部に壁がある
     var wallH=12;
-    var wallCols=['#b8a898','#c8b8a8','#d8c8b8','#e8d8c8'];
-    px(0,0,CW,wallH,wallCols[lv]);
+    var wallCols=['#b8a898','#c8b8a8','#d8c8b8','#e8d8c8','#2d3561','#1a1a3e','#0a0a20'];
+    px(0,0,CW,wallH,wallCols[Math.min(lv,wallCols.length-1)]);
     // 壁の下のシャドウ
     px(0,wallH,CW,2,'rgba(0,0,0,0.15)');
     // 壁の窓（lv>=1）
@@ -1172,24 +1891,63 @@ var G={
       px(fx+2,fy-3,2,3,'#888888');
     }
 
-    // ━━ LAYOUT: デスク配置を計算 ━━━━━━━━━━━━━━━━━━━━━━━━━━
-    var deskRows=lv===0?1:lv===1?2:2;
-    var deskCols=lv===0?1:lv===1?2:lv===2?3:4;
+    // ━━ LAYOUT: 社員数に応じたダイナミックデスク配置 ━━━━━━━━━
+    var staffCount=G.s.staff.length;
+    // 表示デスク数（多すぎる場合は代表表示）
+    var maxVisibleDesks=lv<=1?2:lv<=3?8:lv<=5?20:40;
+    var visibleCount=Math.min(staffCount,maxVisibleDesks);
+    // デスク配置を社員数で自動計算
+    var deskCols=lv===0?1:Math.max(2,Math.min(Math.ceil(Math.sqrt(visibleCount*1.6)),lv<=1?2:lv<=2?3:lv<=3?4:lv<=4?5:6));
+    var deskRows=Math.max(1,Math.ceil(visibleCount/deskCols));
     var desks=[];
-    var startY=wallH+18;
-    var spaceY=(CH-startY-22)/(deskRows);
+    var startY=wallH+20;
+    var availH=CH-startY-20;
+    var spaceY=Math.max(28,availH/Math.max(deskRows,1));
+    var spaceX=Math.max(28,(CW-8)/Math.max(deskCols,1));
     for(var row=0;row<deskRows;row++){
-      var dy2=startY+row*spaceY+spaceY*0.4;
+      var dy2=startY+row*spaceY+spaceY*0.35;
+      if(dy2+10>CH-10)break;
       for(var col=0;col<deskCols;col++){
-        var dx2=Math.floor(CW*(col+0.5+0.2)/(deskCols+0.4));
+        var dx2=Math.floor(4+spaceX*(col+0.5));
         desks.push({x:dx2,y:dy2,idx:row*deskCols+col});
       }
     }
+    // 多数社員表示: 右上に人数カウンター
+    if(staffCount>maxVisibleDesks){
+      ctx.fillStyle='rgba(99,102,241,0.9)';
+      ctx.beginPath();ctx.roundRect((CW-40)*PX,2*PX,38*PX,10*PX,3*PX);ctx.fill();
+      ctx.fillStyle='#fff';ctx.font=(5*PX)+'px monospace';
+      ctx.fillText('👥 '+staffCount+'名',(CW-38)*PX,9*PX);
+    }
 
     // ━━ STATIC OBJECTS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    // 角の大型植物（常に）
-    drawBigPlant(9, wallH+16);
+    // フェーズ4-6: モダンオフィス演出
+    if(lv>=4){
+      // 大型モニター壁（テックジャイアント感）
+      var monW=30,monH=16;
+      px(Math.floor(CW/2)-monW/2,wallH+1,monW,monH,lv>=6?'#0a0a30':lv>=5?'#1a1a4e':'#2a2a6e');
+      // データビジュアライゼーション風の線
+      for(var mi=0;mi<6;mi++){
+        var mh=Math.floor(6+Math.sin(t*0.03+mi*1.2)*5);
+        ctx.fillStyle='rgba(99,102,241,'+(0.4+Math.sin(t*0.05+mi)*0.3)+')';
+        ctx.fillRect((Math.floor(CW/2)-monW/2+2+mi*5)*PX,(wallH+monH-mh)*PX,3*PX,mh*PX);
+      }
+      ctx.fillStyle=lv>=6?'#00d4aa':lv>=5?'#6366f1':'#818cf8';
+      ctx.font=(4*PX)+'px monospace';
+      ctx.fillText(lv>=6?'GLOBAL HQ':lv>=5?'TECH CAMPUS':'PRODUCT HQ',(Math.floor(CW/2)-monW/2+2)*PX,(wallH+monH+5)*PX);
+    }
+    // 角の大型植物（lv<=5まで）
+    if(lv<=5){drawBigPlant(9, wallH+16);}
     drawBigPlant(CW-9, wallH+16);
+    // lv>=5: サーバーラック
+    if(lv>=5){
+      px(5,wallH+10,8,20,lv>=6?'#1a1a2e':'#2a2a4e');
+      px(5,wallH+10,8,1,'#444');
+      for(var ri2=0;ri2<4;ri2++){
+        ctx.fillStyle='rgba(99,102,241,'+(Math.sin(t*0.1+ri2)*0.5+0.5)+')';
+        ctx.fillRect(6*PX,(wallH+12+ri2*4)*PX,2*PX,2*PX);
+      }
+    }
 
     // Lv1以上：ホワイトボード+ソファエリア
     if(lv>=1){
@@ -1358,24 +2116,45 @@ var G={
       ctx.arc((px2+badgeW/2-4)*PX,(py2+bob+15)*PX,2*PX,0,Math.PI*2);
       ctx.fill();
 
-      // ━ 作業中：吹き出し ━
-      if(busy&&Math.sin(t*0.04+i*3.1)>0.65){
-        var msgs=['…','✓','!!','?!','👍','OK'];
-        var msg=msgs[(i+Math.floor(t*0.02))%msgs.length];
-        ctx.fillStyle='rgba(255,255,255,0.92)';
-        var bx4=(px2+3)*PX, by4=(py2+bob-20)*PX;
-        ctx.beginPath();
-        ctx.roundRect(bx4,by4,20*PX,10*PX,2*PX);
-        ctx.fill();
-        // 吹き出しの尾
-        ctx.beginPath();
-        ctx.moveTo(bx4+2*PX,by4+10*PX);
-        ctx.lineTo(bx4,by4+14*PX);
-        ctx.lineTo(bx4+6*PX,by4+10*PX);
-        ctx.closePath(); ctx.fill();
-        ctx.fillStyle='rgba(60,60,100,0.9)';
+      // ━ 作業中・呟き吹き出し（低頻度） ━
+      var murmurKey=i+'_'+G.s.turn;
+      if(!G._murmurShown)G._murmurShown={};
+      // 約200フレームに1回だけ表示トリガー
+      if(Math.sin(t*0.004+i*7.3)>0.97&&!G._murmurShown[murmurKey]){
+        G._murmurShown[murmurKey]=true;
+        var MURMURS_WORK=['またデザインし直し…','締め切り明日だっけ','Figmaフリーズした','コーヒー3杯目','レビュー待ちつらい','FBくるの怖い','デザイン迷走中','寝れてない','神案件ありたい','このフォント違う気が','もう少しで完成！','集中！','ユーザー視点は？','いい感じかも','あとは微調整のみ'];
+        var MURMURS_IDLE=['今日ランチどこ','Slack通知多すぎ','眠い','在宅の方がよかった','あのデザイナー上手い','コードうまく書けない','帰りたい（定時後）','今月も頑張った','給料上がらないかな','スタバ行きたい','週末何しよ','転職サイト見てた（内緒）'];
+        var msgList=busy?MURMURS_WORK:MURMURS_IDLE;
+        var msg=msgList[(i*13+Math.floor(t*0.005))%msgList.length];
+        // ログに追記
+        if(!G.murmurLog)G.murmurLog=[];
+        G.murmurLog.unshift({nm:s.nm,ic:s.ic,msg:msg,turn:G.s.turn,t:Date.now()});
+        if(G.murmurLog.length>100)G.murmurLog.pop();
+        if(G.curTab==='murmur'){G.renderMurmur();}
+        else{var bdg2=q('bdg-murmur');if(bdg2)bdg2.style.display='inline';}
+        // 吹き出し表示（タイマー付き）
+        if(!G._murmurActive)G._murmurActive={};
+        G._murmurActive[i]={msg:msg, until:t+4};
+      }
+      var ma=G._murmurActive&&G._murmurActive[i];
+      if(ma&&t<ma.until){
+        var msg=ma.msg;
         ctx.font=(5*PX)+'px monospace';
-        ctx.fillText(msg,bx4+2*PX,by4+8*PX);
+        var tw=ctx.measureText(msg).width;
+        var bw=Math.ceil(tw/PX)+8;
+        ctx.fillStyle='rgba(255,255,255,0.95)';
+        var bx4=(px2-bw/2)*PX, by4=(py2+bob-26)*PX;
+        ctx.beginPath();ctx.roundRect(bx4,by4,bw*PX,11*PX,3*PX);ctx.fill();
+        ctx.strokeStyle='rgba(100,100,180,0.3)';ctx.lineWidth=PX*0.5;ctx.stroke();
+        // 吹き出しの尾
+        ctx.fillStyle='rgba(255,255,255,0.95)';
+        ctx.beginPath();
+        ctx.moveTo((px2-2)*PX,by4+11*PX);
+        ctx.lineTo((px2)*PX,by4+15*PX);
+        ctx.lineTo((px2+4)*PX,by4+11*PX);
+        ctx.closePath();ctx.fill();
+        ctx.fillStyle='rgba(40,40,100,0.9)';
+        ctx.fillText(msg,(px2-bw/2+2)*PX,by4+8*PX);
       }
     });
 
@@ -1386,6 +2165,7 @@ var G={
     if(tpEl)tpEl.style.setProperty('--tp',Math.min(100,pr)+'%');
     if(ttEl){
       if(G.busy)ttEl.textContent='処理中...';
+      else if(G.aiMode)ttEl.textContent='🤖 AI管理中 ─ 進捗 '+Math.round(pr)+'%';
       else if(G.s.actives.length===0)ttEl.textContent='案件なし ─ 受注してください';
       else ttEl.textContent='案件進捗 '+Math.round(pr)+'%'+(G.autoPlay?' ▶ AUTO':'　▶▶ SPACE');
     }
@@ -1415,13 +2195,18 @@ var G={
   // ─ GAME FLOW ─
   newGame:function(){
     SFX.click();G.initState();G.s.staff=[G.mkSelf()];G.genProjects();G.genHire();
-    G.autoPlay=true;G.staffPos=[];G.autoSpeed=2500;
+    G.autoPlay=true;G.staffPos=[];G.murmurLog=[];G._murmurShown={};G._murmurActive={};G.autoSpeed=2500;
+    G.aiMode=false;document.body.classList.remove('ai-mode');G.aiActionLog=[];
+    var aib=q('btn-ai');if(aib){aib.textContent='🤖 AIモード';aib.classList.remove('on');}
     if(G.tcId){cancelAnimationFrame(G.tcId);G.tcId=null;}
     q('SCR_TITLE').style.display='none';q('GAME').style.display='flex';
     G.startOC();gLog=[];
     addLog('フリーランスとしてのキャリアをスタート！','sys');
     addLog('口座残高：38,000円。まずは案件を受注しよう！','sys');
     G.renderAll();G.tab('proj');
+    // aiModeリセット
+    G.aiMode=false;document.body.classList.remove('ai-mode');G.aiActionLog=[];
+    var aib=q('btn-ai');if(aib){aib.innerHTML='<span class="ai-dot" style="display:none"></span>🤖 AIモード';aib.classList.remove('on');}
     setTimeout(function(){
       var ab=q('btn-auto');if(ab){ab.textContent='▶ AUTO';ab.classList.add('on');}
       notify('AUTO進行ON ─ 案件を受注してアサインしよう！','ok',5000);
@@ -1446,6 +2231,8 @@ var G={
       if(G.tcId){cancelAnimationFrame(G.tcId);G.tcId=null;}
       q('SCR_TITLE').style.display='none';q('GAME').style.display='flex';
       G.startOC();gLog=[];addLog('ロード完了！','sys');G.renderAll();G.tab('dash');
+      G.aiMode=false;document.body.classList.remove('ai-mode');G.aiActionLog=[];
+      var aib2=q('btn-ai');if(aib2){aib2.innerHTML='<span class="ai-dot" style="display:none"></span>🤖 AIモード';aib2.classList.remove('on');}
       setTimeout(function(){
         var ab=q('btn-auto');if(ab){ab.textContent='▶ AUTO';ab.classList.add('on');}
         G.scheduleAuto();
@@ -1469,6 +2256,8 @@ var G={
   nextTurn:function(){
     if(G.busy)return;G.busy=true;SFX.click();
     var btn=q('btn-turn');btn.disabled=true;btn.textContent='処理中...';
+    // AIモード：ターン開始前に経営判断を実行
+    if(G.aiMode)G.aiDecide();
     G.s.turn++;
     G.s.actives.forEach(function(p){
       var spd=G.projSpeed(p);p.prog=Math.min(100,p.prog+spd);
@@ -1492,10 +2281,38 @@ var G={
       if(total>0){G.s.money-=total;addLog('月次コスト：給与'+fY(sals)+'+家賃'+fY(rent)+'='+fY(total),'bad');
         if(G.s.money<0)notify('⚠ 資金がマイナスになりました！','danger',5000);
         else if(G.s.money<300000)notify('💰 資金が少なくなっています！','warn',4000);}
-      G.s.staff.forEach(function(s){s.mental=clamp(s.mental+12,0,100);});
+      // メンタル回復（大企業ほど福利厚生が良い=回復量UP）
+      var mentalBonus=G.s.phase>=5?18:G.s.phase>=4?15:12;
+      G.s.staff.forEach(function(s){s.mental=clamp(s.mental+mentalBonus,0,100);});
       G.s.staff.forEach(function(s){if(s.status==='working'){var k=pick(Object.keys(s.stats));s.stats[k]=clamp(s.stats[k]+1,0,99);}});
       var avgM=G.s.staff.reduce(function(a,s){return a+s.mental;},0)/Math.max(1,G.s.staff.length);
       if(avgM<40)G.s.black=clamp(G.s.black+8,0,100);else if(avgM>75)G.s.black=clamp(G.s.black-2,0,100);
+      // フェーズ4-6: 社員規模ボーナス（組織力）
+      if(G.s.phase>=4&&G.s.staff.length>20){
+        var orgBonus=Math.floor(G.s.staff.length*10000);
+        G.s.money+=orgBonus;G.s.totalRev+=orgBonus;
+      }
+      // ── プロダクトフェーズ: DAU/ARR成長 ──
+      if(G.s.phase>=4&&G.s.dau>0){
+        var gr=1.08;
+        if(G.s.tech['growth_hack'])gr+=0.06;
+        if(G.s.tech['data_infra'])gr+=0.04;
+        if(G.s.tech['platform_biz'])gr+=0.08;
+        if(avgM<50)gr*=0.93;  // チームが疲弊すると成長鈍化
+        if(G.s.offLevel>=4)gr+=0.05; // プロダクト本社効果
+        G.s.dau=Math.round(G.s.dau*gr+ri(200,2000));
+        // prodStage
+        if(G.s.dau>=10000&&G.s.prodStage<1)G.s.prodStage=1;
+        if(G.s.dau>=100000&&G.s.prodStage<2)G.s.prodStage=2;
+        if(G.s.dau>=1000000&&G.s.prodStage<3)G.s.prodStage=3;
+        G.s.arr=Math.round(G.s.dau*ri(1200,3000)); // ARPU
+        G.s.burnRate=Math.round(G.s.staff.reduce(function(a,s){return a+s.sal;},0)*1.8);
+        var prodRev=Math.round(G.s.arr/12);
+        G.s.money+=prodRev;G.s.totalRev+=prodRev;
+        addLog('📱 プロダクト月収 +'+fY(prodRev)+' / DAU '+G.s.dau.toLocaleString(),'good');
+        // 急成長でブラック増
+        if(G.s.dau>50000&&G.s.black<70)G.s.black=clamp(G.s.black+4,0,100);
+      }
       G.genProjects();G.genHire();addLog('月次更新。新案件が届いた。','sys');
     }
     G.s.avail.forEach(function(p){p.dead--;});
@@ -1505,7 +2322,13 @@ var G={
     if(G.s.black>60){var qr=G.s.staff.filter(function(s){return!s.isSelf&&s.mental<30;});
       if(qr.length>0&&Math.random()<0.4){G.showEv(EVTS.find(function(e){return e.id==='quit';}),G.afterEv);return;}}
     if(G.s.fire>=50&&Math.random()<0.2){G.showEv(EVTS.find(function(e){return e.id==='fire_sns';}),G.afterEv);return;}
-    if(Math.random()<0.28){G.showEv(pick(EVTS),G.afterEv);return;}
+    // プロダクトフェーズ専用イベント
+    if(G.s.phase>=4&&Math.random()<0.15){
+      var prodEvts=EVTS.filter(function(e){return e.id==='vc_offer'||e.id==='dau_spike'||e.id==='competitor_entry'||e.id==='talent_poach'||e.id==='media_unicorn';});
+      if(prodEvts.length>0){G.showEv(pick(prodEvts),G.afterEv);return;}
+    }
+    var normalEvts=EVTS.filter(function(e){return e.id!=='vc_offer'&&e.id!=='dau_spike'&&e.id!=='competitor_entry'&&e.id!=='talent_poach'&&e.id!=='media_unicorn';});
+    if(Math.random()<0.28){G.showEv(pick(normalEvts),G.afterEv);return;}
     G.afterEv();
   },
 
@@ -1593,10 +2416,12 @@ var G={
   hire:function(idx){
     SFX.click();var h=G.s.hirePool[idx];if(!h)return;
     var cost=h.sal*2;if(G.s.money<cost){notify('資金不足！採用コスト：'+fY(cost),'danger');return;}
-    var mx=4+G.s.phase*6;if(G.s.staff.length>=mx){notify('社員数上限（'+mx+'名）に達しています！','warn');return;}
+    var mx=[4,10,16,22,200,1000,5000][Math.min(G.s.phase,6)];if(G.s.staff.length>=mx){notify('社員数上限（'+mx+'名）に達しています！','warn');return;}
     G.s.money-=cost;
-    var emp={id:'e'+Date.now(),nm:h.nm,role:h.role,ic:h.ic,sal:h.sal,stats:JSON.parse(JSON.stringify(h.st)),mental:h.mental,status:'idle',isSelf:false,sense:ri(40,85)};
+    var emp={id:'e'+Date.now()+Math.random(),nm:h.nm,role:h.role,ic:h.ic,sal:h.sal,stats:JSON.parse(JSON.stringify(h.st)),mental:h.mental,status:'idle',isSelf:false,sense:ri(40,85)};
     G.s.staff.push(emp);G.s.hirePool.splice(idx,1);
+    // フェーズ4以上は採用後すぐ補充候補を生成
+    G.genHire();
     addLog(emp.nm+'（'+emp.role+'）が入社！','good');notify(emp.nm+'が入社しました！採用コスト：'+fY(cost),'ok');
     SFX.good();G.updateHUD();G.renderAll();
   },
@@ -1632,13 +2457,29 @@ var G={
   // ─ PHASE / ENDING ─
   phaseCheck:function(){
     var old=G.s.phase;
-    if(G.s.totalRev>=50000000&&G.s.staff.length>=8)G.s.phase=Math.max(G.s.phase,3);
-    else if(G.s.totalRev>=8000000&&G.s.staff.length>=5)G.s.phase=Math.max(G.s.phase,2);
-    else if(G.s.totalRev>=1500000&&G.s.staff.length>=2)G.s.phase=Math.max(G.s.phase,1);
-    if(G.s.phase>old){var ns=['個人事務所','デザイン事務所','デザインスタジオ','デザイン会社'];
-      addLog('🎉 フェーズアップ！→「'+ns[G.s.phase]+'」','sys');
-      notify('🎉 PHASE '+G.s.phase+'「'+ns[G.s.phase]+'」へ進化！','ok',5000);
-      SFX.lvup();G.genProjects();}
+    var s=G.s;
+    // Phase 6: テックジャイアント
+    if(s.tech['global_expand']&&(s.dau||0)>=2000000&&s.totalRev>=10000000000)s.phase=Math.max(s.phase,6);
+    // Phase 5: プラットフォーム
+    else if(s.tech['platform_biz']&&(s.dau||0)>=200000&&s.totalRev>=1000000000)s.phase=Math.max(s.phase,5);
+    // Phase 4: プロダクト企業
+    else if(s.tech['product_mgmt']&&s.totalRev>=100000000&&s.staff.length>=12)s.phase=Math.max(s.phase,4);
+    // Phase 3: デザイン会社
+    else if(s.totalRev>=50000000&&s.staff.length>=8)s.phase=Math.max(s.phase,3);
+    else if(s.totalRev>=8000000&&s.staff.length>=5)s.phase=Math.max(s.phase,2);
+    else if(s.totalRev>=1500000&&s.staff.length>=2)s.phase=Math.max(s.phase,1);
+    if(s.phase>old){
+      var ns=['個人事務所','デザイン事務所','デザインスタジオ','デザイン会社','プロダクト企業','プラットフォーム企業','テックジャイアント'];
+      var msgs=['','🎉 事務所を卒業！','🌟 スタジオに昇格！','🏢 会社になった！','🚀 プロダクト企業へ転身！','🌐 プラットフォーム帝国の夜明け！','⚡ テックジャイアントへ到達！！'];
+      addLog('🎉 フェーズアップ！→「'+ns[s.phase]+'」','sys');
+      notify((msgs[s.phase]||'🎉')+' '+ns[s.phase]+'へ進化！','ok',7000);
+      SFX.fanfare();G.genProjects();
+      // フェーズアップ時にオフィスビューを一時的に強調
+      var ow=document.getElementById('owrap');
+      if(ow){ow.style.boxShadow='0 0 40px rgba(99,102,241,0.6)';setTimeout(function(){if(ow)ow.style.boxShadow='';},3000);}
+      if(s.phase>=4&&!s.dau){s.dau=500;addLog('📱 自社プロダクト開発を開始！DAUカウント開始','sys');}
+      if(s.phase===6){addLog('⚡ テックジャイアントへ到達！社員5000名まで採用可能になった！','sys');}
+    }
   },
 
   endingCheck:function(){
@@ -1654,7 +2495,12 @@ var G={
 
   // ─ MODALS ─
   showEv:function(ev,cb){
-    if(!ev){if(cb)cb();return;}SFX.ev();
+    if(!ev){if(cb)cb();return;}
+    // ── AIモード: モーダル非表示で即判断 ──
+    if(G.aiMode){
+      G.aiChooseEv(ev,cb);return;
+    }
+    SFX.ev();
     var mb=q('mbox-ev');mb.className='mbox '+(ev.ty||'');
     q('mev-ic').textContent=ev.ic;q('mev-tt').textContent=ev.tt;q('mev-ds').textContent=ev.ds;
     var el=q('mev-ch');el.innerHTML='';
@@ -1668,15 +2514,69 @@ var G={
     q('modal-ev').classList.add('open');
   },
 
+  // AIがイベントを自動判断
+  aiChooseEv:function(ev,cb){
+    if(!ev||!ev.ch||ev.ch.length===0){if(cb)cb();return;}
+    // 選択肢のefテキストを解析してスコアリング
+    var best=0;
+    var bestScore=-9999;
+    ev.ch.forEach(function(ch,i){
+      var score=0;
+      var ef=ch.ef||'';
+      // ポジティブ指標
+      if(ef.match(/評判\+|rep\+/))score+=3;
+      if(ef.match(/資金\+|money\+/))score+=4;
+      if(ef.match(/SNS\+/))score+=2;
+      if(ef.match(/メンタル\+/))score+=2;
+      if(ef.match(/技術|スキル\+/))score+=2;
+      // ネガティブ指標
+      if(ef.match(/評判-/))score-=3;
+      if(ef.match(/資金-/))score-=4;
+      if(ef.match(/炎上\+|fire\+/))score-=5;
+      if(ef.match(/メンタル-/))score-=2;
+      if(ef.match(/退職|quit/))score-=8;
+      if(ef.match(/ブラック\+/))score-=3;
+      // 現在の状態に応じた補正
+      if(G.s.fire>60&&ef.match(/炎上-|fire-/))score+=6;
+      if(G.s.money<300000&&ef.match(/資金\+/))score+=5;
+      if(G.s.black>70&&ef.match(/ブラック-/))score+=4;
+      // 最初の選択肢は基本的に「受け入れ」系が多い → 微加点
+      if(i===0)score+=0.5;
+      if(score>bestScore){bestScore=score;best=i;}
+    });
+    var chosen=ev.ch[best];
+    // 実行
+    try{chosen.fn();}catch(e2){console.error(e2);}
+    addLog('[AI判断] '+ev.tt+' → 「'+chosen.tx+'」','sys');
+    G.aiThink('EVENT',ev.ic+' '+ev.tt+'\n→ 「'+chosen.tx+'」\n'+chosen.ef);
+    G.updateHUD();G.renderAll();
+    if(cb)cb();
+  },
+
   showMod:function(mod,proj,cb){
-    SFX.alert();proj.modCnt=(proj.modCnt||0)+1;G.s.totalMods++;
+    proj.modCnt=(proj.modCnt||0)+1;G.s.totalMods++;
+    var choices=[
+      {tx:mod.at,ef:'メンタル'+mod.dm,fn:function(){if(proj.asgn){var s=G.s.staff.find(function(x){return x.id===proj.asgn;});if(s)s.mental=clamp(s.mental+mod.dm,0,100);}G.s.black=clamp(G.s.black+3,0,100);}},
+      {tx:mod.rt,ef:'評判'+mod.rp,fn:function(){G.s.rep=clamp(G.s.rep+mod.rp,0,100);proj.price=Math.round(proj.price*0.9);}}
+    ];
+    // ── AIモード: 即判断 ──
+    if(G.aiMode){
+      // 評判が高い時は評判優先、メンタルが低い時はメンタル優先
+      var avgMental=G.s.staff.length>0?G.s.staff.reduce(function(a,s){return a+s.mental;},0)/G.s.staff.length:80;
+      var chooseRep=(avgMental>50&&G.s.rep<70);
+      var chosen=chooseRep?choices[1]:choices[0];
+      try{chosen.fn();}catch(e2){console.error(e2);}
+      addLog('[AI修正対応] 「'+proj.nm+'」修正'+proj.modCnt+'回目 → '+chosen.tx,'sys');
+      var face=proj.modCnt<=3?'😤':proj.modCnt<=6?'😡':'💀';
+      G.aiThink('REVISION',face+' 修正依頼 '+proj.modCnt+'回目\n「'+proj.nm+'」\n→ '+chosen.tx);
+      G.updateHUD();if(cb)cb();return;
+    }
+    SFX.alert();
     q('mod-cnt').textContent='第'+proj.modCnt+'回';
     q('mod-face').textContent=proj.modCnt<=3?'😤':proj.modCnt<=6?'😡':'💀';
     q('mod-pn').textContent='「'+proj.nm+'」';q('mod-tx').textContent=mod.tx;
     var el=q('mod-ch');el.innerHTML='';
-    [{tx:mod.at,ef:'メンタル'+mod.dm,fn:function(){if(proj.asgn){var s=G.s.staff.find(function(x){return x.id===proj.asgn;});if(s)s.mental=clamp(s.mental+mod.dm,0,100);}G.s.black=clamp(G.s.black+3,0,100);}},
-     {tx:mod.rt,ef:'評判'+mod.rp,fn:function(){G.s.rep=clamp(G.s.rep+mod.rp,0,100);proj.price=Math.round(proj.price*0.9);}}
-    ].forEach(function(c){
+    choices.forEach(function(c){
       var btn=document.createElement('button');btn.className='mch';
       btn.innerHTML='<span>'+esc(c.tx)+'</span><span class="ef">'+esc(c.ef)+'</span>';
       btn.onclick=function(){SFX.click();c.fn();q('modal-mod').classList.remove('open');G.updateHUD();if(cb)cb();};
@@ -1686,6 +2586,12 @@ var G={
   },
 
   showRev:function(stars,comment,earned,typeLb,cb){
+    // AIモード: 即スキップ（ログだけ出す）
+    if(G.aiMode){
+      SFX.coin();
+      G.aiThink('COMPLETE',stars+' '+typeLb+'完了\n'+comment+'\n+'+fY(earned));
+      if(cb)cb();return;
+    }
     q('rev-st').textContent=stars;q('rev-cm').textContent=comment;
     q('rev-ef').innerHTML='<span style="color:var(--ok)">+'+fY(earned)+'</span>　<span style="color:var(--t3)">'+esc(typeLb)+'案件完了</span>';
     q('modal-rev').classList.add('open');G.revCb=cb;
@@ -1715,9 +2621,17 @@ var G={
     var fw=q('wb-fire');if(fw)fw.style.display=G.s.fire>=50?'block':'none';
     var mw=q('wb-money');if(mw)mw.style.display=(G.s.money<200000&&G.s.money>=0)?'block':'none';
     var bp=q('bdg-proj');if(bp)bp.textContent=G.s.avail.length;
-    var phN=['個人事務所','デザイン事務所','デザインスタジオ','デザイン会社'];
+    var phN=['個人事務所','デザイン事務所','デザインスタジオ','デザイン会社','プロダクト企業','プラットフォーム企業','テックジャイアント'];
+    var hdau=q('hdau-wrap');if(hdau)hdau.style.display=G.s.phase>=4?'flex':'none';
+    var harr=q('harr-wrap');if(harr)harr.style.display=G.s.phase>=4?'flex':'none';
+    if(G.s.phase>=4){var dv=q('hdau');if(dv)dv.textContent=(G.s.dau||0)>=10000?Math.round((G.s.dau||0)/10000)+'万':(G.s.dau||0).toLocaleString();var av=q('harr');if(av)av.textContent=(G.s.arr||0)>=100000000?Math.round((G.s.arr||0)/100000000)+'億':(G.s.arr||0)>=10000?Math.round((G.s.arr||0)/10000)+'万':'--';}
     var ti=q('tinfo');if(ti){var wInM=(G.s.turn%4||4);var remW=4-wInM;
-  ti.innerHTML='<b>'+dispY+'年'+jpM[dispM-1]+'・第'+weekInMonth+'週</b> ／ '+phN[Math.min(G.s.phase,3)]+'<br><span class="hint">月次コスト あと'+remW+'週 ／ 案件'+G.s.avail.length+'件 ／ <kbd>SPACE</kbd> 次の週 ／ <kbd>A</kbd> オート</span>';}
+    var prodInfo=G.s.phase>=4?' ／ DAU '+((G.s.dau||0)>=10000?Math.round((G.s.dau||0)/10000)+'万':(G.s.dau||0).toLocaleString()):'';
+  if(G.aiMode){
+    ti.innerHTML='<b>'+dispY+'年'+jpM[dispM-1]+'・第'+weekInMonth+'週</b> ／ '+phN[Math.min(G.s.phase,6)]+prodInfo+'<br><span class="hint" style="color:#6366f1;font-weight:600">🤖 AI AGENT が全経営を管理中 ─ あなたは見ているだけでOK</span>';
+  } else {
+    ti.innerHTML='<b>'+dispY+'年'+jpM[dispM-1]+'・第'+weekInMonth+'週</b> ／ '+phN[Math.min(G.s.phase,6)]+prodInfo+'<br><span class="hint">月次コスト あと'+remW+'週 ／ 案件'+G.s.avail.length+'件 ／ <kbd>SPACE</kbd> 次の週 ／ <kbd>A</kbd> オート</span>';
+  }}
   },
 
   // ─ TAB ─
@@ -1735,6 +2649,8 @@ var G={
       case 'hire':   G.renderHire();break;
       case 'tech':   G.renderTech();break;
       case 'prog':   G.renderProg();break;
+      case 'ai':     G.renderAI();break;
+      case 'murmur': G.renderMurmur();break;
     }
   },
 
@@ -1748,6 +2664,62 @@ var G={
       case 'hire':   G.renderHire();break;
       case 'tech':   G.renderTech();break;
       case 'prog':   G.renderProg();break;
+      case 'ai':     G.renderAI();break;
+      case 'murmur': G.renderMurmur();break;
+    }
+  },
+
+  // ─ RENDER AI ─
+  renderAI:function(){
+    var s=G.s;
+    var atb=q('ai-toggle-big');
+    if(atb){
+      atb.textContent=G.aiMode?'🛑 AIモード OFF':'🤖 AIモード ON';
+      atb.className='ai-toggle-big'+(G.aiMode?' on':'');
+    }
+    var dt=q('ai-dash-title');
+    var ds=q('ai-dash-sub');
+    if(G.aiMode){
+      if(dt)dt.textContent='AI経営エージェント 稼働中';
+      if(ds)ds.innerHTML='受注・アサイン・採用・技術習得・移転を全自動処理中。<br><strong>あなたは週を進めるだけです。</strong>';
+    } else {
+      if(dt)dt.textContent='AI経営エージェント';
+      if(ds)ds.innerHTML='受注・アサイン・採用・技術習得・オフィス移転を<br>全自動で最適判断します。あなたは働くだけ。';
+    }
+    // KPI
+    var totalOrders=G.aiActionLog.filter(function(l){return l.type==='order';}).length;
+    var totalHires=G.aiActionLog.filter(function(l){return l.type==='hire';}).length;
+    var totalTechs=G.aiActionLog.filter(function(l){return l.type==='tech';}).length;
+    var totalRisks=G.aiActionLog.filter(function(l){return l.type==='risk';}).length;
+    var avgMental=s.staff.length>0?Math.round(s.staff.reduce(function(a,st){return a+st.mental;},0)/s.staff.length):0;
+    var kpis=[
+      {l:'自動受注数',v:totalOrders+'件',d:'累計'},
+      {l:'自動採用数',v:totalHires+'名',d:'累計'},
+      {l:'技術習得',v:totalTechs+'件',d:'累計'},
+      {l:'炎上対策',v:totalRisks+'回',d:'累計'},
+      {l:'現在の資金',v:fY(s.money).replace('円',''),d:''},
+      {l:'平均メンタル',v:avgMental,d:avgMental>=70?'😊 良好':avgMental>=45?'😐 普通':'😰 危険'},
+    ];
+    var kg=q('ai-kpi-grid');
+    if(kg){
+      kg.innerHTML=kpis.map(function(k){
+        return '<div class="ai-kpi"><div class="ai-kpi-l">'+esc(k.l)+'</div><div class="ai-kpi-v">'+esc(k.v)+'</div><div class="ai-kpi-d">'+esc(k.d)+'</div></div>';
+      }).join('');
+    }
+    // アクションログ
+    var lp=q('ai-action-log');
+    var lc=q('ai-log-cnt');
+    if(lp){
+      if(G.aiActionLog.length===0){
+        lp.innerHTML='<div class="empty">AIモードをONにするとここに経営判断が記録されます</div>';
+      } else {
+        var typeMap={'order':'受注','hire':'採用','tech':'技術','risk':'炎上対策','assign':'配置','other':'その他'};
+        var rows=G.aiActionLog.slice().reverse().slice(0,50).map(function(lg){
+          return '<div class="ai-log-row"><span class="ai-log-turn">W'+lg.turn+'</span><span class="ai-log-action">'+esc(lg.msg)+'</span><span class="ai-log-type '+lg.type+'">'+esc(typeMap[lg.type]||'その他')+'</span></div>';
+        }).join('');
+        lp.innerHTML=rows;
+        if(lc)lc.textContent=G.aiActionLog.length+'件';
+      }
     }
   },
 
@@ -1813,9 +2785,35 @@ var G={
 
   // ─ RENDER STAFF ─
   renderStaff:function(){
-    var cnt=q('staff-cnt');if(cnt)cnt.textContent=G.s.staff.length+'名 / 上限'+(4+G.s.phase*6)+'名';
+    var mx=[4,10,16,22,200,1000,5000][Math.min(G.s.phase,6)];
+    var cnt=q('staff-cnt');if(cnt)cnt.textContent=G.s.staff.length+'名 / 上限'+mx+'名';
     var el=q('staff-list');if(!el)return;
     if(!G.s.staff.length){el.innerHTML='<div class="empty">社員がいません</div>';return;}
+    // 20人超えたらコンパクトグリッド表示
+    if(G.s.staff.length>20){
+      var avgM=Math.round(G.s.staff.reduce(function(a,s){return a+s.mental;},0)/G.s.staff.length);
+      var working=G.s.staff.filter(function(s){return s.status==='working';}).length;
+      var tired=G.s.staff.filter(function(s){return s.mental<30;}).length;
+      var summary='<div style="background:var(--bg2);border-radius:8px;padding:10px;margin-bottom:8px;font-size:7.5px;line-height:2">'
+        +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">'
+        +'<div>👥 社員数: <b>'+G.s.staff.length+'名</b></div>'
+        +'<div>⚙️ 稼働中: <b>'+working+'名</b></div>'
+        +'<div>😊 平均メンタル: <b>'+avgM+'</b></div>'
+        +'<div>😫 疲弊中: <b style="color:var(--red)">'+tired+'名</b></div>'
+        +'</div></div>';
+      var grid=G.s.staff.map(function(s,i){
+        var c2=s.mental<30?'var(--red)':s.status==='working'?'var(--acc)':'var(--ok)';
+        var tip=s.nm+' '+s.role+' メンタル:'+s.mental;
+        return'<div title="'+tip+'" style="display:flex;flex-direction:column;align-items:center;padding:4px;border:1px solid var(--bord2);border-radius:4px;cursor:default;gap:2px">'
+          +'<div style="font-size:14px">'+s.ic+'</div>'
+          +'<div style="font-size:5.5px;color:var(--t2);text-align:center;max-width:36px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">'+s.nm.split(' ')[0]+'</div>'
+          +'<div style="width:100%;height:3px;background:var(--bg3);border-radius:2px"><div style="width:'+s.mental+'%;height:100%;background:'+c2+';border-radius:2px"></div></div>'
+          +(!s.isSelf?'<button onclick="G.fire(\''+s.id+'\')" style="font-size:5px;padding:1px 3px;background:none;border:1px solid var(--bord2);border-radius:2px;color:var(--t3);cursor:pointer">×</button>':'')
+          +'</div>';
+      }).join('');
+      el.innerHTML=summary+'<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(44px,1fr));gap:4px">'+grid+'</div>';
+      return;
+    }
     el.innerHTML=G.s.staff.map(function(s){
       var dotC=s.mental<30?'var(--red)':s.status==='working'?'var(--acc)':'var(--ok)';
       var mCls='sbf mn'+(s.mental<40?' low':'');
@@ -1841,10 +2839,18 @@ var G={
   // ─ RENDER HIRE ─
   renderHire:function(){
     var el=q('hire-list');if(!el)return;
-    if(!G.s.hirePool.length){el.innerHTML='<div class="empty">現在、採用候補がいません。<br>次の月次更新で候補が増えます。</div>';return;}
-    var mx=4+G.s.phase*6;
-    el.innerHTML=G.s.hirePool.map(function(h,i){
-      var cost=h.sal*2,ok=G.s.money>=cost&&G.s.staff.length<mx;
+    // フェーズ4以上は常に補充
+    if(G.s.hirePool.length<4)G.genHire();
+    var mx=[4,10,16,22,200,1000,5000][Math.min(G.s.phase,6)];
+    var atLimit=G.s.staff.length>=mx;
+    var hdr='<div style="display:flex;justify-content:space-between;align-items:center;padding:4px 2px 8px;font-size:7.5px;color:var(--t3)">'
+      +'<span>社員 '+G.s.staff.length+' / 上限 '+mx+'名</span>'
+      +'<button onclick="G.genHire();G.renderHire();" style="font-size:7px;padding:3px 8px;background:var(--bg3);border:1px solid var(--bord2);border-radius:4px;cursor:pointer;color:var(--t2)">🔄 候補更新</button>'
+      +'</div>';
+    if(!G.s.hirePool.length){el.innerHTML=hdr+'<div class="empty">現在、採用候補がいません。<br>「候補更新」を押すか次の月次更新をお待ちください。</div>';return;}
+    el.innerHTML=hdr+G.s.hirePool.map(function(h,i){
+      var cost=h.sal*2,ok=G.s.money>=cost&&!atLimit;
+      var riskTxt=h.risk?('<div class="hc-risk">⚠ '+esc(h.risk)+'</div>'):'';
       return'<div class="hc"><div class="hc-h"><div><div class="hc-n">'+h.ic+' '+esc(h.nm)+'</div><div class="hc-ro">'+esc(h.role)+'</div></div><div class="hc-sl">'+fY(h.sal).replace('円','')+'<span>/月</span></div></div>'
         +'<div class="sbars" style="margin-bottom:8px">'
         +'<div class="srow"><span class="sl">デザイン</span><div class="sb"><div class="sbf d" style="width:'+h.st.design+'%"></div></div><span class="sn">'+h.st.design+'</span></div>'
@@ -1853,9 +2859,9 @@ var G={
         +'<div class="srow"><span class="sl">コミュ力</span><div class="sb"><div class="sbf cm" style="width:'+h.st.comm+'%"></div></div><span class="sn">'+h.st.comm+'</span></div>'
         +'<div class="srow"><span class="sl">メンタル</span><div class="sb"><div class="sbf mn" style="width:'+h.mental+'%"></div></div><span class="sn">'+h.mental+'</span></div>'
         +'</div>'
-        +'<div class="hc-risk">⚠ '+esc(h.risk)+'</div>'
+        +riskTxt
         +'<div class="hc-f"><div class="hc-co">採用コスト：'+fY(cost)+'</div>'
-        +'<button class="btn-hire" '+(ok?'':'disabled ')+' onclick="G.hire('+i+')">'+(G.s.staff.length>=mx?'定員満員':G.s.money<cost?'資金不足':'採用する')+'</button></div></div>';
+        +'<button class="btn-hire" '+(ok?'':'disabled ')+' onclick="G.hire('+i+')">'+(atLimit?'定員満員':G.s.money<cost?'資金不足':'採用する')+'</button></div></div>';
     }).join('');
   },
 
@@ -1885,14 +2891,72 @@ var G={
   },
 
   // ─ RENDER PROGRESS ─
+  renderMurmur:function(){
+    var el=q('murmur-log');if(!el)return;
+    var ct=q('murmur-cnt');if(ct)ct.textContent=(G.murmurLog&&G.murmurLog.length)||0;
+    var bdg=q('bdg-murmur');if(bdg)bdg.style.display='none';
+    if(!G.murmurLog||!G.murmurLog.length){
+      el.innerHTML='<div class="empty">まだ誰も呟いていません<br>社員がオフィスで働くと呟きます</div>';return;
+    }
+    var mentalColor=function(s2){
+      var st=G.s.staff.find(function(x){return x.nm===s2;});
+      if(!st)return'var(--t3)';
+      return st.mental<30?'var(--red)':st.mental<60?'var(--warn)':'var(--ok)';
+    };
+    el.innerHTML=G.murmurLog.map(function(m){
+      var mc=mentalColor(m.nm);
+      var nm2=m.nm.split(' ')[0];
+      return '<div style="display:flex;gap:8px;align-items:flex-start;padding:7px 12px;border-bottom:1px solid var(--bord2)">'
+        +'<div style="font-size:14px;flex-shrink:0">'+m.ic+'</div>'
+        +'<div style="flex:1;min-width:0">'
+        +'<div style="font-size:7px;font-weight:700;color:'+mc+'">'+esc(nm2)+'</div>'
+        +'<div style="font-size:8.5px;color:var(--t1);margin-top:1px;line-height:1.5">'+esc(m.msg)+'</div>'
+        +'<div style="font-size:6.5px;color:var(--t4);margin-top:2px">T'+m.turn+'週目</div>'
+        +'</div></div>';
+    }).join('');
+  },
+
   renderProg:function(){
-    var phDefs=[{nm:'個人事務所',s:'収益150万+社員2名'},{nm:'デザイン事務所',s:'収益800万+社員5名'},{nm:'デザインスタジオ',s:'収益5000万+社員8名'},{nm:'デザイン会社',s:'エンディング条件へ'}];
+    var phDefs=[
+      {nm:'個人事務所',    s:'収益150万+社員2名'},
+      {nm:'デザイン事務所',s:'収益800万+社員5名'},
+      {nm:'デザインスタジオ',s:'収益5000万+社員8名'},
+      {nm:'デザイン会社',  s:'エンディング条件へ'},
+      {nm:'🚀 プロダクト企業',s:'技術[プロダクト戦略]+収益1億+社員12名'},
+      {nm:'🌐 プラットフォーム企業',s:'技術[PF化]+DAU20万+収益10億'},
+      {nm:'⚡ テックジャイアント',s:'技術[グローバル本社]+DAU200万+収益100億'}
+    ];
     q('phases').innerHTML=phDefs.map(function(p,i){return'<div class="ph '+(i<G.s.phase?'done':i===G.s.phase?'cur':'')+'"><div class="ph-n">'+(i<G.s.phase?'✓':i===G.s.phase?'●':i)+'</div><div class="ph-nm">'+p.nm+'</div><div class="ph-s">'+p.s+'</div></div>';}).join('');
     q('of-cards').innerHTML=OFFICES.map(function(o,i){var cur=G.s.offLevel===i,past=G.s.offLevel>i,can=G.s.offLevel===i-1;
       return'<div class="ofc'+(cur?' cur':past?' past':'')+'"><div class="ofc-ic">'+o.ic+'</div><div class="ofc-n">'+esc(o.nm)+(cur?' ✓':'')+'</div><div class="ofc-d">'+esc(o.desc)+'</div><div style="font-size:7px;color:var(--t3);margin-bottom:5px">評判+'+o.rp+' / 家賃'+fY(o.mc)+'/月</div><div class="ofc-f"><span class="ofc-p">'+(o.cost?fY(o.cost):'無料')+'</span>'+(can?'<button class="btn-up" '+(G.s.money<o.cost?'disabled':'')+' onclick="G.office('+i+')">移転する</button>':cur?'<span style="font-size:7px;color:var(--teal)">✓ 現在地</span>':past?'<span style="font-size:7px;color:var(--t4)">通過済み</span>':'<span style="font-size:7px;color:var(--t4)">🔒</span>')+'</div></div>';
     }).join('');
     var avgM=G.s.staff.length>0?Math.round(G.s.staff.reduce(function(a,s){return a+s.mental;},0)/G.s.staff.length):0;
-    q('statbox').innerHTML='<div class="si">累計収益<b>'+fY(G.s.totalRev)+'</b></div><div class="si">完了案件<b>'+G.s.projDone+'件</b></div><div class="si">総修正回数<b>'+G.s.totalMods+'回</b></div><div class="si">受賞歴<b>'+G.s.awards+'件</b></div><div class="si">社員数<b>'+G.s.staff.length+'名</b></div><div class="si">SNS<b>'+G.s.sns.toLocaleString()+'</b></div><div class="si">平均メンタル<b>'+avgM+'</b></div><div class="si">現在資産<b>'+fY(G.s.money)+'</b></div><div class="si">炎上<b>'+G.s.fire+'%</b></div><div class="si">ブラック度<b>'+G.s.black+'%</b></div>';
+    var stages=['MVP','PMF達成','スケール','グローバル展開'];
+    var fmtDau=function(v){return v>=10000?Math.round(v/10000)+'万':v.toLocaleString();};
+    var fmtArr=function(v){return v>=100000000?Math.round(v/100000000)+'億':v>=10000?Math.round(v/10000)+'万':'--';};
+    // プロダクト指標（フェーズ4以上）
+    var prodStats='';
+    if(G.s.phase>=4){
+      var pStage=stages[Math.min(G.s.prodStage||0,3)];
+      var stageColor=G.s.prodStage>=3?'var(--gold)':G.s.prodStage>=2?'var(--ok)':G.s.prodStage>=1?'var(--acc)':'var(--t3)';
+      // DAUプログレスバー
+      var dauGoal=G.s.phase>=6?2000000:G.s.phase>=5?1000000:G.s.phase>=4?200000:10000;
+      var dauPct=Math.min(100,Math.round((G.s.dau||0)/dauGoal*100));
+      prodStats='<div style="background:linear-gradient(135deg,rgba(99,102,241,0.06),rgba(99,102,241,0.02));border:1px solid rgba(99,102,241,0.2);border-radius:10px;padding:12px;margin-top:10px">'
+        +'<div style="font-size:8px;color:#6366f1;font-weight:800;letter-spacing:2px;margin-bottom:10px">📱 PRODUCT METRICS</div>'
+        +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">'
+        +'<div style="background:var(--bg1);border-radius:6px;padding:8px"><div style="font-size:6.5px;color:var(--t3);margin-bottom:2px">DAU</div><div style="font-size:16px;font-weight:900;color:var(--acc)">'+fmtDau(G.s.dau||0)+'</div></div>'
+        +'<div style="background:var(--bg1);border-radius:6px;padding:8px"><div style="font-size:6.5px;color:var(--t3);margin-bottom:2px">ARR</div><div style="font-size:16px;font-weight:900;color:var(--ok)">'+fmtArr(G.s.arr||0)+'</div></div>'
+        +'<div style="background:var(--bg1);border-radius:6px;padding:8px"><div style="font-size:6.5px;color:var(--t3);margin-bottom:2px">バーンレート</div><div style="font-size:11px;font-weight:700;color:var(--warn)">'+fY(G.s.burnRate||0)+'/月</div></div>'
+        +'<div style="background:var(--bg1);border-radius:6px;padding:8px"><div style="font-size:6.5px;color:var(--t3);margin-bottom:2px">調達累計</div><div style="font-size:11px;font-weight:700;color:var(--gold)">'+(G.s.funding>=100000000?Math.round(G.s.funding/100000000)+'億':'--')+'</div></div>'
+        +'</div>'
+        +'<div style="margin-bottom:6px">'
+        +'<div style="display:flex;justify-content:space-between;font-size:6.5px;color:var(--t3);margin-bottom:3px"><span>プロダクトステージ：<b style="color:'+stageColor+'">'+pStage+'</b></span><span>次の目標 DAU '+fmtDau(dauGoal)+'</span></div>'
+        +'<div style="background:var(--bg3);border-radius:4px;height:6px"><div style="width:'+dauPct+'%;height:100%;background:linear-gradient(90deg,#6366f1,#a78bfa);border-radius:4px;transition:width .5s"></div></div>'
+        +'</div>'
+        +'</div>';
+    }
+    q('statbox').innerHTML='<div class="si">累計収益<b>'+fY(G.s.totalRev)+'</b></div><div class="si">完了案件<b>'+G.s.projDone+'件</b></div><div class="si">総修正回数<b>'+G.s.totalMods+'回</b></div><div class="si">受賞歴<b>'+G.s.awards+'件</b></div><div class="si">社員数<b>'+G.s.staff.length+'名</b></div><div class="si">SNS<b>'+G.s.sns.toLocaleString()+'</b></div><div class="si">平均メンタル<b>'+avgM+'</b></div><div class="si">現在資産<b>'+fY(G.s.money)+'</b></div><div class="si">炎上<b>'+G.s.fire+'%</b></div><div class="si">ブラック度<b>'+G.s.black+'%</b></div>'+prodStats;
   },
 };
 
