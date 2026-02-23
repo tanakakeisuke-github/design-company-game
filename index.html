@@ -175,7 +175,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;outline:no
   display:flex;align-items:center;gap:4px;
   border:1px solid var(--bord);border-radius:99px;
   padding:2px 9px;font-size:11px;font-weight:600;
-  color:var(--t2);white-space:nowrap;margin-left:auto;
+  color:var(--t2);white-space:nowrap;
   background:hsl(0,0%,100%);
 }
 .hdate-day{font-size:11px;color:var(--t4);font-weight:400}
@@ -713,52 +713,57 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;outline:no
 /* ━━━━━━━━━━━━━━━━━━━━━━━
    NOTIFICATION PANEL
 ━━━━━━━━━━━━━━━━━━━━━━━ */
-#notif-panel{
-  position:fixed;top:56px;right:0;z-index:700;width:200px;
-  background:hsl(0,0%,100%);border:1px solid var(--bord);border-right:none;
-  border-radius:var(--r-lg) 0 0 var(--r-lg);box-shadow:-2px 2px 10px rgba(0,0,0,.08);
-  display:flex;flex-direction:column;
-  transform:translateX(calc(100% - 26px));
-  transition:transform .25s cubic-bezier(.4,0,.2,1);
-  pointer-events:auto;font-family:inherit;overflow:hidden;
-  max-height:calc(100vh - 80px);
+/* ── 通知: HUDベルボタン + ドロップダウン ───────────────── */
+#notif-btn{
+  position:relative;display:flex;align-items:center;gap:3px;
+  font-size:11px;color:var(--t3);
+  border:1px solid var(--bord);border-radius:99px;
+  padding:2px 9px;background:hsl(0,0%,100%);cursor:pointer;
+  transition:all .12s;flex-shrink:0;
 }
-#notif-panel:hover,#notif-panel.open{transform:translateX(0)}
-#notif-panel-tab{
-  position:absolute;left:0;top:50%;transform:translateY(-50%);
-  width:26px;writing-mode:vertical-rl;font-size:9.5px;font-weight:700;
-  letter-spacing:1px;color:var(--t4);padding:8px 5px;cursor:pointer;
-  background:hsl(0,0%,100%);border-right:1px solid var(--bord);
-  border-radius:var(--r-lg) 0 0 var(--r-lg);user-select:none;
+#notif-btn:hover{border-color:var(--bord2);color:var(--t2)}
+#notif-btn.has-new{border-color:var(--red);color:var(--red)}
+#notif-badge{
+  background:var(--red);color:#fff;border-radius:99px;
+  min-width:15px;height:15px;font-size:9px;font-weight:700;
+  display:none;align-items:center;justify-content:center;padding:0 3px;
+}
+/* ドロップダウン本体 */
+#notif-panel{
+  position:absolute;top:calc(100% + 5px);right:0;z-index:800;width:280px;
+  background:hsl(0,0%,100%);border:1px solid var(--bord);
+  border-radius:var(--r-lg);box-shadow:0 8px 24px rgba(0,0,0,.10);
+  display:none;flex-direction:column;overflow:hidden;
+  animation:dropIn .15s cubic-bezier(.4,0,.2,1);
+}
+#notif-panel.open{display:flex}
+@keyframes dropIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+#notif-hdr{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:7px 11px;border-bottom:1px solid var(--bord);
+  font-size:10.5px;font-weight:700;color:var(--t2);flex-shrink:0;
 }
 #notif-list{
-  margin-left:26px;overflow-y:auto;display:flex;flex-direction:column;gap:1px;
-  max-height:calc(100vh - 130px);padding:3px 0;
+  overflow-y:auto;display:flex;flex-direction:column;
+  max-height:320px;
 }
-#notif-list::-webkit-scrollbar{width:2px}
-#notif-list::-webkit-scrollbar-thumb{background:var(--bord2)}
+#notif-list::-webkit-scrollbar{width:3px}
+#notif-list::-webkit-scrollbar-thumb{background:var(--bord2);border-radius:99px}
 .nf{
-  background:hsl(0,0%,100%);border-left:2px solid var(--acc);
-  padding:5px 9px;font-size:11px;color:var(--t1);line-height:1.5;animation:nfi .15s ease;
+  border-bottom:1px solid var(--bg3);
+  padding:7px 11px;font-size:11px;color:var(--t1);line-height:1.6;
+  border-left:3px solid transparent;
+  animation:nfi .12s ease;
 }
-.nf.out{animation:nfo .18s ease forwards}
-.nf.danger{border-left-color:var(--red)}
-.nf.ok{border-left-color:var(--ok)}
-.nf.warn{border-left-color:var(--gold)}
-@keyframes nfi{from{opacity:0;transform:translateX(6px)}to{opacity:1;transform:translateX(0)}}
-@keyframes nfo{to{opacity:0;transform:translateX(4px)}}
-#notif-hdr{
-  margin-left:26px;display:flex;justify-content:space-between;align-items:center;
-  padding:5px 9px;border-bottom:1px solid var(--bord);
-  font-size:10px;font-weight:700;color:var(--t3);
-}
-#notif-badge{
-  position:absolute;left:3px;top:7px;
-  background:var(--red);color:hsl(0,0%,98%);border-radius:99px;
-  width:11px;height:11px;font-size:7.5px;font-weight:700;
-  display:none;align-items:center;justify-content:center;
-}
+.nf:last-child{border-bottom:none}
+.nf.new-item{background:var(--bg2)}
+.nf.danger{border-left-color:var(--red);background:rgba(239,68,68,.04)}
+.nf.ok{border-left-color:var(--ok);background:rgba(34,197,94,.04)}
+.nf.warn{border-left-color:var(--gold);background:rgba(234,179,8,.04)}
+.nf-ts{font-size:9px;color:var(--t4);margin-top:1px}
+@keyframes nfi{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:translateY(0)}}
 #notifs{display:none!important}
+.empty{font-size:11.5px;color:var(--t4);padding:20px;text-align:center;line-height:2}
 .empty{font-size:11.5px;color:var(--t4);padding:18px;text-align:center;line-height:2}
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━
@@ -846,6 +851,43 @@ body.ai-mode #nb-ai span{color:hsl(0,0%,70%)}
 /* ━━━━━━━━━━━━━━━━━━━━━━━
    ORDER SYSTEM
 ━━━━━━━━━━━━━━━━━━━━━━━ */
+#SCR_ORDER{
+  display:none;position:fixed;inset:0;z-index:500;
+  background:hsl(0,0%,100%);flex-direction:column;overflow-y:auto;
+}
+#SCR_ORDER.open{display:flex}
+.ord-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:11px 16px;border-bottom:1px solid var(--bord);
+  background:hsl(0,0%,100%);position:sticky;top:0;z-index:10;flex-shrink:0;
+}
+.ord-logo{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;color:var(--t1);letter-spacing:.5px}
+.ord-logo-dot{width:8px;height:8px;border-radius:50%;background:var(--acc);animation:pulse2 2s ease-in-out infinite}
+.ord-close-btn{
+  font-size:11.5px;color:var(--t3);background:none;border:1px solid var(--bord);
+  border-radius:var(--r-sm);padding:4px 11px;cursor:pointer;transition:all .12s;
+}
+.ord-close-btn:hover{border-color:var(--bord2);color:var(--t2)}
+.ord-body{flex:1;padding:20px 16px;max-width:560px;width:100%;margin:0 auto}
+.ord-form-grid{display:flex;flex-direction:column;gap:14px}
+.ord-group{display:flex;flex-direction:column;gap:5px}
+.ord-label{font-size:11.5px;font-weight:600;color:var(--t2);letter-spacing:.2px}
+.ord-label .req{color:var(--red);margin-left:2px}
+.ord-input,.ord-select{
+  background:hsl(0,0%,100%);border:1px solid var(--bord);
+  border-radius:var(--r-sm);color:var(--t1);font-family:'Plus Jakarta Sans','Noto Sans JP',sans-serif;
+  font-size:13px;padding:8px 11px;outline:none;transition:border-color .12s;width:100%;
+}
+.ord-input:focus,.ord-select:focus{border-color:var(--acc)}
+.ord-textarea{
+  background:hsl(0,0%,100%);border:1px solid var(--bord);
+  border-radius:var(--r-sm);color:var(--t1);font-family:'Plus Jakarta Sans','Noto Sans JP',sans-serif;
+  font-size:13px;padding:8px 11px;outline:none;transition:border-color .12s;
+  width:100%;min-height:100px;resize:vertical;line-height:1.7;
+}
+.ord-textarea:focus{border-color:var(--acc)}
+.ord-title{font-size:16px;font-weight:700;color:var(--t1);margin-bottom:4px}
+.ord-sub{font-size:12px;color:var(--t3);line-height:1.7}
 .ord-type-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:6px;margin-bottom:12px}
 .ord-type-btn{
   background:hsl(0,0%,100%);border:1px solid var(--bord);padding:8px 6px;
@@ -1007,22 +1049,42 @@ html,body{font-size:15px;-webkit-text-size-adjust:100%}
   height:0;min-height:0;max-height:none;
   border-bottom:none;transition:height .25s cubic-bezier(.4,0,.2,1);overflow:hidden;
 }
-#owrap.mob-open{height:var(--owrap-h,170px);border-bottom:1px solid var(--bord)}
+#owrap.mob-open{height:var(--owrap-h,240px);border-bottom:1px solid var(--bord)}
 /* resize active: transition off */
 #owrap.mob-resizing{transition:none!important}
 #owrap-handle{display:none}
 /* Mobile resize handle */
 #mob-resize-handle{
   display:none;
-  position:absolute;bottom:0;left:0;right:0;height:18px;z-index:25;
+  position:absolute;bottom:0;left:0;right:0;height:24px;z-index:25;
   align-items:center;justify-content:center;cursor:ns-resize;
-  background:linear-gradient(to top,rgba(0,0,0,.07),transparent);
+  background:linear-gradient(to top,rgba(0,0,0,.22),rgba(0,0,0,.03));
+  gap:4px;
 }
 #mob-resize-handle::after{
-  content:'';width:28px;height:3px;border-radius:99px;
-  background:rgba(0,0,0,.2);
+  content:'';width:40px;height:4px;border-radius:99px;
+  background:rgba(255,255,255,.6);
+}
+#mob-resize-handle::before{
+  content:'↕';position:absolute;right:10px;
+  font-size:11px;color:rgba(255,255,255,.6);
 }
 #owrap.mob-open #mob-resize-handle{display:flex}
+/* サイズプリセットボタン */
+#mob-size-btns{
+  display:none;
+  position:absolute;top:6px;left:50%;transform:translateX(-50%);
+  z-index:20;gap:4px;
+}
+#owrap.mob-open #mob-size-btns{display:flex}
+.mob-sz-btn{
+  font-size:9.5px;font-weight:700;padding:2px 9px;border-radius:99px;
+  background:rgba(255,255,255,.85);color:var(--t2);
+  border:1px solid rgba(255,255,255,.6);cursor:pointer;
+  backdrop-filter:blur(4px);letter-spacing:.3px;
+  transition:background .1s;
+}
+.mob-sz-btn:active{background:rgba(255,255,255,1)}
 #oc-zoom-ctrl{top:5px;right:8px}
 .olb{font-size:9px;top:5px;left:8px;padding:2px 7px}
 
@@ -1216,7 +1278,7 @@ html,body{font-size:15px;-webkit-text-size-adjust:100%}
 .mic{font-size:42px}
 
 /* ── 通知パネル ───────────────────────────────────────── */
-#notif-panel{top:calc(76px + env(safe-area-inset-top,0px));width:210px}
+/* #notif-panel モバイル上書き不要 */
 
 /* ── タイトル画面 ─────────────────────────────────────── */
 #SCR_TITLE{padding:24px 20px;gap:18px}
@@ -1350,6 +1412,17 @@ html,body{font-size:15px;-webkit-text-size-adjust:100%}
       <div class="hph" id="hph">PHASE 0</div>
       <button id="btn-ai" onclick="G.toggleAI()"><span class="ai-dot" style="display:none"></span>🤖 AI</button>
       <button class="btn-turn pc-only" id="btn-turn-hud" onclick="G.nextTurn()" style="margin-left:4px">▶ 次の週へ</button>
+      <!-- 通知ベルボタン（PC/スマホ共通） -->
+      <div id="notif-wrap" style="position:relative;margin-left:auto;flex-shrink:0">
+        <button id="notif-btn" onclick="G.toggleNotif()">🔔<span id="notif-badge">0</span></button>
+        <div id="notif-panel">
+          <div id="notif-hdr">
+            <span>🔔 通知</span>
+            <button onclick="G.clearNotif()" style="background:none;border:none;font-size:10px;color:var(--t4);cursor:pointer;padding:0">すべてクリア</button>
+          </div>
+          <div id="notif-list"><div class="empty">通知はありません</div></div>
+        </div>
+      </div>
     </div>
     <!-- 下段: stats（モバイルでは横スクロール）-->
     <div id="hud-row2">
@@ -1377,6 +1450,7 @@ html,body{font-size:15px;-webkit-text-size-adjust:100%}
       <div class="nsep"></div>
       <button class="nb"    id="nb-tech"   onclick="G.tab('tech')">🔬<span>技術</span></button>
       <button class="nb"    id="nb-prog"   onclick="G.tab('prog')">📈<span>成長</span></button>
+      <button class="nb"    id="nb-policy" onclick="G.tab('policy')">🌿<span>制度</span></button>
       <div class="nsep"></div>
       <button class="nb" id="nb-ai" onclick="G.tab('ai')">🤖<span>AI</span></button>
       <button class="nb" id="nb-murmur" onclick="G.tab('murmur')">💬<span>呟き</span><span class="nbadge" id="bdg-murmur" style="display:none">new</span></button>
@@ -1404,6 +1478,11 @@ html,body{font-size:15px;-webkit-text-size-adjust:100%}
 
   <div id="owrap-handle" title="ドラッグして高さ調整"></div>
   <div id="mob-resize-handle" title="ドラッグして高さ調整"></div>
+  <div id="mob-size-btns">
+    <button class="mob-sz-btn" onclick="G.setMobOfficeH(160)">S</button>
+    <button class="mob-sz-btn" onclick="G.setMobOfficeH(260)">M</button>
+    <button class="mob-sz-btn" onclick="G.setMobOfficeH(380)">L</button>
+  </div>
 
 </div>
       <!-- モバイル: オフィストグルボタン -->
@@ -1531,6 +1610,7 @@ html,body{font-size:15px;-webkit-text-size-adjust:100%}
           </div>
           <div id="portfolio-list" style="display:flex;flex-direction:column;gap:1px;overflow-y:auto;max-height:calc(100vh - 200px)"></div>
         </div>
+        <div class="panel" id="pan-policy"></div>
         <div class="panel" id="pan-murmur">
           <div class="sh">社員の呟き <span class="ct" id="murmur-cnt"></span></div>
           <div style="font-size:11px;color:var(--t3);padding:4px 14px 10px;line-height:1.8">
@@ -1678,15 +1758,6 @@ html,body{font-size:15px;-webkit-text-size-adjust:100%}
   </div>
 </div>
 <div id="ai-log"></div>
-<div id="notif-panel">
-  <div id="notif-tab" onclick="document.getElementById('notif-panel').classList.toggle('open')">📢 通知</div>
-  <div id="notif-badge">0</div>
-  <div id="notif-hdr">
-    <span>📢 通知ログ</span>
-    <button onclick="document.getElementById('notif-list').innerHTML=''" style="background:none;border:none;font-size:9px;color:var(--t3);cursor:pointer">クリア</button>
-  </div>
-  <div id="notif-list"></div>
-</div>
 <div id="notifs" style="display:none"></div>
 
 <script>
@@ -1739,23 +1810,40 @@ function q(id){return document.getElementById(id);}
 var _notifCount=0;
 function notify(msg,type,dur){
   var list=q('notif-list');
-  var el=document.createElement('div');el.className='nf '+(type||'');
-  var now=new Date();var ts=now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
-  el.innerHTML='<span style="color:var(--t4);font-size:6.5px">'+ts+'</span> '+msg;
+  if(!list)return;
+  // 「通知なし」プレースホルダを消す
+  var empty=list.querySelector('.empty');if(empty)empty.remove();
+  var now=new Date();
+  var ts=now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
+  var el=document.createElement('div');
+  el.className='nf new-item '+(type||'');
+  el.innerHTML='<div>'+msg+'</div><div class="nf-ts">'+ts+'</div>';
   list.insertBefore(el,list.firstChild);
-  // パネル自動オープン（重要通知のみ）
-  var panel=q('notif-panel');
-  if(type==='danger'){panel.classList.add('open');setTimeout(function(){panel.classList.remove('open');},4000);}
-  // バッジ
-  _notifCount++;var bdg=q('notif-badge');if(bdg){bdg.textContent=_notifCount>9?'9+':_notifCount;bdg.style.display=_notifCount>0?'flex':'none';}
-  // 古いものを削除（30件超えたら）
-  while(list.children.length>30){list.removeChild(list.lastChild);}
-  // フェードアウト（ただし消えずリストに残る）
-  setTimeout(function(){el.style.opacity='0.6';},dur||4000);
+  // new-item は3秒後に外す
+  setTimeout(function(){el.classList.remove('new-item');},3000);
+  // バッジ更新
+  _notifCount++;
+  var bdg=q('notif-badge');
+  if(bdg){bdg.textContent=_notifCount>99?'99+':_notifCount;bdg.style.display='flex';}
+  var btn=q('notif-btn');
+  if(btn){btn.classList.add('has-new');setTimeout(function(){btn.classList.remove('has-new');},3000);}
+  // danger は自動でパネルを開く
+  if(type==='danger'){
+    var panel=q('notif-panel');
+    if(panel&&!panel.classList.contains('open'))panel.classList.add('open');
+  }
+  // 古いものを削除（50件上限）
+  while(list.children.length>50){list.removeChild(list.lastChild);}
 }
-// パネルをクリックしたらバッジをリセット
 document.addEventListener('DOMContentLoaded',function(){
-  var p=q('notif-panel');if(p)p.addEventListener('click',function(){_notifCount=0;var b=q('notif-badge');if(b)b.style.display='none';});
+  // 外クリックでドロップダウンを閉じる
+  document.addEventListener('click',function(e){
+    var wrap=q('notif-wrap');
+    if(wrap&&!wrap.contains(e.target)){
+      var panel=q('notif-panel');
+      if(panel)panel.classList.remove('open');
+    }
+  });
 
   // ── owrapリサイズ ──
   var handle=q('owrap-handle');
@@ -1855,7 +1943,7 @@ document.addEventListener('DOMContentLoaded',function(){
       if(!dragging)return;
       var clientY=e.touches?e.touches[0].clientY:e.clientY;
       var delta=clientY-startY;
-      var newH=Math.max(80,Math.min(420,startH+delta));
+      var newH=Math.max(120,Math.min(500,startH+delta));
       setH(newH);
       if(e.cancelable)e.preventDefault();
     };
@@ -4965,9 +5053,17 @@ var G={
     tog.classList.toggle('open',isOpen);
     if(togIc)togIc.textContent=isOpen?'✕':'🏢';
     if(togTxt)togTxt.textContent=isOpen?'オフィスを閉じる':'オフィスを見る';
-    if(isOpen&&G._savedMobOfficeH){
-      w.style.setProperty('--owrap-h',G._savedMobOfficeH+'px');
+    if(isOpen){
+      if(G._savedMobOfficeH)w.style.setProperty('--owrap-h',G._savedMobOfficeH+'px');
+      setTimeout(function(){G.resizeOC&&G.resizeOC();G.renderOffice&&G.renderOffice();},30);
     }
+  },
+  setMobOfficeH:function(h){
+    var w=q('owrap');if(!w)return;
+    w.style.setProperty('--owrap-h',h+'px');
+    G._savedMobOfficeH=h;
+    localStorage.setItem('dcfk_mob_owrap_h',h);
+    setTimeout(function(){G.resizeOC&&G.resizeOC();G.renderOffice&&G.renderOffice();},30);
   },
   mobToggleMore:function(){
     var drawer=q('mob-more-drawer');
@@ -5009,6 +5105,7 @@ var G={
       case 'ai':     G.renderAI();break;
       case 'murmur': G.renderMurmur();break;
       case 'portfolio': G.renderPortfolio();G.aiDesign.updateKeyStatus();break;
+      case 'policy':    G.renderPolicy();break;
     }
   },
 
@@ -6218,6 +6315,22 @@ var G={
 
   closeOrder:function(){G.ord.closeOrder();},
 
+  // ─ 通知ドロップダウン ─
+  toggleNotif:function(){
+    var panel=q('notif-panel');if(!panel)return;
+    panel.classList.toggle('open');
+    if(panel.classList.contains('open')){
+      // バッジリセット
+      _notifCount=0;
+      var bdg=q('notif-badge');if(bdg)bdg.style.display='none';
+    }
+  },
+  clearNotif:function(){
+    var list=q('notif-list');if(list)list.innerHTML='<div class="empty">通知はありません</div>';
+    _notifCount=0;
+    var bdg=q('notif-badge');if(bdg)bdg.style.display='none';
+  },
+
   portfolioFilter:'all',
 
   // 作品集サムネイル：Canvas描画でタイプ別モックアップ生成
@@ -6633,7 +6746,7 @@ var G={
   renderPolicy:function(){
     var s=G.s;
     var adopted=s.policies||{};
-    var container=q('content');
+    var container=q('pan-policy');
     if(!container)return;
     var wbBar='<div style="padding:12px 12px 0">'
       +'<div class="sh" style="margin-bottom:8px">🌿 ウェルビーイング制度 <span class="ct">'+Object.keys(adopted).length+'件導入</span></div>'
