@@ -669,30 +669,130 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;outline:no
 ━━━━━━━━━━━━━━━━━━━━━━━ */
 #SCR_END{
   position:fixed;inset:0;
-  background:hsl(0,0%,100%);
-  display:none;flex-direction:column;align-items:center;justify-content:center;
-  z-index:700;padding:20px;text-align:center;
-}
-#SCR_END::before{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse 80% 50% at 50% 0%,var(--acc-lt),transparent 70%);
-  pointer-events:none;
+  background:hsl(0,0%,98%);
+  display:none;flex-direction:column;
+  z-index:700;overflow-y:auto;
 }
 #SCR_END.open{display:flex}
-.end-t{font-size:clamp(15px,4vw,26px);letter-spacing:.5px;margin-bottom:12px;line-height:1.4;font-weight:700;color:var(--t1)}
-.end-s{max-width:440px;font-size:12.5px;color:var(--t2);line-height:2.2;margin-bottom:18px;white-space:pre-line}
-.end-st{
-  background:hsl(0,0%,100%);border:1px solid var(--bord);padding:14px 18px;margin-bottom:20px;
-  font-size:11.5px;color:var(--t3);line-height:2;
-  display:grid;grid-template-columns:1fr 1fr;gap:4px 18px;max-width:360px;border-radius:var(--r-lg);
+
+/* ── ヒーロー部 ── */
+.end-hero{
+  padding:40px 24px 28px;text-align:center;flex-shrink:0;
+  background:linear-gradient(180deg,var(--acc-lt) 0%,hsl(0,0%,98%) 100%);
+  position:relative;
 }
-.end-st b{color:var(--t1);font-weight:700}
+.end-hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(99,102,241,0.12),transparent);
+  pointer-events:none;
+}
+.end-t{font-size:clamp(18px,5vw,32px);letter-spacing:.5px;margin-bottom:8px;line-height:1.3;font-weight:800;color:var(--t1)}
+.end-sub{font-size:11px;color:var(--t4);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px;font-weight:600}
+.end-s{max-width:480px;margin:0 auto;font-size:13px;color:var(--t2);line-height:2.0;white-space:pre-line}
+
+/* ── 詳細レポートエリア ── */
+.end-report{max-width:780px;margin:0 auto;padding:20px 16px 40px;width:100%}
+@keyframes confettiFall{
+  0%{transform:translateY(0) rotate(0deg);opacity:1}
+  80%{opacity:1}
+  100%{transform:translateY(100vh) rotate(720deg);opacity:0}
+}
+
+/* スコアカード */
+.end-scorecard{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:10px;
+  margin-bottom:20px;
+}
+@media(max-width:600px){.end-scorecard{grid-template-columns:repeat(2,1fr);}}
+.end-sc-item{
+  background:hsl(0,0%,100%);border:1px solid var(--bord);border-radius:var(--r-lg);
+  padding:12px 10px;text-align:center;
+}
+.end-sc-val{font-size:18px;font-weight:800;color:var(--t1);line-height:1.2}
+.end-sc-lbl{font-size:9px;color:var(--t4);margin-top:3px;letter-spacing:.5px;text-transform:uppercase}
+.end-sc-bar{height:3px;border-radius:99px;background:var(--bord);margin-top:6px;overflow:hidden}
+.end-sc-bar-fill{height:100%;border-radius:99px;background:var(--acc);transition:width .6s}
+
+/* チャートエリア */
+.end-charts{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+@media(max-width:560px){.end-charts{grid-template-columns:1fr;}}
+.end-chart-card{
+  background:hsl(0,0%,100%);border:1px solid var(--bord);border-radius:var(--r-lg);
+  padding:14px;
+}
+.end-chart-title{font-size:10.5px;font-weight:700;color:var(--t3);letter-spacing:.5px;margin-bottom:10px;text-transform:uppercase}
+.end-chart-cv{display:block;width:100%;height:80px}
+
+/* タイムライン */
+.end-timeline{background:hsl(0,0%,100%);border:1px solid var(--bord);border-radius:var(--r-lg);padding:14px;margin-bottom:20px}
+.end-timeline-title{font-size:10.5px;font-weight:700;color:var(--t3);letter-spacing:.5px;margin-bottom:12px;text-transform:uppercase}
+.end-tl-row{display:flex;gap:10px;align-items:flex-start;padding:6px 0;border-bottom:1px solid var(--bg3);font-size:11px}
+.end-tl-row:last-child{border-bottom:none}
+.end-tl-turn{flex-shrink:0;font-size:9px;color:var(--t4);width:44px;padding-top:2px}
+.end-tl-tag{flex-shrink:0;padding:1px 7px;border-radius:99px;font-size:9px;font-weight:700}
+
+/* コンサルタントアドバイス */
+.end-consult{
+  background:hsl(0,0%,100%);border:1px solid var(--bord);border-radius:var(--r-lg);
+  padding:16px;margin-bottom:20px;
+  border-left:4px solid var(--acc);
+}
+.end-consult-hdr{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.end-consult-avatar{font-size:24px}
+.end-consult-meta{display:flex;flex-direction:column;gap:1px}
+.end-consult-nm{font-size:12px;font-weight:700;color:var(--t1)}
+.end-consult-role{font-size:10px;color:var(--t4)}
+.end-consult-body{font-size:12px;color:var(--t2);line-height:1.9}
+.end-consult-item{padding:5px 0;border-bottom:1px solid var(--bg3);display:flex;gap:8px}
+.end-consult-item:last-child{border-bottom:none}
+.end-consult-bullet{flex-shrink:0;font-size:12px}
+
+/* SNSシェアボタン */
+.end-share-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:20px}
+.end-share-btn{
+  display:flex;align-items:center;gap:6px;padding:10px 18px;
+  border-radius:var(--r);font-size:12px;font-weight:700;cursor:pointer;
+  border:none;transition:all .12s;font-family:inherit;letter-spacing:.2px;
+}
+.end-share-btn:active{transform:scale(.97)}
+.share-x{background:#000;color:#fff}
+.share-img{background:var(--acc);color:#fff}
+.share-re{background:hsl(0,0%,100%);color:var(--t1);border:1px solid var(--bord)}
 .btn-re{
   background:var(--t1);color:hsl(0,0%,98%);padding:10px 30px;
   font-size:13px;letter-spacing:.3px;transition:all .15s;
-  font-family:inherit;cursor:pointer;border-radius:var(--r);font-weight:700;
+  font-family:inherit;cursor:pointer;border-radius:var(--r);font-weight:700;border:none;
 }
 .btn-re:hover{background:hsl(240,6%,15%);transform:translateY(-1px);box-shadow:var(--sh-m)}
+
+/* A4レポートモーダル */
+#end-report-modal{
+  display:none;position:fixed;inset:0;z-index:800;
+  background:rgba(0,0,0,.6);backdrop-filter:blur(4px);
+  align-items:center;justify-content:center;padding:20px;overflow-y:auto;
+}
+#end-report-modal.open{display:flex}
+#end-report-inner{
+  background:hsl(0,0%,100%);width:min(794px,100%);
+  font-family:'Helvetica Neue',Arial,sans-serif;
+  box-shadow:0 20px 60px rgba(0,0,0,.35);position:relative;
+  border-radius:12px;overflow:hidden;
+}
+.report-close{
+  position:fixed;top:24px;right:24px;background:rgba(0,0,0,0.7);
+  color:#fff;border:none;border-radius:50%;width:32px;height:32px;
+  font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  z-index:10;backdrop-filter:blur(4px);
+}
+.report-close:hover{background:rgba(0,0,0,0.9)}
+.report-dl-btn{
+  display:block;width:calc(100% - 32px);margin:0 16px 16px;
+  padding:12px;background:var(--acc);color:#fff;border:none;
+  border-radius:var(--r);font-size:13px;font-weight:700;cursor:pointer;
+  font-family:inherit;text-align:center;
+}
+.report-dl-btn:hover{background:var(--acc2)}
+#report-cv{display:block;width:100%;height:auto}
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━
    TURN PROGRESS BAR
@@ -951,20 +1051,90 @@ body.ai-mode #nb-ai span{color:hsl(0,0%,70%)}
 ━━━━━━━━━━━━━━━━━━━━━━━ */
 .pf-btn{font-size:10.5px;padding:3px 10px;border-radius:99px;border:1px solid var(--bord);background:hsl(0,0%,100%);color:var(--t3);cursor:pointer;transition:all .12s}
 .pf-btn.on{background:var(--t1);color:hsl(0,0%,98%);border-color:var(--t1)}
-.pf-card{display:grid;grid-template-columns:86px 1fr;gap:0;border-bottom:1px solid var(--bord);overflow:hidden;transition:background .12s}
+.pf-grid-wrap{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--bord)}
+.pf-card{display:flex;flex-direction:column;background:hsl(0,0%,100%);overflow:hidden;cursor:pointer;transition:background .12s}
 .pf-card:hover{background:var(--bg2)}
-.pf-thumb{height:86px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-.pf-body{padding:9px 13px;display:flex;flex-direction:column;gap:4px}
-.pf-nm{font-size:12.5px;font-weight:700;color:var(--t1);line-height:1.4}
+.pf-thumb{height:120px;flex-shrink:0;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.pf-body{padding:7px 9px;display:flex;flex-direction:column;gap:3px;flex:1}
+.pf-nm{font-size:11.5px;font-weight:700;color:var(--t1);line-height:1.3}
 .pf-meta{font-size:10.5px;color:var(--t3);display:flex;gap:8px;align-items:center}
 .pf-stars{color:var(--gold);font-size:10.5px;letter-spacing:1px}
 .pf-tag{font-size:10px;padding:1px 7px;border-radius:99px;background:var(--bg3);color:var(--t3);font-weight:600;border:1px solid var(--bord)}
 .pf-qual{display:flex;align-items:center;gap:5px;margin-top:2px}
 .pf-qual-bar{flex:1;height:2px;background:var(--bg4);border-radius:99px}
 .pf-qual-fill{height:100%;border-radius:99px;transition:width .5s}
-.pf-comment{font-size:11px;color:var(--t2);font-style:italic;line-height:1.6;border-left:2px solid var(--bord2);padding-left:6px;margin-top:2px}
+.pf-comment{font-size:10px;color:var(--t2);font-style:italic;line-height:1.5;border-left:2px solid var(--bord2);padding-left:5px;margin-top:2px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
 .pf-year{font-size:10px;color:var(--t4);text-align:right;padding:5px 8px 3px}
 .pf-year-label{font-size:10.5px;color:var(--t3);font-weight:700;letter-spacing:1.5px;padding:9px 13px 5px;background:var(--bg3);border-bottom:1px solid var(--bord)}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━
+   WORLD STUDIOS
+━━━━━━━━━━━━━━━━━━━━━━━ */
+#pan-world{padding:0}
+.world-map-area{
+  position:relative;width:100%;
+  background:linear-gradient(160deg,#0f172a 0%,#1e293b 100%);
+  overflow:hidden;flex-shrink:0;
+  aspect-ratio:2/1;/* 地図を正しい縦横比で表示 */
+}
+/* 都市グラフィックビューモーダル */
+#world-city-modal{
+  display:none;position:fixed;inset:0;z-index:600;
+  background:rgba(0,0,0,.6);backdrop-filter:blur(4px);
+  align-items:center;justify-content:center;padding:20px;
+}
+#world-city-modal.open{display:flex}
+#world-city-inner{
+  background:hsl(0,0%,100%);border-radius:var(--r-lg);
+  width:min(480px,100%);max-height:85vh;overflow-y:auto;
+  display:flex;flex-direction:column;
+  box-shadow:0 20px 60px rgba(0,0,0,.3);
+}
+.city-modal-hdr{
+  padding:14px 16px;border-bottom:1px solid var(--bord);
+  display:flex;align-items:center;justify-content:space-between;flex-shrink:0;
+}
+.city-modal-title{font-size:15px;font-weight:700;color:var(--t1);display:flex;align-items:center;gap:8px}
+.city-modal-close{background:none;border:1px solid var(--bord);border-radius:var(--r-sm);padding:3px 10px;cursor:pointer;font-size:11px;color:var(--t3)}
+.city-canvas-wrap{background:#1a1a2e;flex-shrink:0}
+.city-canvas-wrap canvas{display:block;width:100%;height:200px}
+.city-info{padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.city-stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.city-stat-box{background:var(--bg2);border-radius:var(--r);padding:8px 10px;text-align:center}
+.city-stat-box .val{font-size:15px;font-weight:700;color:var(--t1)}
+.city-stat-box .lbl{font-size:9px;color:var(--t4);margin-top:1px}
+.city-staff-list{display:flex;flex-direction:column;gap:4px}
+.city-staff-item{display:flex;align-items:center;gap:7px;font-size:11px;padding:4px 0;border-bottom:1px solid var(--bg3)}
+.world-dot{
+  position:absolute;width:8px;height:8px;border-radius:50%;
+  background:var(--acc);border:1.5px solid rgba(255,255,255,.6);
+  transform:translate(-50%,-50%);cursor:pointer;
+  box-shadow:0 0 0 0 rgba(99,102,241,.4);
+  animation:worldPulse 2.5s ease-in-out infinite;
+}
+.world-dot.inactive{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.2);animation:none;box-shadow:none}
+.world-dot-label{
+  position:absolute;font-size:8px;font-weight:700;color:rgba(255,255,255,.75);
+  white-space:nowrap;transform:translateX(-50%);pointer-events:none;
+  text-shadow:0 1px 3px rgba(0,0,0,.8);
+}
+@keyframes worldPulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(99,102,241,.5)}
+  50%{box-shadow:0 0 0 6px rgba(99,102,241,0)}
+}
+.world-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--bord)}
+.studio-card{
+  background:hsl(0,0%,100%);padding:10px 13px;display:flex;flex-direction:column;gap:4px;
+}
+.studio-card.locked{background:var(--bg2);opacity:.5}
+.studio-nm{font-size:12px;font-weight:700;color:var(--t1);display:flex;align-items:center;gap:5px}
+.studio-ic{font-size:15px}
+.studio-stat{display:flex;gap:8px;flex-wrap:wrap}
+.studio-stat-item{font-size:10px;color:var(--t3);display:flex;flex-direction:column;gap:1px}
+.studio-stat-val{font-size:11.5px;font-weight:700;color:var(--t1)}
+.studio-unlock{font-size:10px;color:var(--t4);margin-top:2px;font-style:italic}
+.world-hdr{padding:10px 14px 6px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--bord)}
+.map-hit:hover{background:rgba(255,255,255,0.08)!important}
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━
    MURMUR (TWEET LOG)
@@ -1049,7 +1219,7 @@ html,body{font-size:15px;-webkit-text-size-adjust:100%}
   height:0;min-height:0;max-height:none;
   border-bottom:none;transition:height .25s cubic-bezier(.4,0,.2,1);overflow:hidden;
 }
-#owrap.mob-open{height:var(--owrap-h,240px);border-bottom:1px solid var(--bord)}
+#owrap.mob-open{border-bottom:1px solid var(--bord)}
 /* resize active: transition off */
 #owrap.mob-resizing{transition:none!important}
 #owrap-handle{display:none}
@@ -1238,9 +1408,8 @@ html,body{font-size:15px;-webkit-text-size-adjust:100%}
 
 /* ── ポートフォリオ ───────────────────────────────────── */
 #pan-portfolio{padding:0}
-.pf-card{grid-template-columns:82px 1fr}
-.pf-thumb{height:82px}
-.pf-nm{font-size:12.5px}
+.pf-nm{font-size:12px}
+.pf-thumb{height:100px}
 .pf-meta{font-size:11px}
 .pf-comment{font-size:11px}
 .pf-btn{font-size:11.5px;padding:4px 11px;min-height:30px}
@@ -1379,6 +1548,7 @@ html,body{font-size:15px;-webkit-text-size-adjust:100%}
 }
 #mob-more-overlay.open{display:block}
 
+
 </style>
 </head>
 <body>
@@ -1453,6 +1623,7 @@ html,body{font-size:15px;-webkit-text-size-adjust:100%}
       <button class="nb"    id="nb-policy" onclick="G.tab('policy')">🌿<span>制度</span></button>
       <div class="nsep"></div>
       <button class="nb" id="nb-ai" onclick="G.tab('ai')">🤖<span>AI</span></button>
+      <button class="nb" id="nb-world" onclick="G.tab('world')">🌍<span>拠点</span></button>
       <button class="nb" id="nb-murmur" onclick="G.tab('murmur')">💬<span>呟き</span><span class="nbadge" id="bdg-murmur" style="display:none">new</span></button>
       <button class="nb" id="nb-portfolio" onclick="G.tab('portfolio')">🖼️<span>作品集</span><span class="nbadge" id="bdg-portfolio" style="display:none">0</span></button>
       <div class="nsep" style="margin-top:auto"></div>
@@ -1611,6 +1782,7 @@ html,body{font-size:15px;-webkit-text-size-adjust:100%}
           <div id="portfolio-list" style="display:flex;flex-direction:column;gap:1px;overflow-y:auto;max-height:calc(100vh - 200px)"></div>
         </div>
         <div class="panel" id="pan-policy"></div>
+        <div class="panel" id="pan-world"></div>
         <div class="panel" id="pan-murmur">
           <div class="sh">社員の呟き <span class="ct" id="murmur-cnt"></span></div>
           <div style="font-size:11px;color:var(--t3);padding:4px 14px 10px;line-height:1.8">
@@ -1645,6 +1817,7 @@ html,body{font-size:15px;-webkit-text-size-adjust:100%}
     <button class="mob-drawer-item" data-tab="murmur" onclick="G.tab('murmur');G.mobCloseMore()">💬<span>呟き</span></button>
     <button class="mob-drawer-item" data-tab="portfolio" onclick="G.tab('portfolio');G.mobCloseMore()">🖼️<span>作品集</span></button>
     <button class="mob-drawer-item" data-tab="policy" onclick="G.tab('policy');G.mobCloseMore()">🌿<span>制度</span></button>
+    <button class="mob-drawer-item" data-tab="world" onclick="G.tab('world');G.mobCloseMore()">🌍<span>拠点</span></button>
     <button class="mob-drawer-item" onclick="G.ord.open();G.mobCloseMore()">📨<span>ORDER</span></button>
     <button class="mob-drawer-item" onclick="G.save();G.mobCloseMore()">💾<span>保存</span></button>
   </div>
@@ -1653,7 +1826,57 @@ html,body{font-size:15px;-webkit-text-size-adjust:100%}
 <div class="mbg" id="modal-ev"><div class="mbox" id="mbox-ev"><span class="mic" id="mev-ic"></span><div class="mtt" id="mev-tt"></div><div class="mds" id="mev-ds"></div><div class="mch-list" id="mev-ch"></div></div></div>
 <div class="mbg" id="modal-mod"><div class="mbox danger"><div style="font-size:9px;color:var(--red);letter-spacing:2px;text-align:center;margin-bottom:5px">修正依頼 <span id="mod-cnt">第1回</span></div><div class="mic" id="mod-face">😤</div><div class="mtt" style="color:var(--red);font-size:13px" id="mod-pn"></div><div class="mds" id="mod-tx"></div><div class="mch-list" id="mod-ch"></div></div></div>
 <div class="mbg" id="modal-rev"><div class="mbox rev-box"><div class="mtt" style="color:var(--gold)">📬 納品完了！クライアント評価</div><div class="rev-st" id="rev-st"></div><div class="rev-cm" id="rev-cm"></div><div class="rev-ef" id="rev-ef"></div><button class="btn-ok" id="btn-ok-rev">　OK　</button></div></div>
-<div id="SCR_END"><div class="end-t" id="end-t"></div><div class="end-s" id="end-s"></div><div class="end-st" id="end-st"></div><button class="btn-re" onclick="G.restart()">▶ もう一周やる</button></div>
+<!-- A4レポートモーダル -->
+<div id="end-report-modal" onclick="if(event.target===this)document.getElementById('end-report-modal').classList.remove('open')">
+  <div id="end-report-inner">
+    <button class="report-close" onclick="document.getElementById('end-report-modal').classList.remove('open')">✕</button>
+    <canvas id="report-cv"></canvas>
+    <button class="report-dl-btn" onclick="G.downloadReport()">⬇ レポートをダウンロード (PNG)</button>
+  </div>
+</div>
+
+<div id="SCR_END">
+  <!-- ヒーロー部 -->
+  <div class="end-hero" id="end-hero">
+    <div class="end-sub" id="end-phase-label">GAME OVER</div>
+    <div class="end-t" id="end-t"></div>
+    <div class="end-s" id="end-s"></div>
+  </div>
+
+  <!-- 詳細レポート -->
+  <div class="end-report">
+    <!-- スコアカード -->
+    <div class="end-scorecard" id="end-scorecard"></div>
+
+    <!-- チャート -->
+    <div class="end-charts">
+      <div class="end-chart-card">
+        <div class="end-chart-title">📈 売上推移</div>
+        <canvas class="end-chart-cv" id="chart-rev" height="80"></canvas>
+      </div>
+      <div class="end-chart-card">
+        <div class="end-chart-title">📊 評判 / 炎上 / WB</div>
+        <canvas class="end-chart-cv" id="chart-kpi" height="80"></canvas>
+      </div>
+    </div>
+
+    <!-- フェーズタイムライン -->
+    <div class="end-timeline">
+      <div class="end-timeline-title">🗓 会社の歩み</div>
+      <div id="end-tl"></div>
+    </div>
+
+    <!-- コンサルタントアドバイス -->
+    <div class="end-consult" id="end-consult"></div>
+
+    <!-- シェア & リスタート -->
+    <div class="end-share-row">
+      <button class="end-share-btn share-x" onclick="G.shareX()">𝕏 結果をシェア</button>
+      <button class="end-share-btn share-img" onclick="G.generateReport()">📄 レポートを生成</button>
+      <button class="btn-re" onclick="G.restart()">▶ もう一周やる</button>
+    </div>
+  </div>
+</div>
 
 <!-- ═══ SVGビューワー ═══ -->
 <div id="modal-svg-view" onclick="if(event.target===this)G.aiDesign.closeViewer()">
@@ -1673,6 +1896,16 @@ html,body{font-size:15px;-webkit-text-size-adjust:100%}
 </div>
 
 <!-- ═══ オーダー受付画面 ═══ -->
+<div id="world-city-modal" onclick="if(event.target===this)G.closeWorldCity()">
+  <div id="world-city-inner">
+    <div class="city-modal-hdr">
+      <div class="city-modal-title" id="city-modal-title">📍 城市</div>
+      <button class="city-modal-close" onclick="G.closeWorldCity()">✕ 閉じる</button>
+    </div>
+    <div class="city-canvas-wrap"><canvas id="city-cv" width="480" height="200"></canvas></div>
+    <div class="city-info" id="city-modal-info"></div>
+  </div>
+</div>
 <div id="SCR_ORDER">
   <div class="ord-header">
     <div class="ord-logo">
@@ -1905,6 +2138,7 @@ document.addEventListener('DOMContentLoaded',function(){
       st=Date.now();sScrollY=panels.scrollTop;
     },{passive:true});
     panels.addEventListener('touchend',function(e){
+      if(G._mobResizing)return;// リサイズ中はスワイプ無効
       if(panels.scrollTop!==sScrollY)return;// スクロール中は無視
       var dx=e.changedTouches[0].clientX-sx;
       var dy=e.changedTouches[0].clientY-sy;
@@ -1925,44 +2159,45 @@ document.addEventListener('DOMContentLoaded',function(){
     },{passive:true});
   })();
 
-  // ─── モバイルオフィス縦幅リサイズ ─────────────────────────
+  // ─── モバイルオフィス縦幅リサイズ（PC版と同方式）─────────
   (function(){
     var mobHandle=q('mob-resize-handle');
     var wrap=q('owrap');
     if(!mobHandle||!wrap)return;
     var dragging=false,startY=0,startH=0;
-    var setH=function(h){wrap.style.setProperty('--owrap-h',h+'px');};
     var onStart=function(e){
-      dragging=true;startY=e.touches?e.touches[0].clientY:e.clientY;
+      if(!wrap.classList.contains('mob-open'))return;// 閉じてる時は無視
+      dragging=true;
+      G._mobResizing=true;
+      startY=e.touches?e.touches[0].clientY:e.clientY;
       startH=wrap.offsetHeight;
-      wrap.classList.add('mob-resizing');
       document.body.style.userSelect='none';
       if(e.cancelable)e.preventDefault();
     };
     var onMove=function(e){
       if(!dragging)return;
-      var clientY=e.touches?e.touches[0].clientY:e.clientY;
-      var delta=clientY-startY;
-      var newH=Math.max(120,Math.min(500,startH+delta));
-      setH(newH);
+      var y=e.touches?e.touches[0].clientY:e.clientY;
+      var newH=Math.min(520,Math.max(100,startH+(y-startY)));
+      wrap.style.height=newH+'px';// PC版と同じく直接style設定
+      G.resizeOC();// キャンバス即時同期
       if(e.cancelable)e.preventDefault();
     };
     var onEnd=function(){
-      if(!dragging)return;dragging=false;
-      wrap.classList.remove('mob-resizing');
+      if(!dragging)return;
+      dragging=false;
+      G._mobResizing=false;
       document.body.style.userSelect='';
       var h=wrap.offsetHeight;
-      localStorage.setItem('dcfk_mob_owrap_h',h);
       G._savedMobOfficeH=h;
+      localStorage.setItem('dcfk_mob_owrap_h',h);
     };
     mobHandle.addEventListener('touchstart',onStart,{passive:false});
     document.addEventListener('touchmove',onMove,{passive:false});
-    document.addEventListener('touchend',onEnd);
-    // Restore saved height
+    document.addEventListener('touchend',onEnd,{passive:true});
+    // 保存済み高さを復元
     var saved=parseInt(localStorage.getItem('dcfk_mob_owrap_h')||'0');
-    if(saved>=80&&saved<=420){
+    if(saved>=100&&saved<=520){
       G._savedMobOfficeH=saved;
-      wrap.style.setProperty('--owrap-h',saved+'px');
     }
   })();
 
@@ -2343,6 +2578,33 @@ var EVTS=[
    ds:'日経・TechCrunch・Forbesから\n「次のユニコーン候補10社」に選出されました！',
    ch:[{tx:'積極的に露出する',ef:'評判+30、DAU+10万',fn:function(){G.s.rep=clamp(G.s.rep+30,0,100);if(G.s.dau>0)G.s.dau+=100000;G.s.sns+=10000;addLog('メディア特集！DAU+10万、評判爆上がり！','good');SFX.fanfare();}},
        {tx:'プロダクトで語らせる',ef:'評判+12、DAU+2万',fn:function(){G.s.rep=clamp(G.s.rep+12,0,100);if(G.s.dau>0)G.s.dau+=20000;addLog('プロダクトの成長が評価された。','good');}}]},
+  // ─── 新追加: ハードイベント群 ─────────────────────────────
+  {id:'payment_delay',ic:'💸',ty:'danger',tt:'クライアントから入金がない…',
+   ds:'先月完了した案件の報酬が\n未払いのまま連絡が取れなくなっています。',
+   ch:[{tx:'法的手段を検討する',ef:'-30万円（弁護士費用）、評判-5',fn:function(){G.s.money-=300000;G.s.rep=clamp(G.s.rep-5,0,100);addLog('弁護士に相談。費用がかさんだ。','bad');}},
+       {tx:'直接交渉する',ef:'50%で回収、50%で炎上+15',fn:function(){if(Math.random()<0.5){var rec=ri(200000,600000);G.s.money+=rec;addLog('交渉成立。'+fY(rec)+'回収できた。','good');}else{G.s.fire=clamp(G.s.fire+15,0,100);addLog('交渉決裂。相手がSNSで悪口を書いた。','bad');}}},
+       {tx:'あきらめる（損切り）',ef:'評判-8、資金損失',fn:function(){G.s.rep=clamp(G.s.rep-8,0,100);addLog('泣き寝入り。この経験を教訓にする。','bad');}}]},
+  {id:'mass_resignation',ic:'😤',ty:'danger',tt:'社員が集団で不満を表明',
+   ds:'社員の過半数から「このままでは辞める」\nという声が上がっています。',
+   ch:[{tx:'緊急1on1で全員と話す',ef:'ブラック-20、メンタル+15、時間消費',fn:function(){G.s.black=clamp(G.s.black-20,0,100);G.s.staff.forEach(function(s){s.mental=clamp(s.mental+15,0,100);});addLog('全員と話した。信頼関係を取り戻した。','good');SFX.good();}},
+       {tx:'給与を一斉に上げる',ef:'月固定費+50%、メンタル+20',fn:function(){G.s.staff.forEach(function(s){if(!s.isSelf)s.sal=Math.round(s.sal*1.5);});G.s.staff.forEach(function(s){s.mental=clamp(s.mental+20,0,100);});addLog('給与UP。しかし固定費が急増した…','warn');}},
+       {tx:'強硬姿勢を貫く',ef:'社員2名退職、炎上+20',fn:function(){var ns=G.s.staff.filter(function(s){return!s.isSelf;});for(var i=0;i<Math.min(2,ns.length);i++){var x=ns[i];G.s.actives.forEach(function(p){if(p.asgn===x.id)p.asgn=null;});G.s.staff=G.s.staff.filter(function(y){return y.id!==x.id;});}G.s.fire=clamp(G.s.fire+20,0,100);addLog('強硬対応で複数退職。炎上が広がった。','bad');SFX.bad();}}]},
+  {id:'tax_bill',ic:'🧾',ty:'danger',tt:'税務調査が入った',
+   ds:'税務署から調査通知が届きました。\n過去3年分の修正申告が必要です。',
+   ch:[{tx:'全額誠実に対応する',ef:'-30〜100万円（追加納税）',fn:function(){var tax=ri(300000,1000000);G.s.money-=tax;addLog('追加納税 '+fY(tax)+'。誠実対応で評判維持。','bad');notify('税務調査：追加納税 '+fY(tax),'danger',6000);}},
+       {tx:'税理士に丸投げ',ef:'-50万円（顧問料）+ 炎上-10',fn:function(){G.s.money-=500000;G.s.fire=clamp(G.s.fire-10,0,100);addLog('税理士対応。費用はかかったが平和解決。','warn');}},
+       {tx:'自分で対応（リスク大）',ef:'50%成功、50%罰金+炎上+15',fn:function(){if(Math.random()<0.5){G.s.money-=ri(100000,400000);addLog('なんとか乗り越えた。多少出費あり。','warn');}else{G.s.money-=ri(500000,1500000);G.s.fire=clamp(G.s.fire+15,0,100);addLog('対応失敗。追加罰金と炎上が重なった。','bad');SFX.bad();}}}]},
+  {id:'design_theft',ic:'😡',ty:'danger',tt:'デザインが無断使用された',
+   ds:'納品したデザインを\n別の会社が無断でコピーしています。\nSNSで拡散が始まりました。',
+   ch:[{tx:'法的対応（著作権侵害申告）',ef:'評判+10、費用-30万、解決まで時間',fn:function(){G.s.money-=300000;G.s.rep=clamp(G.s.rep+10,0,100);G.s.fire=clamp(G.s.fire+5,0,100);addLog('法的対応で業界から支持の声。費用あり。','good');}},
+       {tx:'SNSで公表して晒す',ef:'炎上+25（諸刃の剣）、評判±0',fn:function(){G.s.fire=clamp(G.s.fire+25,0,100);if(Math.random()<0.5){G.s.rep=clamp(G.s.rep+15,0,100);addLog('公表で業界から共感。でも炎上が燃え広がった。','warn');}else{G.s.rep=clamp(G.s.rep-10,0,100);addLog('炎上が自社に飛び火。対応ミス。','bad');}}},
+       {tx:'静かに内容証明だけ送る',ef:'炎上なし、評判-2',fn:function(){G.s.rep=clamp(G.s.rep-2,0,100);addLog('内容証明送付。静かに解決を図る。','');}}]},
+  {id:'system_hack',ic:'💀',ty:'danger',tt:'クライアントデータが流出！',
+   ds:'使用しているクラウドサービスがハックされ\nクライアントの情報が一部外部に流出しました。',
+   ch:[{tx:'即座に全クライアントに謝罪',ef:'評判-20、炎上+15、信頼回復',fn:function(){G.s.rep=clamp(G.s.rep-20,0,100);G.s.fire=clamp(G.s.fire+15,0,100);G.s.black=clamp(G.s.black+10,0,100);addLog('謝罪対応。誠実さは認められたが評判は傷ついた。','bad');}},
+       {tx:'隠蔽しようとする',ef:'炎上+50、評判-40、最悪ケース',fn:function(){G.s.fire=clamp(G.s.fire+50,0,100);G.s.rep=clamp(G.s.rep-40,0,100);addLog('隠蔽が発覚。致命的なダメージを受けた。','bad');SFX.bad();notify('隠蔽発覚！炎上が止まらない…','danger',8000);}},
+       {tx:'セキュリティ専門家を緊急招集',ef:'-50万円、炎上+5のみ',fn:function(){G.s.money-=500000;G.s.fire=clamp(G.s.fire+5,0,100);addLog('専門家対応。被害を最小限に抑えた。','warn');}}]},
+
 ];
 var TECHS=[
   {row:'基礎技術',nodes:[
@@ -2644,21 +2906,28 @@ var TRAIN_TOPICS=[
 ];
 
 var ENDINGS=[
+  // ─── ✅ 最初の成功エンディング（到達しやすい） ───
+  // ─── ✅ 最初の成功エンディング（中盤到達可能）───
+  {id:'good',tt:'🎨 いいデザインスタジオを作った',col:'#22c55e',
+   cond:function(s){return s.turn>=gcfg("eTurn",80)&&s.rep>=gcfg("eRep",55)&&s.totalRev>=gcfg("eRev",8000000)&&s.projDone>=gcfg("eProj",25)&&s.black<=65&&s.fire<=30;},
+   story:'派手さはないが、クライアントから信頼されるスタジオになった。\n「あの会社に頼めば間違いない」\nそう言われるのが、一番の勲章だった。'},
+
   // ─── 🌱 サステナブルエンディング ───
   {id:'kyoto_forever',tt:'🍵 京都、ずっとここで',col:'#a67c52',
-   cond:function(s){return s.turn>=200&&(s.bases||[]).includes('kyoto')&&(s.policies||{})['kyoto_base']&&(s.wb||0)>=80&&s.rep>=70&&s.totalRev>=50000000;},
+   cond:function(s){return s.turn>=180&&(s.bases||[]).includes('kyoto')&&(s.policies||{})['kyoto_base']&&(s.wb||0)>=70&&s.rep>=65&&s.totalRev>=30000000;},
    story:'東京に移転しない選択をした。\n京都の町家スタジオに、世界中のデザイナーが訪れるようになった。\n\n「スケールより、根っこ。スピードより、深さ」\n\nその選択が、本物のブランドになった。'},
   {id:'niigata_slow',tt:'🌾 新潟から世界へ',col:'#7cb87c',
-   cond:function(s){return s.turn>=250&&(s.bases||[]).includes('niigata')&&(s.wb||0)>=75&&s.staff.length>=5&&s.staff.every(function(x){return x.mental>=65;})&&s.totalRev>=30000000;},
+   cond:function(s){var am=s.staff.length>0?s.staff.reduce(function(a,x){return a+x.mental;},0)/s.staff.length:0;return s.turn>=220&&(s.bases||[]).includes('niigata')&&(s.wb||0)>=65&&s.staff.length>=4&&am>=60&&s.totalRev>=20000000;},
    story:'新潟のサテライト拠点が、いつの間にかメイン拠点になった。\n田んぼのあぜ道を歩きながら考えたデザインが、\n世界のコンペで一位を取った。\n\n都市じゃなくても、世界クラスの仕事はできる。それを証明した。'},
   {id:'wellbeing_studio',tt:'🧘 ウェルビーイング企業の先駆者',col:'#6366f1',
-   cond:function(s){return s.turn>=300&&(s.wb||0)>=90&&s.black<=15&&s.staff.length>=8&&s.staff.every(function(x){return x.mental>=75;})&&s.rep>=80;},
+   cond:function(s){var am=s.staff.length>0?s.staff.reduce(function(a,x){return a+x.mental;},0)/s.staff.length:0;return s.turn>=280&&(s.wb||0)>=78&&s.black<=25&&s.staff.length>=6&&am>=70&&s.rep>=75;},
    story:'「社員の幸せが最高のアウトプットを生む」\nその仮説を、数字で証明した。\n\n業界紙の特集、講演依頼、模倣する会社が続出した。\nウェルビーイング経営の教科書として、ビジネススクールで使われるようになった。'},
   {id:'global_wellbeing',tt:'🌍 グローバル・サステナブルスタジオ',col:'#00b4d8',
    cond:function(s){return s.turn>=350&&s.offLevel>=4&&(s.wb||0)>=70&&s.black<=30&&(s.intlStaff||0)>=3&&s.rep>=85&&s.totalRev>=300000000;},
    story:'京都→東京→新潟、そして世界へ。\n8カ国、20人のチームが、それぞれの文化を持ち寄った。\n\nFast Company「最もイノベーティブな企業」に選出。\nグローバルでサステナブルなスタジオの、新しい形ができた。'},
+
   {id:'balanced_growth',tt:'⚖️ 持続可能な成長',col:'#22c55e',
-   cond:function(s){return s.turn>=300&&s.rep>=80&&s.totalRev>=150000000&&(s.wb||0)>=60&&s.black<=40&&s.projDone>=60;},
+   cond:function(s){return s.turn>=250&&s.rep>=72&&s.totalRev>=80000000&&(s.wb||0)>=50&&s.black<=50&&s.projDone>=50;},
    story:'急成長でも燃え尽きでもない、第三の道を選んだ。\n年間成長率15%、平均メンタル80点。\n\n「ちょうどいいスピードで、ちょうどいいクオリティを」\nその哲学が、業界に持続可能な成長のケーススタディとして語り継がれた。'},
   // ─── オリジナルエンディング ───
   {id:'world', tt:'🌍 世界的デザインスタジオ',col:'var(--gold)',
@@ -2668,7 +2937,7 @@ var ENDINGS=[
    cond:function(s){return s.turn>=200&&s.tech['ai_design']&&s.projDone>=80&&s.totalRev>=200000000&&!s.tech['product_mgmt'];},
    story:'「元デザイン会社」として業界に語り継がれることになる。\n自社プロダクトのDAUが10万を超えた。\nデザインの力で、世界の使い方を変えることができた。'},
   {id:'god',   tt:'✨ 神スタジオ（Best Ending）',col:'var(--acc2)',
-   cond:function(s){return s.turn>=300&&s.staff.length>=10&&s.staff.every(function(x){return x.mental>=75;})&&s.rep>=85&&s.projDone>=100&&s.totalRev>=200000000;},
+   cond:function(s){var am=s.staff.length>0?s.staff.reduce(function(a,x){return a+x.mental;},0)/s.staff.length:0;return s.turn>=280&&s.staff.length>=8&&am>=68&&s.rep>=80&&s.projDone>=80&&s.totalRev>=150000000;},
    story:'小さいけれど、最高の会社。\n社員全員のメンタルが高く、クオリティも評判も申し分ない。\n「規模じゃない、愛だ」という結論に至った。\n\n誰もが羨む、本物のスタジオ。\n社員全員が「ここで働けてよかった」と言ってくれた。'},
   {id:'saas_unicorn',tt:'⚡ SaaSユニコーン達成！',col:'#00d4aa',
    cond:function(s){return s.turn>=350&&(s.dau||0)>=1000000&&(s.arr||0)>=5000000000;},
@@ -2683,17 +2952,53 @@ var ENDINGS=[
    cond:function(s){return s.turn>=300&&s.tech['corp_gov']&&s.totalRev>=500000000&&s.fire<=20&&s.staff.length>=30;},
    story:'株式上場を果たした。\nCFO採用・IR資料作成・投資家説明会。\n「デザインよりIR資料の方が忙しい」という\n想定外の日常が待っていた。\n\nそれでも、会社は大きくなった。'},
   {id:'burnout_collapse',tt:'😵 急成長の代償',col:'#ef4444',
-   cond:function(s){return (s.dau||0)>=100000&&s.black>=85&&(s.wb||50)<30;},
+   cond:function(s){return s.black>=85&&(s.wb||50)<35;},
    story:'DAUは増え続けているのに、社員が次々と倒れていく。\n「スケールするプロダクト」と「スケールしない人間」の間で\n会社は崩壊した。\n\n成長の速度を、人の限界に合わせるべきだった。'},
   {id:'fire',  tt:'🔥 炎上解散…',col:'var(--red)',
-   cond:function(s){return s.fire>=90;},
+   cond:function(s){return s.fire>=gcfg("fireGO",85);},
    story:'炎上メーターが限界を超えた。\n社長のXポストが発端で業界全体を敵に回した。\n\n「あの時代の反面教師」として、業界に貢献することができた。\nある意味、これも一つのレガシー。'},
   {id:'nft',   tt:'🎨 NFTで破滅',col:'#e040fb',
    cond:function(s){return s.fire>=60&&s.money<=0;},
    story:'受け取ったトークンが全部紙くずになった。\n「信じてたのに」というテロップが流れ続ける。\n\n次のバブルには乗らないと誓った。\nでも、また乗ってしまうかもしれない。それが人間だから。'},
   {id:'broke', tt:'💸 資金ショート倒産',col:'var(--red)',
-   cond:function(s){return s.money<=-1000000;},
+   cond:function(s){return s.money<=gcfg("brokeLine",0);},
    story:'口座がマイナスになった。\nキャッシュフローはデザインより重要という\n残酷な真実を知った。\n\n次は経営を学んでから始めよう。'},
+
+  // ─── 🍎 自社プロダクト帝国エンディング ───
+  {id:'apple_empire',tt:'🍎 デザインで世界を再定義',col:'#1d1d1f',
+   cond:function(s){return s.phase>=6&&s.tech['os_design']&&s.tech['ai_design']&&(s.dau||0)>=5000000&&s.rep>=90&&s.totalRev>=30000000000&&s.awards>=8;},
+   story:'ハードウェアとソフトウェアを統合したデザイン企業。\n「Designed in Kyoto」のロゴが世界で最も信頼されるシンボルになった。\n\nAppleが「美しさ」を再定義したように\nこの会社は「デザインの次」を定義した。\n\nすべては2畳のコワーキングから始まった。'},
+
+  {id:'google_scale',tt:'🔍 情報で世界をデザインする',col:'#4285f4',
+   cond:function(s){return s.phase>=6&&s.tech['data_infra']&&s.tech['platform_biz']&&(s.dau||0)>=20000000&&s.totalRev>=50000000000;},
+   story:'デザインから始まり、情報インフラを握った。\n10億人のUIを日々設計し、\n検索・地図・メッセージ・OS——\nあらゆる「世界の窓」をデザインする企業になった。\n\n「使いやすさ」が、世界最大の権力になった。'},
+
+  {id:'tesla_mobility',tt:'⚡ テスラ的モビリティ革命',col:'#cc0000',
+   cond:function(s){return s.phase>=5&&s.tech['ar_xr']&&s.tech['ai_design']&&(s.dau||0)>=1000000&&s.totalRev>=20000000000&&s.staff.length>=100;},
+   story:'クルマのUI設計から始まり、\nモビリティそのものをデザインするようになった。\n\nダッシュボード・自動運転HMI・充電体験——\nすべてに「デザインファースト」を叩き込んだ。\n\n内燃機関の時代が終わるとき、\nこの会社が次の時代のインターフェースを作っていた。'},
+
+  {id:'spacex_frontier',tt:'🚀 宇宙産業のデザインスタジオ',col:'#005288',
+   cond:function(s){return s.phase>=6&&s.tech['global']&&s.tech['os_design']&&(s.bases||[]).length>=5&&s.rep>=95&&s.totalRev>=100000000000;},
+   story:'宇宙船のUI、宇宙服のデザイン、\n星間通信のビジュアルシステム——\n\nデザイン会社が、地球の外に出た。\n\n「デザインの最後のフロンティアは宇宙だった」\n創業時には想像もしなかった一文が、\n会社の公式ミッションになった。'},
+
+  {id:'toyota_kaizen',tt:'🚗 カイゼンとデザインの融合',col:'#eb0a1e',
+   cond:function(s){return s.turn>=400&&s.tech['design_system']&&s.totalMods>=200&&s.projDone>=200&&s.totalRev>=10000000000&&s.black<=30&&(s.wb||50)>=65;},
+   story:'修正200回——それは恥ではなく、カイゼンの証だった。\n\n「完璧なものを初回で出す」より\n「毎回少しだけ良くする」を選んだ。\n\nその哲学が、製造業・行政・医療まで波及し\nデザインカイゼンという新概念を生み出した。\n日本が誇る、世界に通じるデザイン経営。'},
+
+  {id:'samsung_vertical',tt:'📱 垂直統合型グローバル企業',col:'#1428a0',
+   cond:function(s){return s.phase>=6&&(s.bases||[]).length>=4&&s.tech['platform_biz']&&s.tech['data_infra']&&s.staff.length>=200&&s.totalRev>=80000000000;},
+   story:'デバイス・OS・アプリ・コンテンツ・EC——\nあらゆる層を自社で設計する垂直統合企業になった。\n\nソウル・東京・NY・ロンドン・シンガポール——\n各拠点が独自の強みを持ちながら\nひとつのデザイン哲学でつながっている。\n\n多様性が、最大の強さになった。'},
+,
+
+  // ── 新：評判崩壊エンディング ──
+  {id:'reputation_ruin',tt:'💔 評判崩壊：誰も頼まなくなった',col:'#7f1d1d',
+   story:'クライアントからのクレームが積み重なり\nSNSに「このスタジオには頼むな」という投稿が拡散した。\n\n問い合わせは止まり、受注はゼロ。\n電話が鳴らない日々が続く。\n\n評判は、一度失うと取り戻すのが難しい。\nデザインの仕事は「信頼」でできている。',
+   cond:function(s){return s.turn>=20&&s.rep<=15;}},
+
+  // ── 新：無人オフィスエンディング ──
+  {id:'ghost_office',tt:'👻 無人オフィス：全員去った',col:'#374151',
+   story:'一人、また一人と去っていった。\n\n最初は「少し休みたい」と言っていた。\n次は「他のオファーが来た」と。\n最後の一人が荷物をまとめて出ていく日\nオフィスはただの部屋になった。\n\n経営者として、働く人を守れなかった。',
+   cond:function(s){return s.turn>=15&&s.staff.filter(function(x){return!x.isSelf;}).length===0&&s.staff.length<=1&&s.projDone>=3;}},
 ];
 
 // ─── POLICIES: ウェルビーイング制度 ───────────────────────
@@ -2729,6 +3034,13 @@ function addLog(txt,type){gLog.unshift({t:txt,ty:type||'',w:G.s.turn});if(gLog.l
 function renderLog(){var el=q('glog');if(!el)return;var h='';gLog.slice(0,30).forEach(function(l){h+='<div class="le '+l.ty+'"><span class="le-t">T'+l.w+'▶</span><span class="le-x">'+esc(l.t)+'</span></div>';});el.innerHTML=h;}
 function fireRandom(){var ns=G.s.staff.filter(function(s){return!s.isSelf;});if(!ns.length)return;var s=pick(ns);G.s.actives.forEach(function(p){if(p.asgn===s.id)p.asgn=null;});G.s.staff=G.s.staff.filter(function(x){return x.id!==s.id;});G.s.rep=clamp(G.s.rep-3,0,100);addLog(s.nm+'が退職した。','bad');notify(s.nm+'が退職してしまいました…','danger');SFX.bad();}
 
+
+
+// ─── CFG BRIDGE: 管理画面の設定をゲームに橋渡し ────────────────
+function gcfg(key, fallback) {
+  return (window.CFG && window.CFG[key] !== undefined) ? window.CFG[key] : fallback;
+}
+
 // ─── MAIN GAME OBJECT ────────────────────────────────────────
 var G={
   s:{},
@@ -2738,8 +3050,9 @@ var G={
   revCb:null,
 
   initState:function(){
+    G.gameOver=false; // ゲームオーバーフラグをリセット
     G.s={
-      turn:1,money:38000,rep:12,fire:0,sns:84,black:5,
+      turn:1,money:gcfg("startMoney",350000),rep:12,fire:0,sns:84,black:5,
       phase:0,offLevel:0,compName:'KYOTO STUDIO',
       wb:50,policies:{},intlStaff:0,bases:['kyoto'],starPerf:[],
       tech:{figma_basic:true},
@@ -2835,30 +3148,38 @@ var G={
     var s=G.s;
     var acts=[];
 
-    // ① 受注判断：空きスロット × アイドルスタッフがいれば高スコア案件を受注
-    var maxSlots=Math.max(2,s.staff.length);
-    var freeSlots=maxSlots-s.actives.length;
+    // ① 受注判断
+    // 実際にアサイン可能な人数 = idle状態の人（自分含む）
     var idleStaff=s.staff.filter(function(st){return st.status==='idle';});
-    if(freeSlots>0&&s.avail.length>0&&(idleStaff.length>0||s.actives.length===0)){
-      var fireRisk=s.fire>=50;  // 炎上警戒中
+    // 同時進行できる数 = idleスタッフ数（1人=1案件、solo時は1件のみ）
+    var maxSlots=s.staff.length; // 人数分だけ（max(2,...)を廃止）
+    var freeSlots=Math.max(0,maxSlots-s.actives.length);
+    var fireRisk=s.fire>=50;
+    // 炎上60%超なら新規受注を停止（以前の70%より厳しく）
+    if(s.fire>=60){
+      freeSlots=0;
+      G.aiThink('WARNING','🔥 炎上'+s.fire+'% → 受注停止。炎上対応優先');
+    }
+    if(freeSlots>0&&s.avail.length>0&&idleStaff.length>0){
       var ranked=s.avail.slice().sort(function(a,b){
         function score(p){
           var base=p.price;
-          base*=(p.cli.id==='god'?1.35:p.cli.id==='norm'?1.1:p.cli.id==='agency'?0.7:p.cli.id==='startup'?0.9:1.0);
-          base*=(p.diff<=2?1.2:p.diff===3?1.0:p.diff>=4?(fireRisk?0.4:0.75):1.0);
-          base*=(p.urg?(fireRisk?0.5:0.85):1.0);
-          // スキルマッチボーナス
-          if(p.sk&&s.staff.length>0){
-            var bestSkill=s.staff.reduce(function(mx,st){
-              return Math.max(mx, p.sk.reduce(function(sm,k){return sm+(st.stats[k]||0);},0));
-            },0);
-            base*=(1+bestSkill*0.002);
-          }
+          base*=(p.cli.id==='god'?1.3:p.cli.id==='norm'?1.05:p.cli.id==='agency'?0.7:1.0);
+          base*=(p.diff<=2?1.15:p.diff===3?1.0:p.diff>=4?0.7:1.0);
+          base*=(p.urg?(fireRisk?0.6:0.9):1.0);
           return base;
         }
         return score(b)-score(a);
       });
-      ranked.slice(0,Math.min(freeSlots,idleStaff.length||1)).forEach(function(proj){
+      // AIミス率（管理画面から調整可）
+      var pickList;
+      if(Math.random()<gcfg("aiErr",0.25)){
+        pickList=ranked.slice().sort(function(a,b){return (b.cli.mr||0)-(a.cli.mr||0);}).slice(0,Math.min(freeSlots,idleStaff.length));
+        G.aiThink('MISTAKE','⚠ 受注ミス: 修正地獄クライアントを引いた');
+      } else {
+        pickList=ranked.slice(0,Math.min(freeSlots,idleStaff.length));
+      }
+      pickList.forEach(function(proj){
         var ap=JSON.parse(JSON.stringify(proj));
         ap.prog=0;ap.asgn=null;ap.modCnt=0;
         s.actives.push(ap);
@@ -2893,9 +3214,11 @@ var G={
     // 常にstaffMaxまで採用可能（資金制約のみ）
     var targetStaff=staffMax;
     var monthlyCost=s.staff.reduce(function(a,st){return a+st.sal;},0)*1.5;
-    if(s.money<monthlyCost*3)targetStaff=Math.min(s.staff.length+2,staffMax);
+    // 資金が少ない時は採用を絞る（以前より厳しい条件）
+    if(s.money<monthlyCost*6)targetStaff=Math.min(s.staff.length+1,staffMax);
+    if(s.money<monthlyCost*3)targetStaff=s.staff.length;// 採用凍結
     if(s.hirePool.length<4)G.genHire();
-    if(s.staff.length<targetStaff&&s.money>800000&&s.hirePool.length>0){
+    if(s.staff.length<targetStaff&&s.money>1200000&&s.hirePool.length>0){
       var bh=s.hirePool.slice().sort(function(a,b){
         var va=(a.st.design+a.st.ui+a.st.speed+a.st.logic)/4/a.sal;
         var vb=(b.st.design+b.st.ui+b.st.speed+b.st.logic)/4/b.sal;
@@ -2917,8 +3240,8 @@ var G={
       }
     }
 
-    // ④ 技術習得：資金2M超 & 前提クリア済みを優先順で1つ習得
-    if(s.money>2000000){
+    // ④ 技術習得：資金2M超 & 前提クリア済みを優先順で1つ習得（マイナス時はスキップ）
+    if(s.money>2000000&&s.money>0){
       var allN=TECHS.reduce(function(a,r){return a.concat(r.nodes);},[]);
       var buyable=allN.filter(function(n){
         return !s.tech[n.id]
@@ -2967,7 +3290,48 @@ var G={
       }
     }
 
-    // ⑦ メンタル管理：メンタル30以下のスタッフを強制休養
+    // ⑦ ウェルビーイング制度採択：資金に余裕があれば積極的に導入
+    (function(){
+      if(typeof POLICIES==='undefined')return;
+      // 資金が十分ある時のみ（月次コストの4ヶ月分以上）
+      var monthlyCost=s.staff.reduce(function(a,st){return a+st.sal;},0)+((typeof OFFICES!=='undefined')?OFFICES[s.offLevel].mc:0);
+      if(s.money<monthlyCost*3)return;
+      // まだ導入していないポリシーを候補に
+      var un採択=POLICIES.filter(function(p){
+        if(s.policies[p.id])return false;
+        if(p.reqPhase&&s.phase<p.reqPhase)return false;
+        var cost=p.cost||0;
+        return s.money>cost+monthlyCost*3;// 導入後も3ヶ月分残るか
+      });
+      if(!un採択.length)return;
+      // 優先順位: WBボーナスが高い＋ブラック削減効果が高いものを優先
+      // 特に重要な制度を優先リストで指定
+      var prio=['flex_time','no_crunch','four_day','health_check','remote_ok',
+                'kintsugi_val','paid_leave','learn_budget','peer_review','dei_program',
+                'bonus_sys','mentorship','childcare','wellness_room','esop',
+                'transparent_sal','eng_ok','intl_exchange','kyoto_base','niigata_base'];
+      // 現在の状態に応じたスコアリング
+      var avgM=s.staff.length>0?s.staff.reduce(function(a,x){return a+x.mental;},0)/s.staff.length:80;
+      var bestPol=null, bestScore=-999;
+      un採択.forEach(function(p){
+        var score=(p.wb||0)*2+(Math.abs(p.black||0));// WB+ブラック改善を重視
+        if(avgM<50)score+=(p.black||0)<-10?15:0;// メンタル低下時は労働制度優先
+        if(s.black>60)score+=(p.black||0)<-10?20:0;// ブラック高時は残業系優先
+        if((s.wb||50)<50)score+=p.wb>10?10:0;// WB低い時は高効果を優先
+        var prioIdx=prio.indexOf(p.id);
+        if(prioIdx>=0)score+=Math.max(0,(prio.length-prioIdx)*0.5);// 優先リスト補正
+        if(score>bestScore){bestScore=score;bestPol=p;}
+      });
+      // ターン8の倍数かつ確率50%で採択（採用・技術習得と分散させる）
+      if(bestPol&&s.turn%gcfg("aiPol",8)===0&&Math.random()<0.5){
+        G.adoptPolicy(bestPol.id);
+        acts.push('制度導入:「'+bestPol.nm+'」WB+'+bestPol.wb);
+        G.aiActionLog.push({turn:s.turn,type:'policy',msg:'「'+bestPol.nm+'」導入 WB+'+bestPol.wb});
+        G.aiThink('POLICY','🌿 '+bestPol.ic+' 「'+bestPol.nm+'」を導入\\nWB+'+bestPol.wb+' ブラック'+(bestPol.black||0));
+      }
+    })();
+
+    // ⑧ メンタル管理：メンタル30以下のスタッフを強制休養
     s.actives.forEach(function(proj){
       if(!proj.asgn)return;
       var wk=s.staff.find(function(x){return x.id===proj.asgn;});
@@ -3023,7 +3387,8 @@ var G={
     G.autoTimer=setTimeout(function(){
       if(!G.aiMode)return;
       if(G.busy){G.scheduleAuto();return;}
-      var anyModal=q('modal-ev').classList.contains('open')||q('modal-mod').classList.contains('open')||q('modal-rev').classList.contains('open');
+      if(G.gameOver)return; // エンディング後はAI自動進行を停止
+      var anyModal=q('modal-ev').classList.contains('open')||q('modal-mod').classList.contains('open')||q('modal-rev').classList.contains('open')||q('SCR_END').classList.contains('open');
       if(anyModal){G.scheduleAuto();return;} // モーダル中は待機
       G.nextTurn();
     },delay);
@@ -3078,7 +3443,11 @@ var G={
       var tb=G.s.tech['design_system']?1.1:1;
       G.s.avail.push({id:'p'+Date.now()+i,tid:pt.id,tlb:pt.lb,tic:pt.ic,tcss:pt.css,nm:nm,cli:ct,
         price:Math.round(pt.base*pm*(1+G.s.phase*0.8)*ct.pm*tb),days:pt.days+ri(0,3),
-        diff:diff,dead:ri(5,8+G.s.phase*2),urg:Math.random()>0.75,sk:pt.sk,prog:0,asgn:null,modCnt:0});
+        diff:diff,
+        // 締め切りをタイトに（以前より2-3週短縮）
+        dead:ri(3,6+G.s.phase*2),
+        urg:Math.random()>0.65,// 緊急案件を増やす（0.75→0.65）
+        sk:pt.sk,prog:0,asgn:null,modCnt:0});
     }
     G.checkExtOrders();
   },
@@ -4411,6 +4780,9 @@ var G={
         G._murmurShown[murmurKey]=true;
         var MURMURS_WORK=['またデザインし直し…','締め切り明日だっけ','Figmaフリーズした','コーヒー3杯目','レビュー待ちつらい','FBくるの怖い','デザイン迷走中','寝れてない','神案件ありたい','このフォント違う気が','もう少しで完成！','集中！','ユーザー視点は？','いい感じかも','あとは微調整のみ'];
         var MURMURS_IDLE=['今日ランチどこ','Slack通知多すぎ','眠い','在宅の方がよかった','あのデザイナー上手い','コードうまく書けない','帰りたい（定時後）','今月も頑張った','給料上がらないかな','スタバ行きたい','週末何しよ','転職サイト見てた（内緒）'];
+        // 🌍 海外スタッフ英語呟き
+        var MURMURS_INTL_WORK=['Figma crashed again…','Almost done with this comp','Client feedback is wild','Too many iterations…','Coffee #4 today','Need a stronger font','This layout feels off','Can I get an extension?','Deep in the zone 🎯','Just ship it.','The grid is everything','One more refinement…'];
+        var MURMURS_INTL_IDLE=['Where should we eat?','Slack is overwhelming','Is it Friday yet?','Miss my home country rn','That typeface is 🔥','WFH life hits different','Salary review when?','Tokyo weather is wild','Anyone want coffee?','Cultural differences are real','Jet lag is brutal','Love the team here tho'];
         // 🤖 ロボット専用呟き
         var MURMURS_ROBOT_WORK=['演算中… 99.97%完成','クロック周波数が上がっている','このピクセル許容範囲外','最適解を計算中','効率0.3%向上を検出','前回より12ms高速化','エラー率ゼロを維持中'];
         var MURMURS_ROBOT_IDLE=['充電残量94%','アイドル状態：エネルギー節約中','人間はなぜ休憩するのか','バックグラウンドで別の処理中','感情回路：未実装','スタバのWiFiは接続不安定'];
@@ -4422,6 +4794,10 @@ var G={
           msgList2=busy?MURMURS_ROBOT_WORK:MURMURS_ROBOT_IDLE;
         } else if(s.isAnimal){
           msgList2=busy?MURMURS_ANIMAL_WORK:MURMURS_ANIMAL_IDLE;
+        } else if(s.intl){
+          // 海外スタッフは70%英語、30%日本語
+          var useEn=Math.sin(i*3.7+G.s.turn*0.3)>-0.4;
+          msgList2=useEn?(busy?MURMURS_INTL_WORK:MURMURS_INTL_IDLE):(busy?MURMURS_WORK:MURMURS_IDLE);
         } else {
           msgList2=busy?MURMURS_WORK:MURMURS_IDLE;
         }
@@ -4546,47 +4922,122 @@ var G={
 
   // ─ TURN ENGINE ─
   nextTurn:function(){
+    if(G.gameOver)return; // エンディング後は進めない
     if(G.busy)return;G.busy=true;SFX.click();
-    var btn=q('btn-turn');btn.disabled=true;btn.textContent='処理中...';
+    var btn=q('btn-turn');if(btn){btn.disabled=true;btn.textContent='処理中...';}
     var bth2=q('btn-turn-hud');if(bth2){bth2.disabled=true;bth2.textContent='処理中...';}
+    // 週次スナップショット記録（グラフ用）
+    if(!G.s.weeklySnap)G.s.weeklySnap=[];
+    if(G.s.weeklySnap.length===0||G.s.turn%2===0){// 2週ごとに記録（データ量を抑える）
+      G.s.weeklySnap.push({t:G.s.turn,m:G.s.money,r:G.s.rep,f:G.s.fire,b:G.s.black,wb:G.s.wb||50,st:G.s.staff.length,tr:G.s.totalRev||0});
+      if(G.s.weeklySnap.length>100)G.s.weeklySnap.shift();// 最大100ポイント
+    }
     // AIモード：ターン開始前に経営判断を実行
     if(G.aiMode)G.aiDecide();
     G.s.turn++;
+    // ── 週次コスト（給与の1/4を毎週先払い） ──
+    // 月次払いを待たずにキャッシュフロー圧力をかける
+    var weeklyWage=Math.round(G.s.staff.filter(function(s){return!s.isSelf;}).reduce(function(a,s){return a+s.sal;},0)/4);
+    if(weeklyWage>0){
+      G.s.money-=weeklyWage;
+      if(G.s.money<gcfg("brokeLine",-100000)){// 破産閾値チェック
+        var brokeEnd=ENDINGS.find(function(e){return e.id==='broke';});
+        if(brokeEnd&&brokeEnd.cond(G.s)){G.busy=false;G.showEnding(brokeEnd);return;}
+      }
+      if(G.s.money<0)addLog('🔴 週次人件費'+fY(weeklyWage)+'支払い → 資金マイナス！','bad');
+    }
     G.s.actives.forEach(function(p){
       var spd=G.projSpeed(p);p.prog=Math.min(100,p.prog+spd);
       if(p.asgn){var s=G.s.staff.find(function(x){return x.id===p.asgn;});
-        if(s&&!s.isRobot)s.mental=clamp(s.mental-3,0,100);  // ロボットは疲れない
+        if(s&&!s.isRobot){
+          // ブラック度が高いほど疲弊が速い
+          var _md=gcfg("mentalDmg",4);var dmg=G.s.black>70?_md+2:G.s.black>50?_md+1:_md;
+          s.mental=clamp(s.mental-dmg,0,100);
+        }
+      } else {
+        // 未アサイン案件は締め切りプレッシャーで評判微減
+        if(p.dead<=2&&Math.random()<0.3){
+          G.s.rep=clamp(G.s.rep-1,0,100);
+        }
+      }
+    });
+    // 待機中スタッフも少しずつ不満が溜まる（やることない状態）
+    G.s.staff.forEach(function(s){
+      if(!s.isRobot&&s.status==='idle'&&G.s.actives.length>0){
+        s.mental=clamp(s.mental-1,0,100);// 仕事があるのに暇なストレス
       }
     });
     var done=G.s.actives.filter(function(p){return p.prog>=100;});
     G.s.actives=G.s.actives.filter(function(p){return p.prog<100;});
     var idx=0;
     function nextDone(){
-      if(idx>=done.length){G.doMonthly();return;}
-      G.complete(done[idx],function(){idx++;setTimeout(nextDone,120);});
+      try{
+        if(idx>=done.length){G.doMonthly();return;}
+        G.complete(done[idx],function(){idx++;setTimeout(nextDone,120);});
+      }catch(ndErr){
+        console.error('[nextDone error]',ndErr);
+        // エラーでも必ずdoMonthlyに到達させる
+        try{G.doMonthly();}catch(e2){G.busy=false;var __b=q('btn-turn');if(__b&&!G.gameOver){__b.disabled=false;__b.textContent='▶▶ 次の週へ';}var __h=q('btn-turn-hud');if(__h&&!G.gameOver){__h.disabled=false;__h.textContent='▶ 次の週へ';}if(G.aiMode)G.scheduleAuto();}
+      }
     }
     nextDone();
   },
 
   doMonthly:function(){
+    try{
     if(G.s.turn%4===0){
       G.s.monthNum++;
+      // 給与は週次で1/4ずつ払い済み → 月次は家賃のみ + 調整差分
       var sals=G.s.staff.filter(function(s){return!s.isSelf;}).reduce(function(a,s){return a+s.sal;},0);
-      var rent=OFFICES[G.s.offLevel].mc,total=sals+rent;
-      if(total>0){G.s.money-=total;addLog('月次コスト：給与'+fY(sals)+'+家賃'+fY(rent)+'='+fY(total),'bad');
-        if(G.s.money<0)notify('⚠ 資金がマイナスになりました！','danger',5000);
-        else if(G.s.money<300000)notify('💰 資金が少なくなっています！','warn',4000);}
-      // メンタル回復（大企業ほど福利厚生が良い=回復量UP）
-      var mentalBonus=G.s.phase>=5?14:G.s.phase>=4?12:10;
-      G.s.staff.forEach(function(s){if(!s.isRobot)s.mental=clamp(s.mental+mentalBonus,0,100);});
+      var rent=OFFICES[G.s.offLevel].mc;
+      var total=rent; // 給与は週次払い済みなので家賃のみ
+      if(total>0){G.s.money-=total;addLog('月次コスト：家賃'+fY(rent)+'（給与は週払い済）','bad');
+        if(G.s.money<0)notify('🔴 資金がマイナスです！案件を早急に完了してください','danger',7000);
+        else if(G.s.money<200000)notify('🔴 資金が危険水域です！（'+fY(G.s.money)+'）','danger',5000);
+        else if(G.s.money<500000)notify('🟡 資金が少なくなっています（'+fY(G.s.money)+'）','warn',4000);}
+      // ── メンタル回復（削減：回復しすぎ防止）──
+      var _mr=gcfg("mentalRec",5);var mentalBonus=G.s.phase>=5?_mr+3:G.s.phase>=4?_mr+2:_mr;
+      // ブラック度が高いほど回復が鈍る
+      var blackPenalty=G.s.black>70?4:G.s.black>50?2:0;
+      var actualBonus=Math.max(0,mentalBonus-blackPenalty);
+      G.s.staff.forEach(function(s){if(!s.isRobot)s.mental=clamp(s.mental+actualBonus,0,100);});
       G.s.staff.forEach(function(s){if(s.status==='working'){var k=pick(Object.keys(s.stats));s.stats[k]=clamp(s.stats[k]+1,0,99);}});
       var avgM=G.s.staff.reduce(function(a,s){return a+s.mental;},0)/Math.max(1,G.s.staff.length);
-      if(avgM<40)G.s.black=clamp(G.s.black+8,0,100);else if(avgM>75)G.s.black=clamp(G.s.black-2,0,100);
-      // フェーズ4-6: 社員規模ボーナス（組織力）
-      if(G.s.phase>=3&&G.s.staff.length>10){
-        var orgBonus=Math.floor(G.s.staff.length*(G.s.phase>=5?80000:G.s.phase>=4?40000:15000));
+
+      // ── ブラック度スパイラル ──
+      if(avgM<30)G.s.black=clamp(G.s.black+15,0,100);
+      else if(avgM<40)G.s.black=clamp(G.s.black+8,0,100);
+      else if(avgM<55)G.s.black=clamp(G.s.black+3,0,100);
+      else if(avgM>80)G.s.black=clamp(G.s.black-4,0,100);
+      else if(avgM>70)G.s.black=clamp(G.s.black-2,0,100);
+      // 稼働率が高いほどブラック度が上がる（仕事量の圧力）
+      var activeRatio=G.s.actives.length/Math.max(1,G.s.staff.length);
+      if(activeRatio>=1.5)G.s.black=clamp(G.s.black+ri(2,4),0,100);
+      else if(activeRatio>=1.0)G.s.black=clamp(G.s.black+1,0,100);
+
+      // ── 炎上の自然変動（要注意：炎上は消えにくくなった）──
+      // 炎上70%超: バイラル炎上（手がつけられない）
+      if(G.s.fire>70){G.s.fire=clamp(G.s.fire+ri(4,8),0,100);addLog('🔥🔥 炎上が制御不能！（'+G.s.fire+'%）','bad');}
+      // 炎上50〜70%: 少しずつ広がる
+      else if(G.s.fire>gcfg("fireSp",50)){G.s.fire=clamp(G.s.fire+ri(1,2),0,100);addLog('🔥 炎上が広がっている（'+G.s.fire+'%）','bad');}
+      // 炎上20〜50%: ほぼ収束しない（対処しないと危険）
+      else if(G.s.fire>20&&Math.random()<0.2){G.s.fire=clamp(G.s.fire+1,0,100);}
+      else if(G.s.fire>0&&G.s.fire<=20){G.s.fire=clamp(G.s.fire-1,0,100);}// 小炎上のみ収束
+      // 評判が非常に高い(80+)だけが炎上収束ボーナス
+      if(G.s.rep>=80&&G.s.fire>0)G.s.fire=clamp(G.s.fire-1,0,100);
+
+      // ── 評判の自然低下（高評判ほど維持コストが高い）──
+      if(G.s.rep>70){
+        var repDecay=G.s.rep>90?3:G.s.rep>80?2:1;
+        if(Math.random()<0.5)G.s.rep=clamp(G.s.rep-repDecay,0,100);
+      } else if(G.s.rep>40){
+        if(Math.random()<0.5)G.s.rep=clamp(G.s.rep-1,0,100);
+      }
+      // フェーズ4-6: 社員規模ボーナス（大幅削減：収益はあくまで案件から）
+      if(G.s.phase>=4&&G.s.staff.length>15){
+        var orgBonus=Math.floor(G.s.staff.length*(G.s.phase>=5?25000:15000));
         G.s.money+=orgBonus;G.s.totalRev+=orgBonus;
-        if(G.s.phase>=4)addLog('🏢 組織力ボーナス +'+fY(orgBonus),'good');
+        addLog('🏢 組織力ボーナス +'+fY(orgBonus),'good');
       }
       // ── プロダクトフェーズ: DAU/ARR成長 ──
       if(G.s.phase>=4&&G.s.dau>0){
@@ -4629,51 +5080,93 @@ var G={
     }
     G.s.avail.forEach(function(p){p.dead--;});
     var exp=G.s.avail.filter(function(p){return p.dead<=0;});
-    exp.forEach(function(p){addLog('「'+p.nm+'」の締め切りが過ぎた。','bad');});
+    exp.forEach(function(p){
+      addLog('「'+p.nm+'」の締め切りが過ぎた。','bad');
+      // 締め切り過ぎは評判ダメージ + 炎上リスク
+      G.s.rep=clamp(G.s.rep-ri(2,5),0,100);
+      if(Math.random()<0.20){G.s.fire=clamp(G.s.fire+ri(5,12),0,100);addLog('😡 締め切り遅延がSNSで拡散した','bad');}
+    });
     G.s.avail=G.s.avail.filter(function(p){return p.dead>0;});
+    // ── 退職リスク: ブラック度に応じて確率UP ──
+    if(G.s.black>80){var qr2=G.s.staff.filter(function(s){return!s.isSelf&&s.mental<50;});
+      if(qr2.length>0&&Math.random()<0.55){G.showEv(EVTS.find(function(e){return e.id==='quit';}),G.afterEv);return;}}
     if(G.s.black>60){var qr=G.s.staff.filter(function(s){return!s.isSelf&&s.mental<30;});
-      if(qr.length>0&&Math.random()<0.4){G.showEv(EVTS.find(function(e){return e.id==='quit';}),G.afterEv);return;}}
-    if(G.s.fire>=50&&Math.random()<0.2){G.showEv(EVTS.find(function(e){return e.id==='fire_sns';}),G.afterEv);return;}
-    // プロダクトフェーズ専用イベント
-    if(G.s.phase>=4&&Math.random()<0.15){
+      if(qr.length>0&&Math.random()<0.5){G.showEv(EVTS.find(function(e){return e.id==='quit';}),G.afterEv);return;}}
+    // ── 炎上SNSイベント: 炎上30%超からも発生 ──
+    if(G.s.fire>=70&&Math.random()<0.45){G.showEv(EVTS.find(function(e){return e.id==='fire_sns';}),G.afterEv);return;}
+    if(G.s.fire>=40&&Math.random()<gcfg("fireEv",0.25)){G.showEv(EVTS.find(function(e){return e.id==='fire_sns';}),G.afterEv);return;}
+    if(G.s.fire>=25&&Math.random()<0.12){G.showEv(EVTS.find(function(e){return e.id==='fire_sns';}),G.afterEv);return;}
+    // ── プロダクトフェーズ専用イベント ──
+    if(G.s.phase>=4&&Math.random()<0.20){
       var prodEvts=EVTS.filter(function(e){return e.id==='vc_offer'||e.id==='dau_spike'||e.id==='competitor_entry'||e.id==='talent_poach'||e.id==='media_unicorn';});
       if(prodEvts.length>0){G.showEv(pick(prodEvts),G.afterEv);return;}
     }
-    var normalEvts=EVTS.filter(function(e){return e.id!=='vc_offer'&&e.id!=='dau_spike'&&e.id!=='competitor_entry'&&e.id!=='talent_poach'&&e.id!=='media_unicorn';});
-    if(Math.random()<0.28){G.showEv(pick(normalEvts),G.afterEv);return;}
+    // ── 資金ショック系イベント（ターン40以降・資金危機時のみ）──
+    var hardEvtIds=['payment_delay','tax_bill','design_theft','system_hack'];
+    var hardEvts=EVTS.filter(function(e){return hardEvtIds.indexOf(e.id)>=0;});
+    if(G.s.turn>=gcfg("hdTurn",40)&&G.s.money<300000&&hardEvts.length>0&&Math.random()<gcfg("hdProb",0.15)){G.showEv(pick(hardEvts),G.afterEv);return;}
+    // ── 集団不満イベント（ターン50以降・ブラック高時のみ）──
+    var massRes=EVTS.find(function(e){return e.id==='mass_resignation';});
+    if(G.s.turn>=50&&G.s.black>=75&&G.s.staff.length>=3&&massRes&&Math.random()<0.12){G.showEv(massRes,G.afterEv);return;}
+    // ── 通常イベント: 確率35% & 危機時はさらに上昇 ──
+    var evtProb=gcfg("evProb",0.35);
+    if(G.s.money<200000)evtProb+=0.15;// 資金危機時はイベント多発
+    if(G.s.rep<30)evtProb+=0.10;// 評判低下時も多発
+    if(G.s.black>60)evtProb+=0.10;// ブラック時も多発
+    var prodExclIds=['vc_offer','dau_spike','competitor_entry','talent_poach','media_unicorn'];
+    var normalEvts=EVTS.filter(function(e){return prodExclIds.indexOf(e.id)<0;});
+    if(Math.random()<evtProb){G.showEv(pick(normalEvts),G.afterEv);return;}
     G.afterEv();
+    }catch(dmErr){
+      console.error('[doMonthly error]',dmErr);
+      // 例外でも必ずafterEvを通してbusy解除する
+      try{G.afterEv();}catch(e2){G.busy=false;var __b=q('btn-turn');if(__b&&!G.gameOver){__b.disabled=false;__b.textContent='▶▶ 次の週へ';}var __h=q('btn-turn-hud');if(__h&&!G.gameOver){__h.disabled=false;__h.textContent='▶ 次の週へ';}if(G.aiMode)G.scheduleAuto();}
+    }
   },
 
   afterEv:function(){
-    G.phaseCheck();
-    // エンディングチェックは月次のみ（20年長期プレイ対応）
-    // ── Policy monthly effects ──
-    if(G.s.policies){
-      Object.keys(G.s.policies).forEach(function(pid){
-        var pol=POLICIES.find(function(p){return p.id===pid;});
-        if(pol&&pol.eff)pol.eff(G.s);
+    try{
+      G.phaseCheck();
+      // ── Policy monthly effects ──
+      if(G.s.policies){
+        Object.keys(G.s.policies).forEach(function(pid){
+          var pol=POLICIES.find(function(p){return p.id===pid;});
+          if(pol&&pol.eff)try{pol.eff(G.s);}catch(pe){console.error('policy eff err',pe);}
+        });
+      }
+      // ── WB monthly drift ──
+      var wbTarget=55; // 基準を55に（制度なしでもやや高め）
+      var adoptedCount=Object.keys(G.s.policies||{}).length;
+      wbTarget+=adoptedCount*4; // 制度1個あたり+4（最大20個=+80で上限95）
+      // 平均メンタルがWBに影響
+      var avgMwb=G.s.staff.length>0?G.s.staff.reduce(function(a,x){return a+x.mental;},0)/G.s.staff.length:60;
+      wbTarget+=(avgMwb-60)*0.3; // メンタル60基準でプラマイ
+      // ブラック度のペナルティ
+      if(G.s.black>70)wbTarget-=20;
+      else if(G.s.black>50)wbTarget-=10;
+      else if(G.s.black<=30)wbTarget+=5; // 健全な職場はボーナス
+      G.s.wb=clamp(Math.round(G.s.wb+(wbTarget-G.s.wb)*0.18),0,100);
+      // ── Star performer detection ──
+      G.s.starPerf=[];
+      G.s.staff.forEach(function(st){
+        var avg=(st.stats.design+st.stats.speed+st.stats.logic+st.stats.ui+st.stats.comm)/5;
+        if(avg>=80&&st.mental>=80)G.s.starPerf.push(st.id);
       });
+      if(G.s.starPerf.length>0)PTCL.burst(window.innerWidth/2,window.innerHeight*0.3,'star');
+      if(G.endingCheck())return;
+      G.updateHUD();
+      try{G.renderAll();}catch(re){console.error('renderAll err',re);}
+    }catch(e){
+      console.error('[afterEv error]',e);
+    }finally{
+      // エラー時もreturn時も必ずボタンリセット・busy解除・AI継続を保証
+      G.busy=false;
+      if(!G.gameOver){
+        var _btn=q('btn-turn');if(_btn){_btn.disabled=false;_btn.textContent='▶▶ 次の週へ';}
+        var _bth=q('btn-turn-hud');if(_bth){_bth.disabled=false;_bth.textContent='▶ 次の週へ';}
+      }
+      if(G.aiMode)G.scheduleAuto();
     }
-    // ── WB monthly drift ──
-    var wbTarget=50;
-    var adoptedCount=Object.keys(G.s.policies||{}).length;
-    wbTarget+=adoptedCount*3;
-    if(G.s.black>60)wbTarget-=15;
-    if(G.s.black>80)wbTarget-=20;
-    G.s.wb=clamp(Math.round(G.s.wb+(wbTarget-G.s.wb)*0.15),0,100);
-    // ── Star performer detection ──
-    G.s.starPerf=[];
-    G.s.staff.forEach(function(st){
-      var avg=(st.stats.design+st.stats.speed+st.stats.logic+st.stats.ui+st.stats.comm)/5;
-      if(avg>=80&&st.mental>=80)G.s.starPerf.push(st.id);
-    });
-    if(G.s.starPerf.length>0)PTCL.burst(window.innerWidth/2,window.innerHeight*0.3,'star');
-    if(G.s.turn%4===0){if(G.endingCheck())return;}
-    G.updateHUD();G.renderAll();
-    var btn=q('btn-turn');btn.disabled=false;btn.textContent='▶▶ 次の週へ';
-    var bth=q('btn-turn-hud');if(bth){bth.disabled=false;bth.textContent='▶ 次の週へ';}
-    G.busy=false;if(G.s.turn%5===0)G.save();
-    if(G.aiMode)G.scheduleAuto();
   },
 
   // ─ PROJECT LOGIC ─
@@ -4689,12 +5182,31 @@ var G={
   },
 
   quality:function(p){
-    var q2=50;
-    if(p.asgn){var s=G.s.staff.find(function(x){return x.id===p.asgn;});
-      if(s){q2=(s.stats.design+s.stats.ui+s.stats.speed)/3*(s.mental/100)*(1+(s.sense||60)/200);
-        if(G.s.tech['design_system'])q2*=1.1;
-        if(G.s.tech['ux_research']&&(p.tid==='app'||p.tid==='web'))q2*=1.12;
-        if(G.s.tech['branding']&&p.tid==='brand')q2*=1.2;}}
+    // 未アサインは超低品質（誰もやってない）
+    if(!p.asgn)return clamp(15+Math.floor(Math.random()*10),0,30);
+    var s=G.s.staff.find(function(x){return x.id===p.asgn;});
+    if(!s)return 20;
+    // スキルベース（stats平均がそのまま基礎品質）
+    var skill=(s.stats.design+s.stats.ui+s.stats.speed)/3;
+    var q2=skill; // stats70なら70点スタート
+    // メンタルが低いと品質が急落する（疲弊したデザイナーは良い仕事ができない）
+    var mentalFactor;
+    if(s.mental>=80)mentalFactor=1.0;       // フル稼働
+    else if(s.mental>=65)mentalFactor=0.88; // 少し疲れてる
+    else if(s.mental>=50)mentalFactor=0.73; // 疲弊
+    else if(s.mental>=35)mentalFactor=0.55; // かなり消耗
+    else if(s.mental>=20)mentalFactor=0.38; // 限界
+    else mentalFactor=0.20;                 // 完全崩壊
+    q2*=mentalFactor;
+    // 修正回数が多いほど品質が下がる（やりなおしの疲弊）
+    var modPenalty=Math.min(0.35,(p.modCnt||0)*0.07);
+    q2*=(1-modPenalty);
+    // 技術ボーナス
+    if(G.s.tech['design_system'])q2*=1.08;
+    if(G.s.tech['ux_research']&&(p.tid==='app'||p.tid==='web'))q2*=1.10;
+    if(G.s.tech['branding']&&p.tid==='brand')q2*=1.12;
+    // ランダムなブレ（±10点・より波がある）
+    q2+=ri(-10,10);
     return clamp(Math.round(q2),0,100);
   },
 
@@ -4706,10 +5218,25 @@ var G={
 
   doFinish:function(p,qual,cb){
     var earned=Math.round(p.price*p.cli.pm);
-    if(qual>=85)earned=Math.round(earned*1.2);else if(qual<40)earned=Math.round(earned*0.7);
+    if(qual>=90)earned=Math.round(earned*1.3);
+    else if(qual>=85)earned=Math.round(earned*1.15);
+    else if(qual<30){
+      // 超低品質: 支払い拒否リスク
+      if(Math.random()<0.35){earned=0;G.s.rep=clamp(G.s.rep-8,0,100);addLog('「'+p.nm+'」支払い拒否…品質問題が深刻。','bad');}
+      else earned=Math.round(earned*0.5);
+    }
+    else if(qual<40)earned=Math.round(earned*0.65);
+    else if(qual<50)earned=Math.round(earned*0.85);
     G.s.money+=earned;G.s.totalRev+=earned;
     G.s.rep=clamp(G.s.rep+Math.floor(qual/14)+p.cli.rg,0,100);
     if(Math.random()<0.3)G.s.sns+=ri(10,55);
+    // 低品質完了 → 評判さらに落下 + 炎上リスク
+    if(qual<40){
+      G.s.rep=clamp(G.s.rep-ri(3,8),0,100);
+      if(Math.random()<0.25){G.s.fire=clamp(G.s.fire+ri(8,20),0,100);addLog('⚠ 品質'+qual+'点…クライアントがSNSに投稿した','bad');}
+    } else if(qual<55){
+      if(Math.random()<0.10){G.s.fire=clamp(G.s.fire+ri(3,8),0,100);}
+    }
     var assignedStaff=null;
     if(p.asgn){var s=G.s.staff.find(function(x){return x.id===p.asgn;});
       if(s){assignedStaff=s.nm;s.status='idle';if(p.sk)p.sk.forEach(function(k){if(s.stats[k]!==undefined)s.stats[k]=clamp(s.stats[k]+ri(1,3),0,99);});}}
@@ -4864,9 +5391,33 @@ var G={
     }
   },
 
+  // デバッグ用: コンソールで G.testEnding() を実行するとエンディング画面テスト
+  testEnding:function(){
+    // ダミーのスナップショット生成
+    G.s.weeklySnap=[];
+    for(var i=0;i<50;i++){
+      var t_=i*4;
+      G.s.weeklySnap.push({
+        t:t_,
+        m:300000+Math.random()*2000000,
+        r:Math.min(100,30+i*1.2+Math.sin(i)*8),
+        f:Math.max(0,20+Math.sin(i*0.5)*15),
+        b:Math.max(0,30+Math.cos(i*0.3)*10),
+        wb:Math.min(100,50+i*0.5+Math.sin(i)*10),
+        st:1+Math.floor(i/5),
+        tr:i*i*200000
+      });
+    }
+    G.s.totalRev=50000000;G.s.rep=72;G.s.projDone=45;G.s.awards=3;
+    G.s.turn=200;G.s.phase=3;G.s.fire=25;G.s.wb=68;G.s.black=30;
+    if(!G.s.staff||!G.s.staff.length)G.s.staff=[{mental:75,intl:false}];
+    G.showEnding({id:'good',tt:'🏆 優れたデザインスタジオ',col:'#22c55e',
+      story:'修正とやり直しを繰り返しながら、着実に成長した。'});
+  },
+
   endingCheck:function(){
     // 破産・炎上は常時チェック
-    var urgentIds=['broke','nft','fire','burnout_collapse'];
+    var urgentIds=['broke','nft','fire','burnout_collapse','reputation_ruin','ghost_office'];
     for(var i=0;i<ENDINGS.length;i++){
       var e=ENDINGS[i];
       if(urgentIds.indexOf(e.id)>=0&&e.cond(G.s)){G.showEnding(e);return true;}
@@ -4881,10 +5432,745 @@ var G={
   },
 
   showEnding:function(e){
-    var scr=q('SCR_END');q('end-t').textContent=e.tt;q('end-t').style.color=e.col;q('end-s').textContent=e.story;
-    var avgM=G.s.staff.length>0?Math.round(G.s.staff.reduce(function(a,s){return a+s.mental;},0)/G.s.staff.length):0;
-    q('end-st').innerHTML='<div class="si">累計収益<b>'+fY(G.s.totalRev)+'</b></div><div class="si">完了案件<b>'+G.s.projDone+'件</b></div><div class="si">総修正回数<b>'+G.s.totalMods+'回</b></div><div class="si">受賞歴<b>'+G.s.awards+'件</b></div><div class="si">最終ターン<b>第'+G.s.turn+'週</b></div><div class="si">社員数<b>'+G.s.staff.length+'名</b></div><div class="si">SNS<b>'+G.s.sns.toLocaleString()+'</b></div><div class="si">平均メンタル<b>'+avgM+'</b></div>';
-    scr.classList.add('open');SFX.fanfare();G.busy=false;
+    G.gameOver=true; // これ以上ターンを進めない
+    var s=G.s;
+    var scr=q('SCR_END');
+    // ヒーロー
+    q('end-t').textContent=e.tt;q('end-t').style.color=e.col;
+    q('end-s').textContent=e.story;
+    var phNames=['個人事務所','デザイン事務所','スタジオ','デザイン会社','プロダクト企業','プラットフォーム','テックジャイアント'];
+    q('end-phase-label').textContent=phNames[Math.min(s.phase,6)]+' — '+s.compName;
+
+    // ── スコアカード ──────────────────────────────────────────
+    var avgM=s.staff.length>0?Math.round(s.staff.reduce(function(a,st){return a+st.mental;},0)/s.staff.length):0;
+    var scores=[
+      {val:fY(s.totalRev),lbl:'累計収益',fill:Math.min(100,s.totalRev/1000000000*100),col:'#6366f1'},
+      {val:s.projDone+'件',lbl:'完了案件',fill:Math.min(100,s.projDone/200*100),col:'#22c55e'},
+      {val:s.rep+'pt',lbl:'最終評判',fill:s.rep,col:'#f59e0b'},
+      {val:s.staff.length+'名',lbl:'社員数',fill:Math.min(100,s.staff.length/50*100),col:'#3b82f6'},
+      {val:s.awards+'件',lbl:'受賞歴',fill:Math.min(100,s.awards/10*100),col:'#a855f7'},
+      {val:s.turn+'週',lbl:'プレイ期間',fill:Math.min(100,s.turn/400*100),col:'#06b6d4'},
+      {val:avgM+'pt',lbl:'平均メンタル',fill:avgM,col:'#10b981'},
+      {val:(s.wb||50)+'pt',lbl:'WBスコア',fill:s.wb||50,col:'#f97316'},
+    ];
+    q('end-scorecard').innerHTML=scores.map(function(sc){
+      return '<div class="end-sc-item">'
+        +'<div class="end-sc-val">'+sc.val+'</div>'
+        +'<div class="end-sc-lbl">'+sc.lbl+'</div>'
+        +'<div class="end-sc-bar"><div class="end-sc-bar-fill" style="width:'+sc.fill+'%;background:'+sc.col+'"></div></div>'
+        +'</div>';
+    }).join('');
+
+    // ── チャート描画 ──────────────────────────────────────────
+    var snap=s.weeklySnap||[];
+    setTimeout(function(){
+      // 売上チャート
+      G._drawEndChart(q('chart-rev'),snap.map(function(p){return p.tr;}),
+        snap.map(function(p){return p.t;}), '#6366f1','累計売上',true);
+      // KPIチャート（評判・炎上・WB）
+      G._drawEndMultiChart(q('chart-kpi'),snap,[
+        {key:'r',col:'#f59e0b',lbl:'評判'},
+        {key:'f',col:'#ef4444',lbl:'炎上'},
+        {key:'wb',col:'#22c55e',lbl:'WB'},
+      ]);
+    },100);
+
+    // ── タイムライン ──────────────────────────────────────────
+    var tl=[];
+    tl.push({t:1,tag:'🚀',col:'#6366f1',msg:'デザイン会社を創業'});
+    if(s.turn>=20)tl.push({t:Math.round(s.turn*0.1),tag:'📋',col:'#06b6d4',msg:'最初の10案件を完了'});
+    if(s.phase>=1)tl.push({t:Math.round(s.turn*0.2),tag:'🏢',col:'#22c55e',msg:'デザイン事務所に昇格'});
+    if(s.phase>=2)tl.push({t:Math.round(s.turn*0.3),tag:'🌟',col:'#f59e0b',msg:'スタジオとして認知される'});
+    if(s.phase>=3)tl.push({t:Math.round(s.turn*0.45),tag:'💼',col:'#a855f7',msg:'デザイン会社へ成長'});
+    if(s.phase>=4)tl.push({t:Math.round(s.turn*0.6),tag:'🚀',col:'#3b82f6',msg:'プロダクト企業へ転換'});
+    if(s.phase>=5)tl.push({t:Math.round(s.turn*0.75),tag:'🌐',col:'#06b6d4',msg:'プラットフォーム帝国の夜明け'});
+    if(s.phase>=6)tl.push({t:Math.round(s.turn*0.9),tag:'⚡',col:'#6366f1',msg:'テックジャイアントへ到達'});
+    if(s.awards>0)tl.push({t:Math.round(s.turn*0.5),tag:'🏆',col:'#f59e0b',msg:'業界アワード受賞 計'+s.awards+'件'});
+    if(s.intlStaff>0)tl.push({t:Math.round(s.turn*0.4),tag:'🌍',col:'#22c55e',msg:'国際人材'+s.intlStaff+'名を採用'});
+    if(s.projDone>=50)tl.push({t:Math.round(s.turn*0.65),tag:'📦',col:'#f97316',msg:'案件50件完了マイルストーン'});
+    tl.push({t:s.turn,tag:'🎬',col:e.col||'#6366f1',msg:'エンディング: '+e.tt});
+    tl.sort(function(a,b){return a.t-b.t;});
+    q('end-tl').innerHTML=tl.map(function(ev){
+      return '<div class="end-tl-row">'
+        +'<div class="end-tl-turn">第'+ev.t+'週</div>'
+        +'<div class="end-tl-tag" style="background:'+ev.col+'22;color:'+ev.col+'">'+ev.tag+'</div>'
+        +'<div style="color:var(--t2)">'+ev.msg+'</div>'
+        +'</div>';
+    }).join('');
+
+    // ── コンサルタントアドバイス ─────────────────────────────
+    G._buildConsultAdvice(e,s,avgM);
+
+    // G.endingDataを保存（シェア・レポート用）
+    G.endingData={e:e,s:s,avgM:avgM,scores:scores,snap:snap,tl:tl};
+
+    // グレードバッジをヒーローに表示
+    var scoreRaw2=Math.min(100,Math.round(
+      (s.rep||0)*0.25+
+      Math.min(100,(s.totalRev||0)/500000000*100)*0.25+
+      (avgM||0)*0.20+
+      ((s.wb||50))*0.15+
+      Math.min(100,(s.awards||0)*10)*0.10+
+      Math.min(100,(s.phase||0)/6*100)*0.05
+    ));
+    var grade2=scoreRaw2>=85?'S':scoreRaw2>=70?'A+':scoreRaw2>=60?'A':scoreRaw2>=50?'B':scoreRaw2>=35?'C':'D';
+    var gradeColors={S:'#d4a017','A+':'#16a34a',A:'#22c55e',B:'#d97706',C:'#f97316',D:'#dc2626'};
+    var gCol2=gradeColors[grade2]||'#6366f1';
+    // グレードバッジをヒーローエリアに追加
+    var existBadge=document.getElementById('end-grade-badge');
+    if(!existBadge){
+      var badge2=document.createElement('div');
+      badge2.id='end-grade-badge';
+      badge2.style.cssText='display:inline-flex;align-items:center;gap:8px;margin-bottom:12px;'
+        +'padding:6px 16px;border-radius:99px;border:2px solid;font-weight:800;font-size:13px;';
+      q('end-hero').insertBefore(badge2,q('end-t'));
+    }
+    var bdg=document.getElementById('end-grade-badge');
+    bdg.style.color=gCol2;bdg.style.borderColor=gCol2;
+    bdg.style.background=gCol2+'15';
+    bdg.textContent='GRADE  '+grade2+'  ('+scoreRaw2+'点)';
+
+    scr.classList.add('open');
+    SFX.fanfare();G.busy=false;
+
+    // confetti風パーティクル（成功エンディングのみ）
+    var goodEnds=['good','good_studio','balanced_growth','kyoto_artisan','niigata_creative','wellbeing_utopia','global_studio','legacy','acquisition','apple_empire','google_scale','tesla_mobility','spacex_frontier','toyota_kaizen','samsung_vertical','saas_unicorn','platform_empire','ipo','listed','god','world','product'];
+    if(goodEnds.indexOf(e.id)>=0){
+      G._confetti(scr);
+    }
+  },
+
+  // シンプルなconfetti
+  _confetti:function(container){
+    var colors=['#6366f1','#22c55e','#f59e0b','#ef4444','#3b82f6','#a855f7','#06b6d4','#d4a017'];
+    for(var i=0;i<60;i++){
+      (function(ii){
+        setTimeout(function(){
+          var el=document.createElement('div');
+          var col=colors[Math.floor(Math.random()*colors.length)];
+          var size=4+Math.random()*6;
+          el.style.cssText='position:fixed;pointer-events:none;z-index:701;'
+            +'width:'+size+'px;height:'+size+'px;'
+            +'background:'+col+';border-radius:'+(Math.random()>0.5?'50%':'2px')+';'
+            +'left:'+(10+Math.random()*80)+'%;top:-20px;'
+            +'animation:confettiFall '+(1.5+Math.random()*2)+'s ease-in forwards;'
+            +'transform:rotate('+(Math.random()*360)+'deg);';
+          container.appendChild(el);
+          setTimeout(function(){el.remove();},4000);
+        },ii*40);
+      })(i);
+    }
+  },
+
+  // チャート描画（単一折れ線）
+  _drawEndChart:function(cv,vals,labels,col,title,isMoney){
+    if(!cv||vals.length<2)return;
+    var rect=cv.getBoundingClientRect();
+    var W=rect.width>0?Math.round(rect.width):300;
+    var H=80;
+    cv.width=W; cv.height=H;
+    var ctx=cv.getContext('2d');
+    ctx.clearRect(0,0,W,H);
+    var min=0,max=Math.max.apply(null,vals)||1;
+    var padL=isMoney?2:2,padR=2,padT=6,padB=4;
+    var toX=function(i){return padL+(i/(vals.length-1))*(W-padL-padR);};
+    var toY=function(v){return padT+(1-(v-min)/(max-min))*(H-padT-padB);};
+    // グリッド
+    ctx.strokeStyle='rgba(0,0,0,0.05)';ctx.lineWidth=0.5;
+    [0.25,0.5,0.75].forEach(function(f){
+      var gy=padT+f*(H-padT-padB);
+      ctx.setLineDash([3,3]);ctx.beginPath();ctx.moveTo(0,gy);ctx.lineTo(W,gy);ctx.stroke();
+    });
+    ctx.setLineDash([]);
+    // エリアグラデ
+    var grd=ctx.createLinearGradient(0,padT,0,H);
+    grd.addColorStop(0,col+'55');grd.addColorStop(1,col+'05');
+    ctx.beginPath();ctx.moveTo(toX(0),H);
+    for(var i=0;i<vals.length;i++)ctx.lineTo(toX(i),toY(vals[i]));
+    ctx.lineTo(toX(vals.length-1),H);ctx.closePath();
+    ctx.fillStyle=grd;ctx.fill();
+    // 折れ線（スムース）
+    ctx.beginPath();ctx.moveTo(toX(0),toY(vals[0]));
+    for(var i=1;i<vals.length;i++){
+      var px1=toX(i-1),py1=toY(vals[i-1]),px2=toX(i),py2=toY(vals[i]);
+      ctx.bezierCurveTo(px1+(px2-px1)/2,py1,px1+(px2-px1)/2,py2,px2,py2);
+    }
+    ctx.strokeStyle=col;ctx.lineWidth=2;ctx.stroke();
+    // 最終値ドット＋ラベル
+    var last=vals[vals.length-1];
+    var lx=toX(vals.length-1),ly=toY(last);
+    ctx.fillStyle=col;ctx.beginPath();ctx.arc(lx,ly,3,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(lx,ly,1.5,0,Math.PI*2);ctx.fill();
+    ctx.font='bold 8px sans-serif';ctx.fillStyle=col;ctx.textAlign='right';
+    ctx.fillText(isMoney?fY(last):(last+''),W-4,10);
+    ctx.textAlign='left';
+  },
+
+  // チャート描画（複数折れ線）
+  _drawEndMultiChart:function(cv,snap,lines){
+    if(!cv||snap.length<2)return;
+    var rect=cv.getBoundingClientRect();
+    var W=rect.width>0?Math.round(rect.width):300;
+    var H=80;
+    cv.width=W; cv.height=H;
+    var ctx=cv.getContext('2d');
+    ctx.clearRect(0,0,W,H);
+    var pad=4;
+    // グリッド
+    ctx.strokeStyle='rgba(0,0,0,0.06)';ctx.lineWidth=0.5;
+    for(var i=0;i<3;i++){var gy=pad+(i/2)*(H-pad*2);ctx.beginPath();ctx.moveTo(0,gy);ctx.lineTo(W,gy);ctx.stroke();}
+    lines.forEach(function(ln){
+      var vals=snap.map(function(p){return p[ln.key]||0;});
+      var toX=function(i){return pad+(i/(snap.length-1))*(W-pad*2);};
+      var toY=function(v){return H-pad-(v/100)*(H-pad*2);};
+      ctx.beginPath();ctx.moveTo(toX(0),toY(vals[0]));
+      for(var i=1;i<vals.length;i++)ctx.lineTo(toX(i),toY(vals[i]));
+      ctx.strokeStyle=ln.col;ctx.lineWidth=1.5;ctx.stroke();
+    });
+    // 凡例
+    var lx=4;
+    lines.forEach(function(ln){
+      ctx.fillStyle=ln.col;ctx.fillRect(lx,3,8,4);
+      ctx.font='7px sans-serif';ctx.fillStyle='rgba(0,0,0,0.5)';ctx.fillText(ln.lbl,lx+10,8);
+      lx+=ctx.measureText(ln.lbl).width+18;
+    });
+  },
+
+  // コンサルタントアドバイス生成
+  _buildConsultAdvice:function(e,s,avgM){
+    var el=q('end-consult');if(!el)return;
+    // コンサルタントをエンディングタイプで選択
+    var consultants={
+      good:{ic:'👔',nm:'田中 誠一郎',role:'シニア経営コンサルタント（McKinsey出身）'},
+      bad: {ic:'🩺',nm:'Sophia Chen',role:'ビジネスターンアラウンド・スペシャリスト'},
+      tech:{ic:'🤖',nm:'Marcus Tanaka',role:'テック系スタートアップ・アドバイザー'},
+    };
+    var isBad=['fire','broke','nft','burnout_collapse'].indexOf(e.id)>=0;
+    var isTech=['apple_empire','google_scale','tesla_mobility','spacex_frontier','samsung_vertical','saas_unicorn','platform_empire'].indexOf(e.id)>=0;
+    var c=isBad?consultants.bad:isTech?consultants.tech:consultants.good;
+
+    // データに基づいた具体的アドバイス生成
+    var advices=[];
+
+    // 財務分析
+    if(s.totalRev>0){
+      if(s.totalRev>=1000000000){
+        advices.push({ic:'💰',txt:'累計収益'+fY(s.totalRev)+'は業界平均を大幅に上回ります。特に後半の成長曲線は投資家が注目するレベルです。'});
+      }else if(s.totalRev>=100000000){
+        advices.push({ic:'💰',txt:'累計収益'+fY(s.totalRev)+'は堅実な成長を示しています。次のフェーズでの収益多角化を検討する時期です。'});
+      }else{
+        advices.push({ic:'💰',txt:'収益規模はまだ成長段階です。単価の高い案件への集中と、リピートクライアントの獲得が優先課題です。'});
+      }
+    }
+
+    // 評判分析
+    if(s.rep>=80){
+      advices.push({ic:'⭐',txt:'評判'+s.rep+'ptは非常に高く、業界内でのブランド価値が確立されています。この評判を活かしたプレミアム価格戦略を推奨します。'});
+    }else if(s.rep>=50){
+      advices.push({ic:'⭐',txt:'評判'+s.rep+'ptは中程度です。受賞活動・SNS発信・PR強化で次の四半期で70pt超を目指せる水準にあります。'});
+    }else{
+      advices.push({ic:'⭐',txt:'評判'+s.rep+'ptは改善が必要です。品質管理プロセスの見直しと、クライアントコミュニケーションの強化を即座に実施すべきです。'});
+    }
+
+    // 組織健全性
+    if(avgM>=75){
+      advices.push({ic:'🌿',txt:'平均メンタル'+avgM+'ptは「健全な組織」の証明です。この水準を維持できた経営判断は、長期的な競争優位に直結します。'});
+    }else if(avgM>=50){
+      advices.push({ic:'🌿',txt:'メンタル'+avgM+'ptはやや低下傾向です。週4日制・リモートワーク制度の導入が効果的なWB向上策として実績があります。'});
+    }else{
+      advices.push({ic:'🌿',txt:'メンタル'+avgM+'ptは危険ラインです。燃え尽き症候群による退職連鎖のリスクが高く、即座の業務量調整が必要でした。'});
+    }
+
+    // フェーズ別アドバイス
+    if(s.phase>=5){
+      advices.push({ic:'🌐',txt:'プラットフォーム・テックジャイアントへの到達は、デザイン会社としては前例のない快挙です。次の一手はM&Aによる機能拡充か、IPOによる資本調達です。'});
+    }else if(s.phase>=3){
+      advices.push({ic:'🚀',txt:'プロダクト企業への転換ステップが鍵でした。tech投資とDAU成長を連動させることで、収益の「受注依存」から脱却できます。'});
+    }else{
+      advices.push({ic:'📋',txt:'フェーズ移行が早期の課題です。採用・評判・技術力の3点を同時に引き上げる「三角形成長戦略」を次回は試してみてください。'});
+    }
+
+    // 炎上リスク
+    if(s.fire>40){
+      advices.push({ic:'🔥',txt:'炎上リスク'+s.fire+'%は高水準でした。クライアント選定基準の厳格化と、SNS危機管理マニュアルの整備が必要です。'});
+    }
+
+    // 修正回数ポジティブ評価
+    if(s.totalMods>0){
+      var modPerProj=s.projDone>0?(s.totalMods/s.projDone).toFixed(1):0;
+      if(modPerProj<=1.5){
+        advices.push({ic:'✅',txt:'案件あたり修正'+modPerProj+'回は業界平均を下回ります。初回提案の精度の高さが収益性に直結しています。'});
+      }else if(modPerProj<=3){
+        advices.push({ic:'🔄',txt:'修正回数は平均的です。ヒアリング精度向上とビジュアル方向性の早期合意プロセスを導入することで、20〜30%削減できます。'});
+      }
+    }
+
+    // 総合格付け
+    var score=Math.min(100,Math.round(
+      (s.rep||0)*0.25 +
+      Math.min(50,(s.totalRev||0)/10000000)*0.5 +
+      (avgM||0)*0.15 +
+      ((s.wb||50))*0.1
+    ));
+    var grade=score>=85?'S':score>=70?'A':score>=55?'B':score>=40?'C':'D';
+    var gradeCol={S:'#6366f1',A:'#22c55e',B:'#f59e0b',C:'#f97316',D:'#ef4444'}[grade];
+
+    el.innerHTML='<div class="end-consult-hdr">'
+      +'<div class="end-consult-avatar">'+c.ic+'</div>'
+      +'<div class="end-consult-meta">'
+      +'<div class="end-consult-nm">'+c.nm+'</div>'
+      +'<div class="end-consult-role">'+c.role+'</div>'
+      +'</div>'
+      +'<div style="margin-left:auto;text-align:center">'
+      +'<div style="font-size:28px;font-weight:800;color:'+gradeCol+'">'+grade+'</div>'
+      +'<div style="font-size:9px;color:var(--t4)">総合評価</div>'
+      +'</div>'
+      +'</div>'
+      +'<div class="end-consult-body">'
+      +advices.slice(0,5).map(function(adv){
+        return '<div class="end-consult-item">'
+          +'<span class="end-consult-bullet">'+adv.ic+'</span>'
+          +'<span>'+adv.txt+'</span>'
+          +'</div>';
+      }).join('')
+      +'</div>';
+  },
+
+  // レポートダウンロード
+  downloadReport:function(){
+    var cv=q('report-cv');if(!cv)return;
+    var a=document.createElement('a');
+    var nm=(G.s&&G.s.compName?G.s.compName:'company').replace(/\s/g,'_');
+    a.download=nm+'-design-report.png';
+    a.href=cv.toDataURL('image/png');
+    a.click();
+  },
+
+  // Xシェア
+  shareX:function(){
+    if(!G.endingData)return;
+    var d=G.endingData;
+    var txt=d.e.tt+'\n\n'
+      +'💰 '+fY(d.s.totalRev)+' ⭐ 評判'+d.s.rep+' 👥 '+d.s.staff.length+'名\n'
+      +'📋 '+d.s.projDone+'件完了 🏆 受賞'+d.s.awards+'件\n'
+      +'第'+d.s.turn+'週でゲームクリア！\n'
+      +'#デザイン会社シミュレーター';
+    window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(txt),'_blank');
+  },
+
+  // A4レポートCanvas生成
+  generateReport:function(){
+    if(!G.endingData)return;
+    var modal=q('end-report-modal');
+    var cv=q('report-cv');
+    if(!modal||!cv)return;
+    modal.classList.add('open');
+    var d=G.endingData;
+    // A4 @2x解像度（Retina/高品質PNG用）
+    var W=794*2, H=1123*2;
+    cv.width=W; cv.height=H;
+    cv.style.width='794px'; cv.style.height='1123px';
+    var ctx=cv.getContext('2d');
+    ctx.scale(2,2);// 2x スケール
+    G._renderReportCanvas(ctx,794,1123,d);
+  },
+
+  // A4レポートCanvas描画（高品質版）
+  _renderReportCanvas:function(ctx,W,H,d){
+    var s=d.s, e=d.e, avgM=d.avgM||0;
+    var P={
+      ACC:'#6366f1', ACC2:'#7c3aed', TEAL:'#0891b2',
+      OK:'#16a34a', WARN:'#d97706', RED:'#dc2626',
+      T1:'#0f172a', T2:'#334155', T3:'#64748b', T4:'#94a3b8',
+      BG:'#f8fafc', BG2:'#f1f5f9', BORD:'#e2e8f0',
+      GOLD:'#d4a017'
+    };
+    var pad=44;
+
+    // ── ヘルパー関数 ─────────────────────────────────────────
+    // テキスト折り返し
+    function wrapText(text, x, y, maxW, lineH){
+      var words=text.split('');// 日本語は文字単位
+      var line='';
+      words.forEach(function(ch){
+        var test=line+ch;
+        if(ctx.measureText(test).width>maxW&&line!==''){
+          ctx.fillText(line,x,y);y+=lineH;line=ch;
+        }else{line+=ch;}
+      });
+      if(line)ctx.fillText(line,x,y);
+      return y+lineH;
+    }
+    function card(x,y,w,h,r){
+      ctx.fillStyle='#fff';
+      ctx.shadowColor='rgba(0,0,0,0.07)';ctx.shadowBlur=12;ctx.shadowOffsetY=2;
+      ctx.beginPath();ctx.roundRect(x,y,w,h,r||10);ctx.fill();
+      ctx.shadowColor='transparent';ctx.shadowBlur=0;ctx.shadowOffsetY=0;
+      ctx.strokeStyle=P.BORD;ctx.lineWidth=1;
+      ctx.beginPath();ctx.roundRect(x,y,w,h,r||10);ctx.stroke();
+    }
+    function badge(x,y,text,col){
+      ctx.font='bold 8px sans-serif';
+      var tw=ctx.measureText(text).width+10;
+      ctx.fillStyle=col+'22';
+      ctx.beginPath();ctx.roundRect(x,y-9,tw,14,99);ctx.fill();
+      ctx.fillStyle=col;ctx.fillText(text,x+5,y);
+    }
+
+    // ── 背景 ──────────────────────────────────────────────────
+    ctx.fillStyle=P.BG;ctx.fillRect(0,0,W,H);
+    // 右上装飾円
+    ctx.fillStyle='rgba(99,102,241,0.04)';
+    ctx.beginPath();ctx.arc(W+60,-60,200,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.arc(W+20,H-200,280,0,Math.PI*2);ctx.fill();
+
+    // ── ヘッダー ──────────────────────────────────────────────
+    var hg=ctx.createLinearGradient(0,0,W,140);
+    hg.addColorStop(0,'#312e81');hg.addColorStop(0.5,'#4f46e5');hg.addColorStop(1,'#7c3aed');
+    ctx.fillStyle=hg;ctx.fillRect(0,0,W,148);
+    // ヘッダー装飾
+    ctx.fillStyle='rgba(255,255,255,0.04)';
+    ctx.beginPath();ctx.arc(W-100,-30,160,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.arc(W-40,130,80,0,Math.PI*2);ctx.fill();
+    // LOGO
+    ctx.fillStyle='rgba(255,255,255,0.35)';
+    ctx.font='bold 9px sans-serif';ctx.letterSpacing='2px';
+    ctx.fillText('DESIGN COMPANY SIMULATOR',pad,28);
+    ctx.letterSpacing='0px';
+    // タイトル
+    ctx.fillStyle='#fff';
+    ctx.font='bold 28px sans-serif';ctx.fillText(e.tt,pad,72);
+    // サブ
+    ctx.fillStyle='rgba(255,255,255,0.65)';
+    ctx.font='12px sans-serif';ctx.fillText(s.compName+' • 第'+s.turn+'週 • Phase '+s.phase,pad,100);
+    // 日付
+    var now=new Date();
+    ctx.font='10px sans-serif';ctx.fillText(now.getFullYear()+'年'+('0'+(now.getMonth()+1)).slice(-2)+'月'+('0'+now.getDate()).slice(-2)+'日 生成',pad,120);
+
+    // 総合グレード（右上サークル）
+    // 総合スコア: 評判25% + 収益正規化25% + メンタル20% + WB15% + 受賞10% + フェーズ5%
+    var revScore=Math.min(100,(s.totalRev||0)/500000000*100);// 5億円=100点
+    var scoreRaw=Math.min(100,Math.round(
+      (s.rep||0)*0.25+
+      revScore*0.25+
+      (avgM||0)*0.20+
+      ((s.wb||50))*0.15+
+      Math.min(100,(s.awards||0)*10)*0.10+
+      Math.min(100,(s.phase||0)/6*100)*0.05
+    ));
+    var grade=scoreRaw>=85?'S':scoreRaw>=70?'A+':scoreRaw>=60?'A':scoreRaw>=50?'B':scoreRaw>=35?'C':'D';
+    var gCol={S:P.GOLD,'A+':P.OK,A:'#22c55e',B:P.WARN,C:P.RED,D:'#7f1d1d'}[grade]||P.ACC;
+    ctx.fillStyle='rgba(255,255,255,0.12)';
+    ctx.beginPath();ctx.arc(W-pad-40,74,50,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle='rgba(255,255,255,0.3)';ctx.lineWidth=1.5;
+    ctx.beginPath();ctx.arc(W-pad-40,74,50,0,Math.PI*2);ctx.stroke();
+    ctx.fillStyle=gCol;ctx.font='bold 36px sans-serif';ctx.textAlign='center';
+    ctx.fillText(grade,W-pad-40,89);
+    ctx.fillStyle='rgba(255,255,255,0.6)';ctx.font='bold 8px sans-serif';
+    ctx.fillText('OVERALL GRADE',W-pad-40,108);
+    ctx.textAlign='left';
+
+    var y=168;
+
+    // ── KPIカード 4列×2行 ────────────────────────────────────
+    var kpis=[
+      {lbl:'累計収益',val:fY(s.totalRev),icon:'💰',col:P.ACC,
+       sub:'目標: '+fY(1000000000),pct:Math.min(100,s.totalRev/1000000000*100)},
+      {lbl:'完了案件',val:s.projDone+'件',icon:'📋',col:P.TEAL,
+       sub:'修正計'+s.totalMods+'回',pct:Math.min(100,s.projDone/200*100)},
+      {lbl:'最終評判',val:s.rep+'pt',icon:'⭐',col:P.WARN,
+       sub:s.rep>=80?'業界TOP':'改善余地あり',pct:s.rep},
+      {lbl:'最終炎上',val:s.fire+'%',icon:'🔥',col:s.fire>50?P.RED:P.OK,
+       sub:s.fire>50?'要注意':'安全圏',pct:s.fire},
+      {lbl:'社員数',val:s.staff.length+'名',icon:'👥',col:'#3b82f6',
+       sub:'INT\'L '+((s.intlStaff||0))+'名',pct:Math.min(100,s.staff.length/50*100)},
+      {lbl:'受賞歴',val:s.awards+'件',icon:'🏆',col:P.GOLD,
+       sub:s.awards>=5?'グランプリ級':'もう少し',pct:Math.min(100,s.awards/10*100)},
+      {lbl:'平均メンタル',val:avgM+'pt',icon:'🌿',col:P.OK,
+       sub:avgM>=75?'健全':'要ケア',pct:avgM},
+      {lbl:'WBスコア',val:(s.wb||50)+'pt',icon:'☀️',col:'#f97316',
+       sub:'Black: '+s.black+'%',pct:s.wb||50},
+    ];
+    var cols=4, cw=(W-pad*2-10*3)/cols, ch=76;
+    kpis.forEach(function(k,i){
+      var cx=pad+(i%cols)*(cw+10);
+      var cy=y+Math.floor(i/cols)*(ch+10);
+      card(cx,cy,cw,ch,8);
+      // アイコン
+      ctx.font='16px serif';ctx.fillText(k.icon,cx+12,cy+26);
+      // 値
+      ctx.fillStyle=k.col;ctx.font='bold 16px sans-serif';
+      ctx.fillText(k.val,cx+36,cy+26);
+      // ラベル
+      ctx.fillStyle=P.T3;ctx.font='8px sans-serif';
+      ctx.fillText(k.lbl,cx+12,cy+40);
+      // サブ
+      ctx.fillStyle=P.T4;ctx.font='8px sans-serif';
+      ctx.fillText(k.sub,cx+12,cy+52);
+      // プログレスバー
+      ctx.fillStyle=P.BG2;
+      ctx.beginPath();ctx.roundRect(cx+12,cy+60,cw-24,3,99);ctx.fill();
+      ctx.fillStyle=k.col;
+      ctx.beginPath();ctx.roundRect(cx+12,cy+60,(cw-24)*k.pct/100,3,99);ctx.fill();
+    });
+    y+=ch*2+10*3+10;
+
+    // ── グラフエリア（売上折れ線 + KPIレーダー） ─────────────
+    var snap=d.snap||[];
+    var ghH=150, ghW=(W-pad*2-20)/2;
+
+    // 売上グラフ
+    card(pad,y,ghW,ghH+44,10);
+    ctx.fillStyle=P.T2;ctx.font='bold 10px sans-serif';
+    ctx.fillText('📈 累計売上推移',pad+14,y+18);
+    if(snap.length>=2){
+      var revVals=snap.map(function(p){return p.tr||0;});
+      var maxRev=Math.max.apply(null,revVals)||1;
+      var gx=pad+16,gy=y+28,gw=ghW-32,gh=ghH-8;
+      // グリッド線 + ラベル
+      ctx.strokeStyle='rgba(0,0,0,0.05)';ctx.lineWidth=0.6;
+      [0,0.25,0.5,0.75,1].forEach(function(f){
+        var hy=gy+gh*(1-f);
+        ctx.beginPath();ctx.moveTo(gx,hy);ctx.lineTo(gx+gw,hy);ctx.stroke();
+        if(f>0){
+          ctx.fillStyle=P.T4;ctx.font='7px sans-serif';
+          ctx.fillText(fY(maxRev*f),gx+2,hy-2);
+        }
+      });
+      // 面グラデ
+      var rg=ctx.createLinearGradient(0,gy,0,gy+gh);
+      rg.addColorStop(0,'rgba(99,102,241,0.25)');rg.addColorStop(1,'rgba(99,102,241,0.0)');
+      ctx.beginPath();ctx.moveTo(gx,gy+gh);
+      revVals.forEach(function(v,i){
+        var rx=gx+(i/(revVals.length-1))*gw;
+        var ry=gy+gh*(1-v/maxRev);
+        ctx.lineTo(rx,ry);
+      });
+      ctx.lineTo(gx+gw,gy+gh);ctx.closePath();
+      ctx.fillStyle=rg;ctx.fill();
+      // 折れ線
+      ctx.beginPath();
+      revVals.forEach(function(v,i){
+        var rx=gx+(i/(revVals.length-1))*gw;
+        var ry=gy+gh*(1-v/maxRev);
+        i===0?ctx.moveTo(rx,ry):ctx.lineTo(rx,ry);
+      });
+      ctx.strokeStyle=P.ACC;ctx.lineWidth=2;ctx.stroke();
+      // 最終値dot
+      var lastRx=gx+gw, lastRy=gy+gh*(1-revVals[revVals.length-1]/maxRev);
+      ctx.fillStyle=P.ACC;ctx.beginPath();ctx.arc(lastRx,lastRy,4,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(lastRx,lastRy,2,0,Math.PI*2);ctx.fill();
+      // 最終値ラベル
+      ctx.fillStyle=P.ACC;ctx.font='bold 8px sans-serif';ctx.textAlign='right';
+      ctx.fillText(fY(revVals[revVals.length-1]),gx+gw,lastRy-6);
+      ctx.textAlign='left';
+    }else{
+      ctx.fillStyle=P.T4;ctx.font='11px sans-serif';ctx.textAlign='center';
+      ctx.fillText('データなし（プレイ中に記録されます）',pad+ghW/2,y+ghH/2);
+      ctx.textAlign='left';
+    }
+
+    // KPIマルチライン（評判/炎上/WB）
+    var ch2x=pad+ghW+20;
+    card(ch2x,y,ghW,ghH+44,10);
+    ctx.fillStyle=P.T2;ctx.font='bold 10px sans-serif';
+    ctx.fillText('📊 評判 / 炎上 / WB 推移',ch2x+14,y+18);
+    if(snap.length>=2){
+      var gx2=ch2x+16,gy2=y+28,gw2=ghW-32,gh2=ghH-8;
+      ctx.strokeStyle='rgba(0,0,0,0.05)';ctx.lineWidth=0.6;
+      [0,50,100].forEach(function(v){
+        var hy=gy2+gh2*(1-v/100);
+        ctx.beginPath();ctx.moveTo(gx2,hy);ctx.lineTo(gx2+gw2,hy);ctx.stroke();
+        ctx.fillStyle=P.T4;ctx.font='7px sans-serif';
+        ctx.fillText(v+'pt',gx2+2,hy-2);
+      });
+      [{key:'r',col:P.WARN,lbl:'評判'},{key:'f',col:P.RED,lbl:'炎上'},{key:'wb',col:P.OK,lbl:'WB'}].forEach(function(ln,li){
+        var vals=snap.map(function(p){return p[ln.key]||0;});
+        ctx.beginPath();
+        vals.forEach(function(v,i){
+          var rx=gx2+(i/(vals.length-1))*gw2;
+          var ry=gy2+gh2*(1-v/100);
+          i===0?ctx.moveTo(rx,ry):ctx.lineTo(rx,ry);
+        });
+        ctx.strokeStyle=ln.col;ctx.lineWidth=2;ctx.stroke();
+      });
+      // 凡例
+      var lx=ch2x+16,lly=y+ghH+30;
+      [{col:P.WARN,lbl:'評判'},{col:P.RED,lbl:'炎上'},{col:P.OK,lbl:'WB'}].forEach(function(leg){
+        ctx.fillStyle=leg.col;
+        ctx.beginPath();ctx.roundRect(lx,lly-6,20,4,2);ctx.fill();
+        ctx.fillStyle=P.T3;ctx.font='8px sans-serif';ctx.fillText(leg.lbl,lx+24,lly);
+        lx+=50;
+      });
+    }
+    y+=ghH+44+16;
+
+    // ── レーダーチャート + フェーズ年表 ──────────────────────
+    var radarW=220, radarH=200;
+    // レーダー
+    card(pad,y,radarW,radarH+16,10);
+    ctx.fillStyle=P.T2;ctx.font='bold 10px sans-serif';
+    ctx.fillText('🕸 スキルレーダー',pad+14,y+18);
+    var rcx=pad+radarW/2, rcy=y+22+radarH/2, rr=Math.min(radarW,radarH)/2-28;
+    var axes=[
+      {lbl:'収益力',val:Math.min(1,(s.totalRev||0)/5000000000)},
+      {lbl:'評判',val:(s.rep||0)/100},
+      {lbl:'組織力',val:Math.min(1,(s.staff.length||0)/50)},
+      {lbl:'受賞',val:Math.min(1,(s.awards||0)/10)},
+      {lbl:'WB',val:((s.wb||50))/100},
+      {lbl:'技術力',val:Math.min(1,Object.keys(s.tech||{}).length/20)},
+    ];
+    var N=axes.length;
+    function radarPt(i,r){
+      var ang=-Math.PI/2+(i/N)*Math.PI*2;
+      return {x:rcx+Math.cos(ang)*r, y:rcy+Math.sin(ang)*r};
+    }
+    // グリッド
+    [0.25,0.5,0.75,1.0].forEach(function(f){
+      ctx.strokeStyle=f===1?'rgba(99,102,241,0.2)':'rgba(0,0,0,0.06)';
+      ctx.lineWidth=f===1?1:0.5;ctx.setLineDash(f<1?[2,2]:[]);
+      ctx.beginPath();
+      for(var i=0;i<N;i++){var p=radarPt(i,rr*f);i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y);}
+      ctx.closePath();ctx.stroke();ctx.setLineDash([]);
+    });
+    // 軸線
+    for(var i=0;i<N;i++){
+      var p=radarPt(i,rr);
+      ctx.strokeStyle='rgba(0,0,0,0.08)';ctx.lineWidth=0.5;
+      ctx.beginPath();ctx.moveTo(rcx,rcy);ctx.lineTo(p.x,p.y);ctx.stroke();
+      // ラベル
+      var lp=radarPt(i,rr+14);
+      ctx.fillStyle=P.T3;ctx.font='bold 8px sans-serif';ctx.textAlign='center';
+      ctx.fillText(axes[i].lbl,lp.x,lp.y+3);
+    }
+    ctx.textAlign='left';
+    // 塗り
+    var rg2=ctx.createLinearGradient(rcx-rr,rcy-rr,rcx+rr,rcy+rr);
+    rg2.addColorStop(0,'rgba(99,102,241,0.3)');rg2.addColorStop(1,'rgba(124,58,237,0.15)');
+    ctx.beginPath();
+    for(var i=0;i<N;i++){var p=radarPt(i,rr*axes[i].val);i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y);}
+    ctx.closePath();ctx.fillStyle=rg2;ctx.fill();
+    ctx.strokeStyle=P.ACC;ctx.lineWidth=2;ctx.stroke();
+    // 頂点ドット
+    for(var i=0;i<N;i++){
+      var p=radarPt(i,rr*axes[i].val);
+      ctx.fillStyle=P.ACC;ctx.beginPath();ctx.arc(p.x,p.y,3,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(p.x,p.y,1.5,0,Math.PI*2);ctx.fill();
+    }
+
+    // フェーズ年表（レーダーの右側）
+    var tlX=pad+radarW+16, tlW=W-pad-tlX;
+    card(tlX,y,tlW,radarH+16,10);
+    ctx.fillStyle=P.T2;ctx.font='bold 10px sans-serif';
+    ctx.fillText('🗓 会社の歩み',tlX+14,y+18);
+    var tlItems=d.tl||[];
+    var tlY=y+32;
+    tlItems.slice(0,7).forEach(function(ev,i){
+      var dot={x:tlX+20,y:tlY+i*26+4};
+      // ドット
+      ctx.fillStyle=ev.col||P.ACC;
+      ctx.beginPath();ctx.arc(dot.x,dot.y,5,0,Math.PI*2);ctx.fill();
+      // 縦線
+      if(i<tlItems.length-1){
+        ctx.strokeStyle='rgba(0,0,0,0.1)';ctx.lineWidth=1;ctx.setLineDash([2,2]);
+        ctx.beginPath();ctx.moveTo(dot.x,dot.y+5);ctx.lineTo(dot.x,dot.y+21);ctx.stroke();
+        ctx.setLineDash([]);
+      }
+      // テキスト
+      ctx.fillStyle=P.T4;ctx.font='8px sans-serif';ctx.fillText('第'+ev.t+'週',tlX+32,dot.y+1);
+      ctx.fillStyle=P.T1;ctx.font='bold 9px sans-serif';ctx.fillText(ev.msg,tlX+32,dot.y+12);
+    });
+    y+=radarH+16+16;
+
+    // ── コンサルタント総評 ────────────────────────────────────
+    var cH=210;
+    card(pad,y,W-pad*2,cH,10);
+    // アクセントバー
+    var cg=ctx.createLinearGradient(0,y,0,y+cH);
+    cg.addColorStop(0,P.ACC);cg.addColorStop(1,P.ACC2);
+    ctx.fillStyle=cg;ctx.beginPath();ctx.roundRect(pad,y,4,cH,99);ctx.fill();
+
+    // コンサルタント情報
+    var isBad=['fire','broke','nft','burnout_collapse'].indexOf(e.id)>=0;
+    var isTech=['apple_empire','google_scale','tesla_mobility','spacex_frontier','samsung_vertical','saas_unicorn','platform_empire'].indexOf(e.id)>=0;
+    var consultant=isBad?{ic:'🩺',nm:'Sophia Chen CPA',role:'ビジネスターンアラウンド・スペシャリスト'}
+      :isTech?{ic:'🤖',nm:'Marcus K. Tanaka',role:'テック系スタートアップ・アドバイザー（YC出身）'}
+      :{ic:'👔',nm:'田中 誠一郎 MBA',role:'シニア経営コンサルタント（元McKinsey）'};
+    ctx.font='24px serif';ctx.fillText(consultant.ic,pad+18,y+34);
+    ctx.fillStyle=P.T1;ctx.font='bold 11px sans-serif';ctx.fillText(consultant.nm,pad+50,y+24);
+    ctx.fillStyle=P.T3;ctx.font='9px sans-serif';ctx.fillText(consultant.role,pad+50,y+38);
+    // グレードバッジ
+    badge(W-pad-80,y+30,grade+' GRADE',gCol);
+    badge(W-pad-140,y+30,scoreRaw+'点',P.T3);
+
+    // アドバイス本文（データ連動）
+    var advices=[];
+    // 財務
+    var revBn=(s.totalRev/100000000).toFixed(1);
+    if(s.totalRev>=10000000000)
+      advices.push({ic:'💰',txt:'累計売上'+fY(s.totalRev)+'は希少なユニコーン級の実績です。この規模に達した企業はIPO・戦略的M&Aのいずれも現実的な出口として検討できます。'});
+    else if(s.totalRev>=1000000000)
+      advices.push({ic:'💰',txt:'累計売上'+fY(s.totalRev)+'（'+revBn+'億円）は業界上位10%に相当します。次の1〜2億円の投資でPlatform化を加速させることを推奨します。'});
+    else if(s.totalRev>=100000000)
+      advices.push({ic:'💰',txt:'累計売上'+fY(s.totalRev)+'は「健全なスタジオ」の水準です。リピートクライアント比率を高め、月次MRRの安定化が次の課題です。'});
+    else
+      advices.push({ic:'💰',txt:'収益'+fY(s.totalRev)+'はまだ初期段階。案件単価を30%引き上げるだけで1年後の収益は倍増します。価格改定を恐れないでください。'});
+    // 評判
+    if(s.rep>=85)
+      advices.push({ic:'⭐',txt:'評判'+s.rep+'ptは「業界ブランド確立済み」のシグナルです。このレベルに達すると口コミ営業比率が70%を超え、マーケティングコストが劇的に下がります。'});
+    else if(s.rep>=60)
+      advices.push({ic:'⭐',txt:'評判'+s.rep+'ptは成長中のスタジオとして標準的です。受賞活動（ADC・Good Design等）とクライアントの成功事例発信で+20pt達成は現実的です。'});
+    else
+      advices.push({ic:'⭐',txt:'評判'+s.rep+'ptは改善が急務です。1件でも「世の中を変えた実績」を作ることが最優先。量より質への転換を強くお勧めします。'});
+    // 組織
+    if(avgM>=80)
+      advices.push({ic:'🌿',txt:'平均メンタル'+avgM+'ptは「最高の職場」レベルです。この組織資産は財務諸表に表れない競争優位です。採用ブランドとして積極的に対外発信すべきです。'});
+    else if(avgM>=55)
+      advices.push({ic:'🌿',txt:'メンタル'+avgM+'ptはもう一歩。週4日勤務制・産業医面談の制度化で3ヶ月以内に+10〜15pt改善できます。離職コスト（採用費+引継ぎ期間）は年収の30%に相当します。'});
+    else
+      advices.push({ic:'🌿',txt:'メンタル'+avgM+'ptは危機的水準です。業務量の即時削減と1on1面談の実施が不可欠です。このまま放置すると1年以内にコアメンバーの離職が連鎖します。'});
+    // フェーズ/戦略
+    if(s.phase>=5)
+      advices.push({ic:'🚀',txt:'テックジャイアントへの到達はデザイン会社からの出発点としては前例のない快挙です。次の5年は「買い手」として業界再編に参加する立場になりました。'});
+    else if(s.phase>=3)
+      advices.push({ic:'🚀',txt:'プロダクト企業への転換が最大の成長ドライバーです。DAU×ARPPUで収益をストック型に変換することで、受注依存体質から脱却できます。'});
+    else
+      advices.push({ic:'🚀',txt:'フェーズ移行が今後の最大課題です。技術投資（AI・Platform）を早期に開始し、5年後のビジネスモデル転換に備えた布石を今から打つことを勧めます。'});
+    // 炎上
+    if(s.fire>60)
+      advices.push({ic:'🔥',txt:'炎上リスク'+s.fire+'%は経営の最大リスクです。クライアント選定フィルターの強化と、SNS危機対応マニュアルの整備を今すぐ実施してください。'});
+    else if(s.fire>30)
+      advices.push({ic:'💛',txt:'炎上'+s.fire+'%は管理可能な範囲ですが油断は禁物。守りの広報体制（報道対応・SNSモニタリング）を構築しておくことを勧めます。'});
+
+    var ayOffset=0;
+    advices.slice(0,4).forEach(function(adv,i){
+      var ay=y+58+i*36+ayOffset;
+      ctx.font='11px serif';ctx.fillText(adv.ic,pad+18,ay+2);
+      ctx.fillStyle=P.T1;ctx.font='9.5px sans-serif';
+      // テキスト1行（折り返しなし、省略）
+      var maxTw=W-pad*2-80;
+      var txt=adv.txt;
+      if(ctx.measureText(txt).width>maxTw){
+        while(ctx.measureText(txt+'…').width>maxTw&&txt.length>10)txt=txt.slice(0,-1);
+        txt+='…';
+      }
+      ctx.fillText(txt,pad+36,ay+2);
+      if(i<3){
+        ctx.strokeStyle=P.BORD;ctx.lineWidth=0.5;
+        ctx.beginPath();ctx.moveTo(pad+16,ay+12);ctx.lineTo(W-pad-16,ay+12);ctx.stroke();
+      }
+    });
+    y+=cH+16;
+
+    // ── フッター ────────────────────────────────────────────
+    ctx.fillStyle=P.BG2;ctx.fillRect(0,H-40,W,40);
+    ctx.strokeStyle=P.BORD;ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(0,H-40);ctx.lineTo(W,H-40);ctx.stroke();
+    ctx.fillStyle=P.T4;ctx.font='8px sans-serif';ctx.textAlign='center';
+    ctx.fillText('Design Company Simulator — Final Report  |  '+s.compName+'  |  Phase '+s.phase+'  |  '+now.getFullYear()+'年'+('0'+(now.getMonth()+1)).slice(-2)+'月'+('0'+now.getDate()).slice(-2)+'日',W/2,H-16);
+    ctx.textAlign='left';
+
+    // ※ダウンロードはモーダル内ボタンから
   },
 
   // ─ MODALS ─
@@ -4931,27 +6217,44 @@ var G={
       if(ef.match(/退職|quit/))score-=8;
       if(ef.match(/ブラック\+/))score-=3;
       // 現在の状態に応じた補正
-      if(G.s.fire>60&&ef.match(/炎上-|fire-/))score+=6;
+      if(G.s.fire>60&&ef.match(/炎上-|fire-/))score+=4;// 以前の6から削減
       if(G.s.money<300000&&ef.match(/資金\+/))score+=5;
       if(G.s.black>70&&ef.match(/ブラック-/))score+=4;
       // 最初の選択肢は基本的に「受け入れ」系が多い → 微加点
       if(i===0)score+=0.5;
       if(score>bestScore){bestScore=score;best=i;}
     });
-    var chosen=ev.ch[best];
+    // AIのミス確率: 12%でランダム選択（完璧ではないAI）
+    var chosen;
+    if(Math.random()<0.12){
+      chosen=ev.ch[Math.floor(Math.random()*ev.ch.length)];
+      G.aiThink('MISTAKE','⚠ 判断ミス: ランダム選択してしまいました');
+    } else {
+      chosen=ev.ch[best];
+    }
     // 実行
-    try{chosen.fn();}catch(e2){console.error(e2);}
+    try{chosen.fn();}catch(e2){console.error('[aiChooseEv.fn]',e2);}
     addLog('[AI判断] '+ev.tt+' → 「'+chosen.tx+'」','sys');
     G.aiThink('EVENT',ev.ic+' '+ev.tt+'\n→ 「'+chosen.tx+'」\n'+chosen.ef);
-    G.updateHUD();G.renderAll();
-    if(cb)cb();
+    try{G.updateHUD();G.renderAll();}catch(re){console.error('[aiChooseEv.render]',re);}
+    // cbは必ず呼ぶ（呼ばないとbusy=trueのまま固まる）
+    try{if(cb)cb();}catch(ce){console.error('[aiChooseEv.cb]',ce);}
   },
 
   showMod:function(mod,proj,cb){
     proj.modCnt=(proj.modCnt||0)+1;G.s.totalMods++;
+    var modBlackAdd=proj.modCnt>=3?6:3;// 繰り返し修正でブラック度加速
     var choices=[
-      {tx:mod.at,ef:'メンタル'+mod.dm,fn:function(){if(proj.asgn){var s=G.s.staff.find(function(x){return x.id===proj.asgn;});if(s)s.mental=clamp(s.mental+mod.dm,0,100);}G.s.black=clamp(G.s.black+3,0,100);}},
-      {tx:mod.rt,ef:'評判'+mod.rp,fn:function(){G.s.rep=clamp(G.s.rep+mod.rp,0,100);proj.price=Math.round(proj.price*0.9);}}
+      {tx:mod.at,ef:'メンタル'+mod.dm+', ブラック+'+modBlackAdd,fn:function(){
+        if(proj.asgn){var s=G.s.staff.find(function(x){return x.id===proj.asgn;});if(s)s.mental=clamp(s.mental+mod.dm,0,100);}
+        G.s.black=clamp(G.s.black+modBlackAdd,0,100);
+        // 4回以上の修正は炎上リスク
+        if(proj.modCnt>=4){G.s.fire=clamp(G.s.fire+ri(3,8),0,100);addLog('修正'+proj.modCnt+'回目…炎上リスクが高まってきた','warn');}
+      }},
+      {tx:mod.rt,ef:'評判'+mod.rp+', 収益-10%',fn:function(){
+        G.s.rep=clamp(G.s.rep+mod.rp,0,100);
+        proj.price=Math.round(proj.price*0.85);// 以前の0.9から0.85に強化
+      }}
     ];
     // ── AIモード: 即判断 ──
     if(G.aiMode){
@@ -4984,7 +6287,8 @@ var G={
     if(G.aiMode){
       SFX.coin();
       G.aiThink('COMPLETE',stars+' '+typeLb+'完了\n'+comment+'\n+'+fY(earned));
-      if(cb)cb();return;
+      try{if(cb)cb();}catch(ce){console.error('[showRev.cb]',ce);}
+      return;
     }
     q('rev-st').textContent=stars;q('rev-cm').textContent=comment;
     q('rev-ef').innerHTML='<span style="color:var(--ok)">+'+fY(earned)+'</span>　<span style="color:var(--t3)">'+esc(typeLb)+'案件完了</span>';
@@ -4997,7 +6301,7 @@ var G={
     q('hco').textContent=G.s.compName||'個人事務所';
     var m=G.s.money,hm=q('hmoney');hm.textContent=fY(m).replace('円','');hm.className='hs-v g'+(m<100000?' blink':'');
     q('hrep').textContent=G.s.rep;
-    var hf=q('hfire');hf.textContent=G.s.fire;hf.className='hs-v r'+(G.s.fire>=50?' blink':'');
+    var hf=q('hfire');hf.textContent=G.s.fire;hf.className='hs-v r'+(G.s.fire>=40?' blink':'');
     q('hsns').textContent=fM(G.s.sns);q('hstaff').textContent=G.s.staff.length;q('hblack').textContent=G.s.black;
     var wbEl=q('hwb');if(wbEl){var wbv=G.s.wb||50;wbEl.textContent=wbv;wbEl.style.color=wbv>=70?'var(--ok)':wbv>=40?'var(--acc)':'var(--red)';}
     q('hph').textContent='PHASE '+G.s.phase;
@@ -5015,7 +6319,7 @@ var G={
     var jpM=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
     var dm=q('hdate-main'); if(dm)dm.textContent=dispY+'年'+jpM[dispM-1];
     var dd=q('hdate-day'); if(dd)dd.textContent='第'+weekInMonth+'週';
-    var fw=q('wb-fire');if(fw)fw.style.display=G.s.fire>=50?'block':'none';
+    var fw=q('wb-fire');if(fw)fw.style.display=G.s.fire>=35?'block':'none';
     var mw=q('wb-money');if(mw)mw.style.display=(G.s.money<200000&&G.s.money>=0)?'block':'none';
     var bp=q('bdg-proj');if(bp)bp.textContent=G.s.avail.length;
     var mbp=q('mbdg-proj');if(mbp){var cnt=G.s.avail.length;mbp.style.display=cnt>0?'flex':'none';mbp.textContent=cnt;}
@@ -5054,16 +6358,21 @@ var G={
     if(togIc)togIc.textContent=isOpen?'✕':'🏢';
     if(togTxt)togTxt.textContent=isOpen?'オフィスを閉じる':'オフィスを見る';
     if(isOpen){
-      if(G._savedMobOfficeH)w.style.setProperty('--owrap-h',G._savedMobOfficeH+'px');
+      // 保存済み高さをstyle.heightで直接復元（CSS変数不要）
+      var h=G._savedMobOfficeH||240;
+      w.style.height=h+'px';
       setTimeout(function(){G.resizeOC&&G.resizeOC();G.renderOffice&&G.renderOffice();},30);
+    }else{
+      w.style.height='0px';
     }
   },
   setMobOfficeH:function(h){
     var w=q('owrap');if(!w)return;
-    w.style.setProperty('--owrap-h',h+'px');
+    w.style.height=h+'px';
     G._savedMobOfficeH=h;
     localStorage.setItem('dcfk_mob_owrap_h',h);
-    setTimeout(function(){G.resizeOC&&G.resizeOC();G.renderOffice&&G.renderOffice();},30);
+    G.resizeOC&&G.resizeOC();
+    G.renderOffice&&G.renderOffice();
   },
   mobToggleMore:function(){
     var drawer=q('mob-more-drawer');
@@ -5106,6 +6415,9 @@ var G={
       case 'murmur': G.renderMurmur();break;
       case 'portfolio': G.renderPortfolio();G.aiDesign.updateKeyStatus();break;
       case 'policy':    G.renderPolicy();break;
+      case 'world':
+        if(G._worldMapRaf){cancelAnimationFrame(G._worldMapRaf);G._worldMapRaf=null;}
+        G.renderWorld();break;
     }
   },
 
@@ -5123,6 +6435,9 @@ var G={
       case 'murmur': G.renderMurmur();break;
       case 'portfolio': G.renderPortfolio();break;
       case 'policy':    G.renderPolicy();break;
+      case 'world':
+        if(G._worldMapRaf){cancelAnimationFrame(G._worldMapRaf);G._worldMapRaf=null;}
+        G.renderWorld();break;
     }
   },
 
@@ -6315,6 +7630,139 @@ var G={
 
   closeOrder:function(){G.ord.closeOrder();},
 
+  // ─ 都市グラフィックビュー ─
+  openWorldCity:function(id){
+    var STUDIOS=G._getStudios();
+    var st=STUDIOS.find(function(s){return s.id===id;});
+    if(!st||st.locked)return;
+    var modal=q('world-city-modal');
+    var title=q('city-modal-title');
+    var info=q('city-modal-info');
+    var cv=q('city-cv');
+    if(!modal||!title||!info||!cv)return;
+
+    title.innerHTML=st.ic+' '+st.nm;
+    modal.classList.add('open');
+
+    // Canvas描画（アイソメビル風）
+    var ctx=cv.getContext('2d');
+    var W=cv.width,H=cv.height;
+    ctx.clearRect(0,0,W,H);
+
+    // 背景グラデーション（都市ごとに異なる空の色）
+    var skyColors={
+      kyoto:['#1a0a0a','#2d1b4e'],tokyo:['#0a0a1a','#1a1a3a'],
+      niigata:['#0a1a0a','#1a2d1a'],seoul:['#0a0a2a','#1a2040'],
+      singapore:['#1a1000','#2d2010'],berlin:['#0a0a0a','#1a1a2a'],
+      london:['#0a0a14','#14141e'],ny:['#140a00','#2d1a00'],
+    };
+    var sky=skyColors[id]||['#0f0f1a','#1a1a2e'];
+    var grad=ctx.createLinearGradient(0,0,0,H);
+    grad.addColorStop(0,sky[0]);grad.addColorStop(1,sky[1]);
+    ctx.fillStyle=grad;ctx.fillRect(0,0,W,H);
+
+    // 星
+    for(var i=0;i<50;i++){
+      var sx=Math.abs(Math.sin(i*137.5)*W);
+      var sy=Math.abs(Math.cos(i*73.1)*H*0.6);
+      ctx.fillStyle='rgba(255,255,255,'+(0.3+Math.abs(Math.sin(i*0.7))*0.6)+')';
+      ctx.fillRect(sx,sy,Math.random()>0.8?2:1,Math.random()>0.8?2:1);
+    }
+
+    // 地面
+    var ground=ctx.createLinearGradient(0,H*0.72,0,H);
+    ground.addColorStop(0,'rgba(30,30,50,.8)');ground.addColorStop(1,'rgba(15,15,30,1)');
+    ctx.fillStyle=ground;ctx.fillRect(0,H*0.72,W,H*0.28);
+
+    // アイソメビル（都市ごとに異なる形状・色）
+    var col=st.color||'#6366f1';
+    var buildingData={
+      kyoto:[[120,80,50,140,'#a67c52'],[200,60,40,160,'#8b6543'],[310,90,45,130,'#c4956a'],[60,100,35,120,'#7a5c3d']],
+      tokyo:[[100,40,60,160,'#334155'],[210,20,70,180,'#1e40af'],[340,50,55,150,'#1d4ed8'],[50,70,40,130,'#475569']],
+      niigata:[[130,90,55,110,'#166534'],[250,80,45,120,'#14532d'],[360,100,40,100,'#15803d'],[60,95,35,105,'#166534']],
+      seoul:[[110,30,65,170,'#1e3a5f'],[225,15,75,185,'#1e40af'],[355,40,60,160,'#2563eb'],[55,60,45,140,'#1d4ed8']],
+      singapore:[[120,60,60,140,'#78350f'],[235,40,70,160,'#92400e'],[350,65,55,135,'#b45309'],[60,75,40,125,'#92400e']],
+      berlin:[[125,50,70,150,'#1e1b4b'],[245,30,80,170,'#312e81'],[365,55,65,145,'#4338ca'],[55,65,50,135,'#3730a3']],
+      london:[[115,45,65,155,'#374151'],[235,25,75,175,'#1f2937'],[350,50,60,150,'#111827'],[50,70,45,130,'#374151']],
+      ny:[[100,20,70,180,'#9a3412'],[215,5,80,195,'#c2410c'],[340,25,65,175,'#ea580c'],[45,45,50,155,'#9a3412']],
+    };
+    var buildings=buildingData[id]||buildingData.tokyo;
+
+    function drawIsoBuilding(cx,bh,bw,h,col){
+      var gnd=H*0.75;
+      // 正面
+      ctx.fillStyle=col;
+      ctx.fillRect(cx-bw/2,gnd-h,bw,h);
+      // 窓
+      ctx.fillStyle='rgba(255,255,255,.05)';
+      for(var wr=0;wr<Math.floor(h/18);wr++){
+        for(var wc=0;wc<Math.floor(bw/14);wc++){
+          var lit=Math.sin(cx*0.1+wr*2.3+wc*1.7)>0.2;
+          if(lit){ctx.fillStyle='rgba(255,220,100,.35)';}
+          else{ctx.fillStyle='rgba(255,255,255,.04)';}
+          ctx.fillRect(cx-bw/2+wc*14+3,gnd-h+wr*18+3,8,10);
+        }
+      }
+      // 屋根（少し明るく）
+      ctx.fillStyle='rgba(255,255,255,.08)';
+      ctx.fillRect(cx-bw/2,gnd-h,bw,3);
+    }
+
+    buildings.forEach(function(b){drawIsoBuilding(b[0],b[1],b[2],b[3],b[4]);});
+
+    // ランドマークアイコン表示
+    ctx.font='28px serif';
+    ctx.fillText(st.landmarks[0]||'🏙️',W*0.5-14,H*0.6);
+    ctx.font='16px serif';
+    ctx.fillText(st.landmarks[1]||'',W*0.65,H*0.65);
+    ctx.fillText(st.landmarks[2]||'',W*0.35,H*0.67);
+
+    // 都市名
+    ctx.font='bold 13px sans-serif';
+    ctx.fillStyle='rgba(255,255,255,.6)';
+    ctx.fillText(st.vibe,12,H-10);
+
+    // スタッフ情報
+    var s=G.s;
+    var totalStaff=s.staff.length;
+    var studioStaff=s.staff.filter(function(m){
+      return (id==='kyoto')||
+             (id==='tokyo'&&m.intl)||
+             (id==='niigata'&&(s.policies||{})['niigata_base'])||
+             false;
+    });
+    // 全拠点共通で比例配分
+    var ratio={kyoto:.5,tokyo:.25,niigata:.08,seoul:.06,singapore:.05,berlin:.03,london:.04,ny:.04};
+    var stStaff=Math.max(id==='kyoto'?1:0,Math.floor(totalStaff*(ratio[id]||.03)));
+    var stRev=Math.round((s.totalRev||0)*(ratio[id]||.03));
+
+    var intlHere=s.staff.filter(function(m){return m.intl;});
+    var staffList='';
+    if(id!=='kyoto'){
+      staffList='<div class="city-staff-list"><div style="font-size:10.5px;font-weight:700;color:var(--t2);margin-bottom:4px">駐在スタッフ</div>';
+      if(intlHere.length){
+        intlHere.slice(0,4).forEach(function(m){
+          staffList+='<div class="city-staff-item"><span style="font-size:16px">'+m.ic+'</span><span style="font-weight:600;color:var(--t1)">'+m.nm+'</span><span style="color:var(--t3)">'+m.role+'</span></div>';
+        });
+      }else{
+        staffList+='<div style="font-size:11px;color:var(--t4)">駐在スタッフなし（国際人材を採用してください）</div>';
+      }
+      staffList+='</div>';
+    }
+
+    info.innerHTML='<div class="city-stat-row">'
+      +'<div class="city-stat-box"><div class="val">'+stStaff+'名</div><div class="lbl">スタッフ</div></div>'
+      +'<div class="city-stat-box"><div class="val">'+fY(stRev)+'</div><div class="lbl">累計売上</div></div>'
+      +'<div class="city-stat-box"><div class="val">'+st.country+'</div><div class="lbl">拠点</div></div>'
+      +'</div>'
+      +'<div style="font-size:11px;color:var(--t3);line-height:1.7">'+st.desc+'</div>'
+      +staffList;
+  },
+  closeWorldCity:function(){
+    var modal=q('world-city-modal');
+    if(modal)modal.classList.remove('open');
+  },
+
   // ─ 通知ドロップダウン ─
   toggleNotif:function(){
     var panel=q('notif-panel');if(!panel)return;
@@ -6583,6 +8031,7 @@ var G={
 
     years.forEach(function(yr){
       html+='<div class="pf-year-label">'+yr+'年</div>';
+      html+='<div class="pf-grid-wrap">';
       grouped[yr].forEach(function(w,idx){
         var qualColor=w.qual>=85?'#10b981':w.qual>=60?'#6366f1':w.qual>=40?'#f59e0b':'#ef4444';
         var canvasId='thumb-'+w.id+'-'+idx;
@@ -6672,6 +8121,7 @@ var G={
           +'</div>'
           +'</div>';
       });
+      html+='</div>';//pf-grid-wrap
     });
 
     el.innerHTML=html;
@@ -6795,6 +8245,461 @@ var G={
     container.innerHTML=wbBar+polHtml;
   },
 
+  // ─── RENDER WORLD ──────────────────────────────────────────
+  // ── Canvas世界地図描画 ────────────────────────────────────
+  _worldMapRaf:null,
+  _drawWorldMap:function(STUDIOS,active){
+    var cv=document.getElementById('world-cv');
+    if(!cv)return;
+    var W=cv.offsetWidth||800,H=cv.offsetHeight||400;
+    cv.width=W;cv.height=H;
+    var ctx=cv.getContext('2d');
+
+    // 座標変換（lon,lat → canvas px）
+    function px(lon,lat){
+      return {x:(lon+180)/360*W, y:(90-lat)/180*H};
+    }
+
+    // ── 大陸データ [lon, lat] 配列 ──────────────────────────
+    var CONTINENTS=[
+      // 北アメリカ
+      {name:'namerica',color:'#2a3f6f',stroke:'rgba(100,130,220,0.4)',pts:[
+        [-168,72],[-140,72],[-130,68],[-120,58],[-110,50],[-95,50],[-85,48],
+        [-80,44],[-75,40],[-72,38],[-70,34],[-74,28],[-80,24],[-85,20],
+        [-90,16],[-86,10],[-80,8],[-78,12],[-76,18],[-80,22],[-84,26],
+        [-88,30],[-90,34],[-92,38],[-95,42],[-100,44],[-105,42],[-112,38],
+        [-118,34],[-122,37],[-124,40],[-126,46],[-128,52],[-130,56],
+        [-140,62],[-148,62],[-155,58],[-162,54],[-168,60],[-172,64],[-168,72]
+      ]},
+      // グリーンランド
+      {name:'greenland',color:'#233558',stroke:'rgba(80,110,200,0.3)',pts:[
+        [-44,83],[-28,82],[-18,78],[-20,74],[-28,70],[-42,66],[-50,66],
+        [-58,68],[-62,72],[-58,76],[-48,80],[-44,83]
+      ]},
+      // 南アメリカ
+      {name:'samerica',color:'#2a3f6f',stroke:'rgba(100,130,220,0.4)',pts:[
+        [-80,12],[-76,10],[-72,12],[-68,12],[-64,10],[-60,8],[-52,4],
+        [-48,0],[-44,-4],[-40,-8],[-38,-12],[-38,-18],[-40,-22],[-44,-24],
+        [-48,-28],[-50,-30],[-52,-34],[-56,-38],[-64,-42],[-68,-46],
+        [-70,-50],[-68,-54],[-66,-56],[-70,-56],[-74,-52],[-72,-46],
+        [-70,-42],[-68,-36],[-66,-30],[-68,-24],[-70,-18],[-76,-14],
+        [-80,-8],[-80,-2],[-78,4],[-78,8],[-80,12]
+      ]},
+      // ヨーロッパ（西部）
+      {name:'europe',color:'#2a3f6f',stroke:'rgba(100,130,220,0.4)',pts:[
+        [-10,36],[-6,36],[-2,38],[4,44],[8,46],[10,48],[14,50],[18,52],
+        [22,54],[24,56],[26,58],[28,60],[30,62],[28,64],[24,66],[20,68],
+        [16,70],[14,68],[10,66],[6,64],[2,62],[0,58],[-2,54],[-4,50],
+        [-4,44],[-8,40],[-10,36]
+      ]},
+      // スカンジナビア
+      {name:'scandinavia',color:'#233a66',stroke:'rgba(100,130,220,0.3)',pts:[
+        [4,58],[6,58],[10,58],[14,56],[18,58],[22,60],[26,62],[28,64],
+        [26,68],[22,70],[18,70],[14,68],[10,64],[6,62],[4,58]
+      ]},
+      // アフリカ
+      {name:'africa',color:'#2a3f6f',stroke:'rgba(100,130,220,0.4)',pts:[
+        [-18,16],[-16,12],[-14,10],[-12,8],[-10,6],[-8,4],[-6,4],
+        [0,6],[4,6],[8,6],[12,4],[14,4],[16,2],[18,-2],[20,-6],[22,-10],
+        [26,-14],[28,-18],[32,-22],[34,-24],[34,-28],[30,-32],[28,-34],
+        [26,-34],[22,-36],[18,-34],[16,-30],[14,-26],[12,-22],[10,-18],
+        [10,-14],[8,-10],[6,-6],[4,-2],[2,4],[-2,4],[-4,8],[-8,12],
+        [-14,14],[-18,16]
+      ]},
+      // マダガスカル
+      {name:'madagascar',color:'#233a66',stroke:'rgba(80,110,200,0.3)',pts:[
+        [44,-12],[48,-14],[50,-18],[50,-22],[48,-24],[46,-24],[44,-20],[44,-16],[44,-12]
+      ]},
+      // アジア（メイン）
+      {name:'asia',color:'#2a3f6f',stroke:'rgba(100,130,220,0.4)',pts:[
+        [26,58],[30,60],[36,62],[40,58],[44,54],[48,50],[52,46],[56,44],
+        [60,42],[64,40],[68,38],[72,36],[74,34],[76,30],[80,28],[84,26],
+        [88,24],[90,22],[92,22],[94,22],[96,20],[100,18],[102,16],[104,14],
+        [102,10],[100,6],[104,4],[108,4],[112,4],[116,8],[118,12],[120,16],
+        [122,20],[124,24],[126,28],[128,32],[128,36],[126,38],[124,40],
+        [122,40],[120,40],[118,42],[114,44],[110,46],[108,50],[106,52],
+        [102,54],[98,56],[92,56],[86,56],[80,56],[74,56],[68,54],[62,52],
+        [56,52],[50,52],[44,52],[38,56],[34,58],[30,60],[26,58]
+      ]},
+      // インド半島
+      {name:'india',color:'#253862',stroke:'rgba(80,110,200,0.3)',pts:[
+        [68,24],[72,22],[76,20],[80,18],[84,16],[80,10],[76,8],[72,8],
+        [70,10],[68,14],[68,18],[68,24]
+      ]},
+      // 東南アジア（インドシナ）
+      {name:'indochina',color:'#233a66',stroke:'rgba(80,110,200,0.3)',pts:[
+        [98,22],[102,20],[106,18],[104,14],[102,10],[100,6],[98,8],
+        [100,12],[100,16],[98,18],[96,16],[94,20],[96,22],[98,22]
+      ]},
+      // 朝鮮半島
+      {name:'korea',color:'#1e3055',stroke:'rgba(80,110,200,0.3)',pts:[
+        [124,38],[126,36],[128,34],[128,36],[126,38],[124,38]
+      ]},
+      // オーストラリア
+      {name:'australia',color:'#2a3f6f',stroke:'rgba(100,130,220,0.4)',pts:[
+        [114,-22],[116,-20],[118,-18],[122,-16],[126,-14],[130,-12],[134,-12],
+        [138,-12],[142,-10],[146,-12],[150,-14],[152,-18],[152,-22],[150,-28],
+        [148,-34],[146,-38],[142,-38],[138,-36],[134,-34],[130,-32],[126,-30],
+        [122,-26],[118,-24],[114,-22]
+      ]},
+      // 日本（本州）
+      {name:'japan_honshu',color:'#4f46e5',stroke:'rgba(140,130,255,0.6)',pts:[
+        [130,32],[132,34],[134,36],[136,36],[138,36],[140,38],[142,40],
+        [141,42],[139,40],[137,38],[135,36],[133,34],[131,34],[130,32]
+      ]},
+      // 北海道
+      {name:'japan_hokkaido',color:'#4338ca',stroke:'rgba(140,130,255,0.5)',pts:[
+        [140,42],[142,44],[144,44],[145,44],[144,42],[142,42],[140,42]
+      ]},
+      // イギリス
+      {name:'uk',color:'#233a66',stroke:'rgba(80,110,200,0.3)',pts:[
+        [-4,56],[-2,58],[0,58],[0,54],[-2,50],[-4,52],[-4,56]
+      ]},
+      // イベリア半島
+      {name:'iberia',color:'#233a66',stroke:'rgba(80,110,200,0.3)',pts:[
+        [-10,36],[-6,36],[-4,38],[0,38],[2,40],[0,44],[-2,44],[-4,44],
+        [-6,42],[-8,40],[-10,38],[-10,36]
+      ]},
+      // イタリア半島
+      {name:'italy',color:'#1e3055',stroke:'rgba(80,110,200,0.3)',pts:[
+        [8,44],[10,44],[12,44],[14,42],[16,40],[18,38],[16,38],[14,40],[12,42],[8,44]
+      ]},
+    ];
+
+    // ── 描画開始 ──────────────────────────────────────────────
+    // 海洋グラデーション
+    var seaGrad=ctx.createLinearGradient(0,0,0,H);
+    seaGrad.addColorStop(0,'#060d1f');
+    seaGrad.addColorStop(0.5,'#0c1a35');
+    seaGrad.addColorStop(1,'#040a16');
+    ctx.fillStyle=seaGrad;
+    ctx.fillRect(0,0,W,H);
+
+    // 海の微細テクスチャ（薄いノイズ）
+    for(var ny2=0;ny2<H;ny2+=4){
+      for(var nx2=0;nx2<W;nx2+=4){
+        var v=Math.sin(nx2*0.07+ny2*0.05)*Math.cos(nx2*0.03-ny2*0.08)*8;
+        ctx.fillStyle='rgba(30,60,120,'+Math.max(0,v*0.004)+')';
+        ctx.fillRect(nx2,ny2,4,4);
+      }
+    }
+
+    // 緯線・経線グリッド
+    ctx.strokeStyle='rgba(80,120,220,0.06)';
+    ctx.lineWidth=0.5;
+    for(var lat=-60;lat<=60;lat+=30){
+      var yg=px(0,lat).y;
+      ctx.beginPath();ctx.moveTo(0,yg);ctx.lineTo(W,yg);ctx.stroke();
+    }
+    for(var lon=-150;lon<=150;lon+=60){
+      var xg=px(lon,0).x;
+      ctx.beginPath();ctx.moveTo(xg,0);ctx.lineTo(xg,H);ctx.stroke();
+    }
+    // 赤道
+    ctx.strokeStyle='rgba(99,102,241,0.12)';
+    ctx.lineWidth=0.8;
+    ctx.setLineDash([6,6]);
+    var yeq=px(0,0).y;
+    ctx.beginPath();ctx.moveTo(0,yeq);ctx.lineTo(W,yeq);ctx.stroke();
+    ctx.setLineDash([]);
+
+    // ── 大陸描画 ──────────────────────────────────────────────
+    CONTINENTS.forEach(function(c){
+      if(!c.pts||c.pts.length<3)return;
+      ctx.beginPath();
+      var p0=px(c.pts[0][0],c.pts[0][1]);
+      ctx.moveTo(p0.x,p0.y);
+      for(var i=1;i<c.pts.length;i++){
+        // Catmull-Rom風の滑らかな補間
+        var p1=px(c.pts[i][0],c.pts[i][1]);
+        if(i<c.pts.length-1){
+          var p2=px(c.pts[Math.min(i+1,c.pts.length-1)][0],c.pts[Math.min(i+1,c.pts.length-1)][1]);
+          ctx.bezierCurveTo(
+            (p0.x+p1.x)/2,(p0.y+p1.y)/2,
+            (p1.x+p2.x)/2,(p1.y+p2.y)/2,
+            p1.x,p1.y
+          );
+          p0=p1;
+        }else{
+          ctx.lineTo(p1.x,p1.y);
+        }
+      }
+      ctx.closePath();
+      ctx.fillStyle=c.color;
+      ctx.fill();
+      // 輪郭
+      ctx.strokeStyle=c.stroke;
+      ctx.lineWidth=0.8;
+      ctx.stroke();
+
+      // 陸地に微細ハイライト（上端に薄いグロー）
+      ctx.strokeStyle='rgba(120,160,255,0.04)';
+      ctx.lineWidth=2;
+      ctx.stroke();
+    });
+
+    // 日本列島ハイライト（ゲームのホーム国）
+    ctx.shadowColor='rgba(99,102,241,0.6)';
+    ctx.shadowBlur=8;
+    var japanPts=CONTINENTS.find(function(c){return c.name==='japan_honshu';});
+    if(japanPts){
+      ctx.beginPath();
+      var p0j=px(japanPts.pts[0][0],japanPts.pts[0][1]);
+      ctx.moveTo(p0j.x,p0j.y);
+      japanPts.pts.forEach(function(pt){var p=px(pt[0],pt[1]);ctx.lineTo(p.x,p.y);});
+      ctx.closePath();
+      ctx.fillStyle='rgba(99,102,241,0.5)';
+      ctx.fill();
+      ctx.strokeStyle='rgba(140,130,255,0.8)';
+      ctx.lineWidth=1;
+      ctx.stroke();
+    }
+    ctx.shadowBlur=0;
+
+    // ── 拠点座標 (lon, lat) ──────────────────────────────────
+    var STUDIO_GEO={
+      kyoto:    {lon:135.8, lat:35.0},
+      tokyo:    {lon:139.7, lat:35.7},
+      niigata:  {lon:138.9, lat:37.9},
+      seoul:    {lon:126.9, lat:37.6},
+      singapore:{lon:103.8, lat:1.3},
+      berlin:   {lon:13.4,  lat:52.5},
+      london:   {lon:-0.1,  lat:51.5},
+      ny:       {lon:-74.0, lat:40.7},
+    };
+
+    // ── 接続アーク（京都→各拠点）──────────────────────────
+    var kyotoGeo=STUDIO_GEO.kyoto;
+    var kPx=px(kyotoGeo.lon,kyotoGeo.lat);
+    active.forEach(function(st){
+      if(st.id==='kyoto')return;
+      var geo=STUDIO_GEO[st.id];if(!geo)return;
+      var tPx=px(geo.lon,geo.lat);
+      // 大弧アーク（制御点を上方向に持ち上げる）
+      var mx=(kPx.x+tPx.x)/2;
+      var my=(kPx.y+tPx.y)/2;
+      var dist=Math.sqrt(Math.pow(tPx.x-kPx.x,2)+Math.pow(tPx.y-kPx.y,2));
+      var arcH=Math.min(dist*0.35,H*0.3);
+      var cpx=mx;
+      var cpy=my-arcH;
+      ctx.beginPath();
+      ctx.moveTo(kPx.x,kPx.y);
+      ctx.quadraticCurveTo(cpx,cpy,tPx.x,tPx.y);
+      var grad=ctx.createLinearGradient(kPx.x,kPx.y,tPx.x,tPx.y);
+      grad.addColorStop(0,'rgba(99,102,241,0.7)');
+      grad.addColorStop(0.5,'rgba(139,92,246,0.4)');
+      grad.addColorStop(1,'rgba('+G._hexToRgb(st.color||'#6366f1')+',0.7)');
+      ctx.strokeStyle=grad;
+      ctx.lineWidth=1.2;
+      ctx.setLineDash([3,4]);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    });
+
+    // ── 拠点ドット描画 ───────────────────────────────────────
+    var t=Date.now();
+    STUDIOS.forEach(function(st){
+      var geo=STUDIO_GEO[st.id];if(!geo)return;
+      var p=px(geo.lon,geo.lat);
+      var col=st.color||'#6366f1';
+      var rgb=G._hexToRgb(col);
+
+      if(st.locked){
+        // ロック: 薄いドット
+        ctx.beginPath();ctx.arc(p.x,p.y,3,0,Math.PI*2);
+        ctx.fillStyle='rgba(255,255,255,0.1)';ctx.fill();
+        ctx.strokeStyle='rgba(255,255,255,0.08)';ctx.lineWidth=0.6;ctx.stroke();
+      }else{
+        // パルスリング（アクティブ拠点のみ）
+        var pulse=(Math.sin(t*0.002+STUDIOS.indexOf(st)*1.3)+1)/2;
+        var ringR=8+pulse*6;
+        ctx.beginPath();ctx.arc(p.x,p.y,ringR,0,Math.PI*2);
+        ctx.strokeStyle='rgba('+rgb+','+(0.3-pulse*0.25)+')';
+        ctx.lineWidth=1;ctx.stroke();
+
+        var ringR2=12+pulse*8;
+        ctx.beginPath();ctx.arc(p.x,p.y,ringR2,0,Math.PI*2);
+        ctx.strokeStyle='rgba('+rgb+','+(0.12-pulse*0.1)+')';
+        ctx.lineWidth=0.8;ctx.stroke();
+
+        // グローエフェクト
+        ctx.shadowColor=col;ctx.shadowBlur=14;
+        ctx.beginPath();ctx.arc(p.x,p.y,5,0,Math.PI*2);
+        ctx.fillStyle=col;ctx.fill();
+        ctx.shadowBlur=0;
+
+        // 中心白点
+        ctx.beginPath();ctx.arc(p.x,p.y,2,0,Math.PI*2);
+        ctx.fillStyle='rgba(255,255,255,0.95)';ctx.fill();
+
+        // ラベル（シティ名）
+        ctx.font='bold '+Math.round(W/80)+'px sans-serif';
+        ctx.textAlign='center';
+        ctx.fillStyle='rgba(255,255,255,0.85)';
+        ctx.shadowColor='rgba(0,0,0,0.8)';ctx.shadowBlur=4;
+        var lbl=st.nm.replace('スタジオ','').replace('オフィス','').replace(' Hub','').split(' ')[0];
+        ctx.fillText(lbl,p.x,p.y-10);
+        ctx.shadowBlur=0;
+
+        // クリックエリア登録（canvas外のオーバーレイdiv）
+        // → HTMLで<div>を使ってオーバーレイ配置
+      }
+    });
+
+    // ACTIVE表示
+    ctx.font='bold '+Math.round(W/90)+'px sans-serif';
+    ctx.textAlign='left';
+    ctx.fillStyle='rgba(255,255,255,0.25)';
+    ctx.fillText('WORLD STUDIOS  '+active.length+'/'+STUDIOS.length+' ACTIVE',8,H-8);
+
+    // ── クリックオーバーレイ（div）──────────────────────────
+    var mapEl=document.getElementById('world-map');
+    if(mapEl){
+      // 既存オーバーレイを削除してから再生成
+      mapEl.querySelectorAll('.map-hit').forEach(function(el){el.remove();});
+      active.forEach(function(st){
+        var geo=STUDIO_GEO[st.id];if(!geo)return;
+        var p=px(geo.lon,geo.lat);
+        var xPct=(p.x/W*100).toFixed(2);
+        var yPct=(p.y/H*100).toFixed(2);
+        var hit=document.createElement('div');
+        hit.className='map-hit';
+        hit.style.cssText='position:absolute;left:'+xPct+'%;top:'+yPct+'%;'
+          +'transform:translate(-50%,-50%);width:28px;height:28px;'
+          +'border-radius:50%;cursor:pointer;z-index:10;';
+        hit.title=st.nm;
+        hit.onclick=function(){G.openWorldCity(st.id);};
+        mapEl.appendChild(hit);
+      });
+      // アニメーションループ（パルス更新）
+      if(G._worldMapRaf)cancelAnimationFrame(G._worldMapRaf);
+      var _lastFrame=0;
+      var _animFn=function(ts){
+        if(ts-_lastFrame>50){// 20fps
+          _lastFrame=ts;
+          if(document.getElementById('world-cv'))G._drawWorldMap(STUDIOS,active);
+        }
+        if(document.getElementById('world-cv'))G._worldMapRaf=requestAnimationFrame(_animFn);
+      };
+      G._worldMapRaf=requestAnimationFrame(_animFn);
+    }
+  },
+
+  // 16進色をRGB文字列に変換
+  _hexToRgb:function(hex){
+    var r=parseInt(hex.slice(1,3),16);
+    var g=parseInt(hex.slice(3,5),16);
+    var b=parseInt(hex.slice(5,7),16);
+    return r+','+g+','+b;
+  },
+
+  // 拠点マスターデータ（renderWorldとopenWorldCityで共有）
+  _getStudios:function(){
+    var s=G.s;
+    return [
+      {id:'kyoto',   nm:'京都スタジオ',    ic:'🍵',country:'JP', px:73,py:36, locked:false,
+       unlock:'常時開放', desc:'創業の地。世界に誇る本拠地。',
+       color:'#a67c52', landmarks:['🏯','⛩️','🎋'], vibe:'Wabi-sabi meets innovation'},
+      {id:'tokyo',   nm:'東京オフィス',    ic:'🏙️',country:'JP', px:75,py:34, locked:s.offLevel<3,
+       unlock:'Phase2 + 東京オフィス取得', desc:'案件の拠点。クライアントとの接点。',
+       color:'#ef4444', landmarks:['🗼','🌆','🚄'], vibe:'Speed & precision'},
+      {id:'niigata', nm:'新潟サテライト',  ic:'🌾',country:'JP', px:73,py:31, locked:!(s.policies||{})['niigata_base'],
+       unlock:'制度: 新潟サテライト正式化', desc:'田園の中のクリエイティブ拠点。',
+       color:'#22c55e', landmarks:['🌾','⛰️','🍚'], vibe:'Slow & deep design'},
+      {id:'seoul',   nm:'ソウルスタジオ', ic:'🇰🇷',country:'KR', px:70,py:33, locked:!(s.policies||{})['intl_exchange'],
+       unlock:'グローバル交流制度導入後', desc:'Kデザインの最前線。',
+       color:'#3b82f6', landmarks:['🏛️','💡','📱'], vibe:'K-design culture'},
+      {id:'singapore',nm:'Singapore Hub',  ic:'🇸🇬',country:'SG', px:68,py:54, locked:s.phase<4,
+       unlock:'Phase4以降', desc:'東南アジアのデザインハブ。',
+       color:'#f59e0b', landmarks:['🌴','🦁','🌊'], vibe:'East meets West'},
+      {id:'berlin',  nm:'Berlinスタジオ', ic:'🇩🇪',country:'DE', px:48,py:27, locked:s.phase<6,
+       unlock:'Phase6到達後', desc:'バウハウスの精神を継ぐ拠点。',
+       color:'#8b5cf6', landmarks:['🏛️','🎨','🚪'], vibe:'Bauhaus discipline'},
+      {id:'london',  nm:'London Office',  ic:'🇬🇧',country:'UK', px:43,py:26, locked:!s.tech['global'],
+       unlock:'global_expandテック習得後', desc:'ヨーロッパ市場への窓口。',
+       color:'#64748b', landmarks:['🎡','🏰','☂️'], vibe:'Classic & bold'},
+      {id:'ny',      nm:'New York Studio',ic:'🗽',country:'US', px:22,py:31, locked:s.offLevel<4,
+       unlock:'offLevel≥4 + 世界スタジオオフィス', desc:'グローバルクリエイティブの中心。',
+       color:'#f97316', landmarks:['🗽','🌃','🏙️'], vibe:'Go big or go home'},
+    ];
+  },
+
+  renderWorld:function(){
+    var container=q('pan-world');if(!container)return;
+    var s=G.s;
+    var STUDIOS=G._getStudios();
+    var active=STUDIOS.filter(function(st){return !st.locked;});
+    var totalStaff=s.staff.length;
+    var intlStaff=(s.intlStaff||0);
+
+    // ── 世界地図 SVG（aspect-ratio:2/1で表示） ──────────────
+    // ── Canvas世界地図（高品質描画） ──────────────────────────
+    var mapHtml='<div class="world-map-area" id="world-map">'
+      +'<canvas id="world-cv" style="display:block;width:100%;height:100%"></canvas>'
+      +'</div>';
+    // ── ここまで地図 ──
+
+    // サマリーバー
+    var summaryHtml='<div class="world-hdr">'
+      +'<div style="font-size:12.5px;font-weight:700;color:var(--t1)">🌍 ワールドスタジオ</div>'
+      +'<div style="display:flex;gap:12px">'
+      +'<div style="text-align:center"><div style="font-size:16px;font-weight:700;color:var(--acc)">'+active.length+'</div><div style="font-size:9px;color:var(--t4)">拠点</div></div>'
+      +'<div style="text-align:center"><div style="font-size:16px;font-weight:700;color:var(--t1)">'+totalStaff+'</div><div style="font-size:9px;color:var(--t4)">総スタッフ</div></div>'
+      +'<div style="text-align:center"><div style="font-size:16px;font-weight:700;color:var(--teal)">'+intlStaff+'</div><div style="font-size:9px;color:var(--t4)">国際人材</div></div>'
+      +'</div>'
+      +'</div>';
+
+    // スタジオカードグリッド
+    var cardsHtml='<div class="world-grid">';
+    STUDIOS.forEach(function(st){
+      var stStaff=st.locked?0:Math.max(1,Math.floor(totalStaff*(st.id==='kyoto'?0.4:st.id==='tokyo'?0.25:0.08)));
+      var stRev=st.locked?0:Math.round((s.totalRev||0)*(st.id==='kyoto'?0.5:st.id==='tokyo'?0.3:0.05));
+      cardsHtml+='<div class="studio-card'+(st.locked?' locked':'')+'">'
+        +'<div class="studio-nm"><span class="studio-ic">'+st.ic+'</span>'+st.nm+'</div>';
+      if(st.locked){
+        cardsHtml+='<div class="studio-unlock">🔒 '+st.unlock+'</div>';
+      }else{
+        cardsHtml+='<div style="font-size:9.5px;color:var(--t3);margin-bottom:2px">'+st.desc+'</div>'
+          +'<div class="studio-stat">'
+          +'<div class="studio-stat-item"><div class="studio-stat-val">'+stStaff+'名</div><div>スタッフ</div></div>'
+          +'<div class="studio-stat-item"><div class="studio-stat-val">'+fY(stRev)+'</div><div>累計売上</div></div>'
+          +'<div class="studio-stat-item"><div class="studio-stat-val '+((s.wb||50)>=70?'':'') +'">'+Math.round((s.wb||50))+'</div><div>WBスコア</div></div>'
+          +'</div>';
+      }
+      cardsHtml+='</div>';
+    });
+    cardsHtml+='</div>';
+
+    // 解放ガイド（未解放拠点がある場合）
+    var lockedStudios=STUDIOS.filter(function(st){return st.locked;});
+    var guideHtml='';
+    if(lockedStudios.length){
+      guideHtml='<div style="padding:12px 14px;background:var(--bg2);border-top:1px solid var(--bord)">'
+        +'<div style="font-size:10px;font-weight:700;color:var(--t3);letter-spacing:.5px;margin-bottom:6px">🔒 次の拠点を解放するには</div>'
+        +lockedStudios.slice(0,3).map(function(st){
+          return '<div style="font-size:10px;color:var(--t2);padding:3px 0;border-bottom:1px solid var(--bord)">'+st.ic+' <b>'+st.nm+'</b> — '+st.unlock+'</div>';
+        }).join('')
+        +'</div>';
+    }
+
+    container.innerHTML=mapHtml+summaryHtml+cardsHtml+guideHtml;
+    // Canvas描画（innerHTML設定後に実行）
+    // 既存RAFを停止してから新しいループを開始
+    if(G._worldMapRaf){cancelAnimationFrame(G._worldMapRaf);G._worldMapRaf=null;}
+    G._drawWorldMap(STUDIOS,active);
+    // パルスアニメーションループ（描画のみ、DOM操作なし）
+    var _wmLastFrame=0;
+    var _wmLoop=function(ts){
+      if(!document.getElementById('world-cv')){G._worldMapRaf=null;return;}
+      if(ts-_wmLastFrame>80){// 12fps - パルス更新に十分
+        _wmLastFrame=ts;
+        try{G._drawWorldMap(STUDIOS,active);}catch(e2){}
+      }
+      G._worldMapRaf=requestAnimationFrame(_wmLoop);
+    };
+    G._worldMapRaf=requestAnimationFrame(_wmLoop);
+  },
+
   // ─── ADOPT POLICY ──────────────────────────────────────────
   adoptPolicy:function(pid){
     var s=G.s;
@@ -6896,7 +8801,248 @@ document.addEventListener('keydown',function(e){
 
 document.addEventListener('click',function(){if(AC&&AC.state==='suspended')AC.resume();},{ once:true });
 
+
+
 </script>
+
+
+<style>
+#adm-btn{position:fixed;bottom:14px;left:14px;z-index:9900;width:30px;height:30px;border-radius:50%;background:rgba(99,102,241,.18);border:1px solid rgba(99,102,241,.35);color:#818cf8;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:.55;transition:all .2s;padding:0;}
+#adm-btn:hover{opacity:1;background:rgba(99,102,241,.35);}
+#adm-ov{position:fixed;inset:0;z-index:9901;background:rgba(0,0,0,.72);backdrop-filter:blur(5px);display:none;align-items:center;justify-content:center;}
+#adm-ov.open{display:flex;}
+#adm-pan{width:min(680px,95vw);max-height:90vh;background:#0d0d1c;border:1px solid #252540;border-radius:14px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 80px rgba(0,0,0,.85);}
+#adm-head{padding:16px 20px;background:#0a0a18;border-bottom:1px solid #1c1c30;display:flex;align-items:center;justify-content:space-between;font-size:11px;font-weight:700;letter-spacing:3px;color:#6366f1;text-transform:uppercase;}
+#adm-head button{background:none;border:1px solid #333;color:#666;width:26px;height:26px;border-radius:6px;cursor:pointer;font-size:13px;}
+#adm-head button:hover{color:#fff;border-color:#666;}
+#adm-body{overflow-y:auto;padding:0 0 12px;}
+.adm-pre{padding:12px 18px;background:#08081a;border-bottom:1px solid #181828;display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.adm-pre label{font-size:9px;color:#555;text-transform:uppercase;letter-spacing:1px;margin-right:4px;}
+.pb{padding:5px 14px;border-radius:20px;font-size:10px;font-weight:800;letter-spacing:.5px;cursor:pointer;border:1px solid;transition:all .15s;text-transform:uppercase;}
+.pb.ea{color:#22c55e;border-color:#22c55e40;background:#22c55e0a;}.pb.ea:hover,.pb.ea.on{background:#22c55e;color:#000;}
+.pb.no{color:#6366f1;border-color:#6366f140;background:#6366f10a;}.pb.no:hover,.pb.no.on{background:#6366f1;color:#fff;}
+.pb.ha{color:#f59e0b;border-color:#f59e0b40;background:#f59e0b0a;}.pb.ha:hover,.pb.ha.on{background:#f59e0b;color:#000;}
+.pb.br{color:#ef4444;border-color:#ef444440;background:#ef44440a;}.pb.br:hover,.pb.br.on{background:#ef4444;color:#fff;}
+.pb.rs{color:#666;border-color:#33335540;background:transparent;margin-left:auto;}.pb.rs:hover{color:#aaa;border-color:#555;}
+.adm-sec{padding:12px 18px 4px;}
+.adm-sl{font-size:9px;font-weight:700;letter-spacing:2px;color:#3a3a58;text-transform:uppercase;padding-bottom:8px;margin-bottom:2px;}
+.adm-row{display:grid;grid-template-columns:170px 1fr 64px;align-items:center;gap:10px;padding:6px 0;}
+.adm-row label{font-size:10px;color:#7070a0;}
+input[type=range].sr{-webkit-appearance:none;appearance:none;height:3px;border-radius:2px;background:#1c1c30;outline:none;cursor:pointer;width:100%;}
+input[type=range].sr::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;border-radius:50%;background:#6366f1;border:2px solid #0d0d1c;cursor:pointer;}
+input[type=range].sr::-webkit-slider-thumb:hover{background:#818cf8;}
+.adm-v{font-size:10px;font-weight:800;color:#b0b0d0;text-align:right;font-variant-numeric:tabular-nums;}
+.adm-live{padding:12px 18px;border-top:1px solid #181828;margin-top:6px;background:#08081a;}
+.adm-live-t{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#3a3a58;margin-bottom:8px;}
+.adm-lg{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+.adm-li{background:#10102a;border:1px solid #1c1c30;border-radius:8px;padding:8px 10px;text-align:center;}
+.adm-li .lv{font-size:13px;font-weight:800;color:#6366f1;font-variant-numeric:tabular-nums;}
+.adm-li .lk{font-size:8px;color:#44445a;letter-spacing:.5px;margin-top:2px;}
+.adm-apply{margin:10px 18px 4px;padding:9px;width:calc(100% - 36px);background:#4f46e5;color:#fff;border:none;border-radius:8px;font-size:11px;font-weight:700;letter-spacing:1px;cursor:pointer;text-transform:uppercase;}
+.adm-apply:hover{background:#6366f1;}
+</style>
+
+<button id="adm-btn" title="バランス管理 Ctrl+Shift+D">⚙</button>
+<div id="adm-ov">
+<div id="adm-pan">
+  <div id="adm-head"><span>⚙ BALANCE MANAGER</span><span id="adm-conn" style="font-size:9px;letter-spacing:1px;color:#22c55e;font-weight:700;">● LIVE</span><button id="adm-cls">✕</button></div>
+  <div id="adm-body">
+    <div class="adm-pre">
+      <label>PRESET</label>
+      <button class="pb ea" data-p="easy">🟢 EASY</button>
+      <button class="pb no" data-p="normal">🔵 NORMAL</button>
+      <button class="pb ha" data-p="hard">🟡 HARD</button>
+      <button class="pb br" data-p="brutal">🔴 BRUTAL</button>
+      <button class="pb rs" data-p="reset">↺ リセット</button>
+    </div>
+
+    <div class="adm-sec">
+      <div class="adm-sl">💰 財務</div>
+      <div class="adm-row"><label>初期資金 <small style="color:#555">(次回起動から)</small></label><input type="range" class="sr" id="s-startMoney" min="100000" max="2000000" step="50000"><div class="adm-v" id="v-startMoney"></div></div>
+      <div class="adm-row"><label>破産閾値</label><input type="range" class="sr" id="s-brokeLine" min="-500000" max="0" step="10000"><div class="adm-v" id="v-brokeLine"></div></div>
+    </div>
+    <div class="adm-sec">
+      <div class="adm-sl">😰 メンタル</div>
+      <div class="adm-row"><label>週次ダメージ（通常）</label><input type="range" class="sr" id="s-mentalDmg" min="0" max="12" step="1"><div class="adm-v" id="v-mentalDmg"></div></div>
+      <div class="adm-row"><label>月次回復量</label><input type="range" class="sr" id="s-mentalRec" min="0" max="20" step="1"><div class="adm-v" id="v-mentalRec"></div></div>
+    </div>
+    <div class="adm-sec">
+      <div class="adm-sl">🔥 炎上</div>
+      <div class="adm-row"><label>GO閾値</label><input type="range" class="sr" id="s-fireGO" min="50" max="100" step="5"><div class="adm-v" id="v-fireGO"></div></div>
+      <div class="adm-row"><label>拡大開始</label><input type="range" class="sr" id="s-fireSp" min="20" max="80" step="5"><div class="adm-v" id="v-fireSp"></div></div>
+      <div class="adm-row"><label>イベント確率</label><input type="range" class="sr" id="s-fireEv" min="0" max="0.6" step="0.05"><div class="adm-v" id="v-fireEv"></div></div>
+    </div>
+    <div class="adm-sec">
+      <div class="adm-sl">🎯 イベント</div>
+      <div class="adm-row"><label>通常確率</label><input type="range" class="sr" id="s-evProb" min="0" max="0.7" step="0.05"><div class="adm-v" id="v-evProb"></div></div>
+      <div class="adm-row"><label>ハード解禁ターン</label><input type="range" class="sr" id="s-hdTurn" min="0" max="150" step="10"><div class="adm-v" id="v-hdTurn"></div></div>
+      <div class="adm-row"><label>ハード確率</label><input type="range" class="sr" id="s-hdProb" min="0" max="0.5" step="0.05"><div class="adm-v" id="v-hdProb"></div></div>
+    </div>
+    <div class="adm-sec">
+      <div class="adm-sl">🤖 AIモード</div>
+      <div class="adm-row"><label>判断ミス率</label><input type="range" class="sr" id="s-aiErr" min="0" max="0.8" step="0.05"><div class="adm-v" id="v-aiErr"></div></div>
+      <div class="adm-row"><label>制度採択周期</label><input type="range" class="sr" id="s-aiPol" min="2" max="30" step="2"><div class="adm-v" id="v-aiPol"></div></div>
+    </div>
+    <div class="adm-sec">
+      <div class="adm-sl">🏆 エンディング good（最低難度・即時反映）</div>
+      <div class="adm-row"><label>解禁ターン</label><input type="range" class="sr" id="s-eTurn" min="30" max="300" step="10"><div class="adm-v" id="v-eTurn"></div></div>
+      <div class="adm-row"><label>必要評判</label><input type="range" class="sr" id="s-eRep" min="10" max="90" step="5"><div class="adm-v" id="v-eRep"></div></div>
+      <div class="adm-row"><label>必要累計収益</label><input type="range" class="sr" id="s-eRev" min="1000000" max="100000000" step="1000000"><div class="adm-v" id="v-eRev"></div></div>
+      <div class="adm-row"><label>必要案件数</label><input type="range" class="sr" id="s-eProj" min="5" max="80" step="5"><div class="adm-v" id="v-eProj"></div></div>
+    </div>
+
+    <div class="adm-live">
+      <div class="adm-live-t">📊 CURRENT STATE</div>
+      <div class="adm-lg">
+        <div class="adm-li"><div class="lv" id="L-money">—</div><div class="lk">資金</div></div>
+        <div class="adm-li"><div class="lv" id="L-rep">—</div><div class="lk">評判</div></div>
+        <div class="adm-li"><div class="lv" id="L-fire">—</div><div class="lk">炎上%</div></div>
+        <div class="adm-li"><div class="lv" id="L-mental">—</div><div class="lk">平均メンタル</div></div>
+        <div class="adm-li"><div class="lv" id="L-turn">—</div><div class="lk">ターン</div></div>
+        <div class="adm-li"><div class="lv" id="L-rev">—</div><div class="lk">累計収益</div></div>
+        <div class="adm-li"><div class="lv" id="L-proj">—</div><div class="lk">完了案件</div></div>
+        <div class="adm-li"><div class="lv" id="L-wb">—</div><div class="lk">WB</div></div>
+      </div>
+    </div>
+    <button class="adm-apply" id="adm-ok">✓ 閉じる（即時反映）</button>
+  </div>
+</div>
+</div>
+
+<script>
+(function(){
+  // ── ゲームのパラメーターを直接書き換えるパッチ ──
+  // G、ENDINGS等はこのscriptより前に定義済み
+
+  window.CFG = window.CFG || {};
+  var CFG = window.CFG;
+  // デフォルト値をセット（まだ設定されていない場合のみ）
+  var CFG_DEFAULTS = {
+    startMoney: 500000,
+    brokeLine:  0,
+    mentalDmg:  4,
+    mentalRec:  5,
+    fireGO:     85,
+    fireSp:     50,
+    fireEv:     0.25,
+    evProb:     0.35,
+    hdTurn:     40,
+    hdProb:     0.15,
+    aiErr:      0.25,
+    aiPol:      8,
+    eTurn:      120,
+    eRep:       55,
+    eRev:       20000000,
+    eProj:      25,
+  };
+  // デフォルト値をCFGに適用（上書きなし）
+  Object.keys(CFG_DEFAULTS).forEach(function(k){
+    if(!(k in CFG)) CFG[k] = CFG_DEFAULTS[k];
+  });
+
+  var PRESETS = {
+    easy:   {startMoney:1000000,brokeLine:-50000,mentalDmg:2,mentalRec:8,fireGO:92,fireSp:65,fireEv:0.10,evProb:0.20,hdTurn:80,hdProb:0.05,aiErr:0.10,aiPol:6,eTurn:60,eRep:40,eRev:4000000,eProj:15},
+    normal: null,
+    hard:   {startMoney:300000,brokeLine:0,mentalDmg:6,mentalRec:3,fireGO:80,fireSp:40,fireEv:0.35,evProb:0.45,hdTurn:20,hdProb:0.25,aiErr:0.35,aiPol:12,eTurn:120,eRep:65,eRev:15000000,eProj:35},
+    brutal: {startMoney:200000,brokeLine:-30000,mentalDmg:8,mentalRec:2,fireGO:75,fireSp:30,fireEv:0.45,evProb:0.55,hdTurn:10,hdProb:0.35,aiErr:0.50,aiPol:16,eTurn:200,eRep:75,eRev:50000000,eProj:50},
+  };
+  PRESETS.normal = JSON.parse(JSON.stringify(CFG));
+
+  // ゲームに設定を適用
+  function applyToGame() { /* CFG=window.CFG、gcfg()経由で自動反映 */ }
+
+  // フォーマット
+  function fmt(k,v){
+    if(k==='startMoney')return '¥'+Math.round(v/10000)+'万';
+    if(k==='brokeLine')return v>=0?'±0':'¥'+(v/10000)+'万';
+    if(k==='eRev')return '¥'+Math.round(v/1000000)+'M';
+    if(k.endsWith('Ev')||k.endsWith('Prob')||k.endsWith('Err')||k==='evProb'||k==='hdProb'||k==='fireEv')return Math.round(v*100)+'%';
+    return String(v);
+  }
+
+  // スライダー同期
+  function syncSliders(){
+    Object.keys(CFG).forEach(function(k){
+      var sl=document.getElementById('s-'+k);
+      var vl=document.getElementById('v-'+k);
+      if(sl){sl.value=CFG[k];}
+      if(vl){vl.textContent=fmt(k,CFG[k]);}
+    });
+  }
+
+  // ライブ状態
+  function syncLive(){
+    if(typeof G==='undefined'||!G.s||!G.s.staff) return;
+    var s=G.s;
+    var avgM=s.staff.length>0?Math.round(s.staff.reduce(function(a,x){return a+x.mental;},0)/s.staff.length):'--';
+    function sv(id,v){var e=document.getElementById(id);if(e)e.textContent=v;}
+    sv('L-money','¥'+Math.round((s.money||0)/10000)+'万');
+    sv('L-rep',(s.rep||0)+'%');
+    sv('L-fire',(s.fire||0)+'%');
+    sv('L-mental',avgM);
+    sv('L-turn','W'+(s.turn||1));
+    sv('L-rev','¥'+Math.round((s.totalRev||0)/10000)+'万');
+    sv('L-proj',(s.projDone||0)+'件');
+    sv('L-wb',s.wb||50);
+    // good条件達成チェック
+    var ok=s.turn>=CFG.eTurn&&s.rep>=CFG.eRep&&(s.totalRev||0)>=CFG.eRev&&(s.projDone||0)>=CFG.eProj;
+    ['L-turn','L-rep','L-rev','L-proj'].forEach(function(id){
+      var e=document.getElementById(id);if(e)e.style.color=ok?'#22c55e':'#6366f1';
+    });
+  }
+
+  function open_(){
+    syncSliders();
+    syncLive();
+    document.getElementById('adm-ov').classList.add('open');
+  }
+  function close_(){document.getElementById('adm-ov').classList.remove('open');}
+
+  // スライダー変更 → CFG更新 → ゲームに即反映
+  document.querySelectorAll('input.sr').forEach(function(sl){
+    sl.addEventListener('input',function(){
+      var k=this.id.replace('s-','');
+      var v=parseFloat(this.value);
+      CFG[k]=v;
+      var vl=document.getElementById('v-'+k);
+      if(vl)vl.textContent=fmt(k,v);
+      // リアルタイム反映のフィードバック
+      var conn=document.getElementById('adm-conn');
+      if(conn){conn.textContent='✓ 反映済';conn.style.color='#22c55e';}
+    });
+  });
+
+  // プリセット
+  document.querySelectorAll('[data-p]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var name=this.dataset.p;
+      var p=name==='reset'?PRESETS.normal:PRESETS[name];
+      if(!p)return;
+      Object.keys(p).forEach(function(k){CFG[k]=p[k];});
+      syncSliders();
+      applyToGame();
+      document.querySelectorAll('[data-p]').forEach(function(b){b.classList.remove('on');});
+      if(name!=='reset')this.classList.add('on');
+    });
+  });
+
+  document.getElementById('adm-btn').addEventListener('click',open_);
+  document.getElementById('adm-cls').addEventListener('click',close_);
+  document.getElementById('adm-ok').addEventListener('click',close_);
+  document.getElementById('adm-ov').addEventListener('click',function(e){if(e.target===this)close_();});
+  document.addEventListener('keydown',function(e){
+    if(e.ctrlKey&&e.shiftKey&&e.key==='D'){e.preventDefault();open_();}
+  });
+
+  // ライブ更新
+  setInterval(function(){
+    if(document.getElementById('adm-ov').classList.contains('open'))syncLive();
+  },600);
+
+
+})();
+</script>
+
 </body>
 </html>
 
