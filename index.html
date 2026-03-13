@@ -3209,7 +3209,7 @@ var G={
       tech:{figma_basic:true},
       totalRev:0,totalProj:0,projDone:0,totalMods:0,awards:0,portfolio:[],
       dau:0,arr:0,burnRate:0,prodStage:0,funding:0,
-      staff:[],actives:[],avail:[],hirePool:[],monthNum:0,oAnim:0
+      staff:[],actives:[],avail:[],hirePool:[],monthNum:0,weeklySnap:[],oAnim:0
     };
     G.staffPos=[];
     G.murmurLog=[];
@@ -5194,6 +5194,7 @@ var G={
   nextTurn:function(){
     if(G.gameOver)return; // エンディング後は進めない
     if(G.busy)return;G.busy=true;SFX.click();
+    try{
     var btn=q('btn-turn');if(btn){btn.disabled=true;btn.textContent='処理中...';}
     var bth2=q('btn-turn-hud');if(bth2){bth2.disabled=true;bth2.textContent='処理中...';}
     // 週次スナップショット記録（グラフ用）
@@ -5251,6 +5252,7 @@ var G={
       }
     }
     nextDone();
+    }catch(_ntErr){console.error("[nextTurn error]",_ntErr);G.busy=false;var __b=q("btn-turn");if(__b&&!G.gameOver){__b.disabled=false;__b.textContent="▶ 次の週へ";}var __b2=q("btn-turn-hud");if(__b2&&!G.gameOver){__b2.disabled=false;__b2.textContent="▶ 次の週へ";}if(G.aiMode)G.scheduleAuto();}
   },
 
   doMonthly:function(){
@@ -5740,12 +5742,14 @@ var G={
     var urgentIds=['broke','nft','fire','burnout_collapse','reputation_ruin','ghost_office'];
     for(var i=0;i<ENDINGS.length;i++){
       var e=ENDINGS[i];
+    if(!e)continue;
       if(urgentIds.indexOf(e.id)>=0&&e.cond(G.s)){G.showEnding(e);return true;}
     }
     // それ以外はターン数50以上の時だけ（序盤の誤発動を防ぐ）
     if(G.s.turn<50)return false;
     for(var i=0;i<ENDINGS.length;i++){
       var e=ENDINGS[i];
+    if(!e)continue;
       if(urgentIds.indexOf(e.id)<0&&e.cond(G.s)){G.showEnding(e);return true;}
     }
     return false;
