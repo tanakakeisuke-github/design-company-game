@@ -1549,6 +1549,26 @@ html,body{font-size:15px;-webkit-text-size-adjust:100%}
 #mob-more-overlay.open{display:block}
 
 
+
+/* ── 会社セットアップ画面 ── */
+.setup-section{display:flex;flex-direction:column;gap:8px;}
+.setup-label{font-size:14px;font-weight:700;color:var(--t1);}
+.setup-input{width:100%;padding:12px 16px;border:2px solid hsl(240,5%,85%);border-radius:10px;font-size:16px;font-family:inherit;outline:none;transition:border-color 0.2s;}
+.setup-input:focus{border-color:var(--acc);}
+.setup-hint{font-size:11px;color:var(--t4);min-height:16px;}
+.setup-hint.good{color:hsl(140,60%,40%);}
+.setup-hint.warn{color:hsl(35,80%,50%);}
+.setup-hint.bad{color:hsl(0,60%,50%);}
+.vision-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.vision-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:14px 10px;border:2px solid hsl(240,5%,85%);border-radius:12px;background:white;cursor:pointer;transition:all 0.2s;text-align:center;}
+.vision-btn:hover{border-color:var(--acc);background:hsl(240,50%,98%);}
+.vision-btn.selected{border-color:var(--acc);background:hsl(240,50%,95%);box-shadow:0 0 0 3px hsla(240,50%,60%,0.2);}
+.vision-ic{font-size:24px;}
+.vision-nm{font-size:12px;font-weight:700;color:var(--t1);}
+.vision-desc{font-size:10px;color:var(--t3);line-height:1.4;}
+.setup-start-btn{width:100%;margin-top:8px;opacity:0.5;pointer-events:none;}
+.setup-start-btn:not([disabled]){opacity:1;pointer-events:auto;}
+@media(max-width:480px){.vision-grid{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
@@ -1565,13 +1585,70 @@ html,body{font-size:15px;-webkit-text-size-adjust:100%}
   <div class="t-logo">デザイン会社発展国<br><span>Design Company Simulator</span></div>
   <div style="font-size:9px;color:var(--t4);letter-spacing:2px">全デザイナーに捧げる  Ver 2.0</div>
   <div style="display:flex;flex-direction:column;gap:8px;align-items:center">
-    <button class="t-btn" onclick="G.newGame()">▶ NEW GAME</button>
+<button class="t-btn" onclick="G.showSetup()">▶ NEW GAME</button>
     <button class="t-btn sec" onclick="G.load()">　CONTINUE　</button>
     <button class="t-btn sec" onclick="G.howto()">　HOW TO PLAY　</button>
   </div>
   <button class="ord-recv-btn" onclick="G.ord.openFromTitle()">📨 受注コードを受け取る</button>
   <div class="t-blink">PRESS TO START</div>
+
 </div>
+
+<!-- ── 会社セットアップ画面 ── -->
+<div id="SCR_SETUP" style="display:none;position:fixed;inset:0;background:hsl(0,0%,100%);z-index:9999;overflow-y:auto;">
+  <div style="max-width:480px;margin:0 auto;padding:40px 20px;display:flex;flex-direction:column;gap:24px;">
+    <div style="text-align:center;">
+      <div style="font-size:24px;font-weight:700;color:var(--acc);">🏢 会社設立</div>
+      <div style="font-size:12px;color:var(--t3);margin-top:8px;">あなたの会社を立ち上げよう</div>
+    </div>
+    
+    <div class="setup-section">
+      <label class="setup-label">会社名</label>
+      <input type="text" id="inp-compname" class="setup-input" placeholder="例: KYOTO STUDIO" maxlength="30" value="">
+      <div class="setup-hint" id="compname-hint">会社名はその後の経営に影響します</div>
+    </div>
+
+    <div class="setup-section">
+      <label class="setup-label">企業ヴィジョン</label>
+      <div id="vision-choices" class="vision-grid">
+        <button class="vision-btn" data-vision="creative" onclick="G.selectVision('creative')">
+          <span class="vision-ic">🎨</span>
+          <span class="vision-nm">クリエイティブ至上主義</span>
+          <span class="vision-desc">デザインの質を最優先。評判が上がりやすいが収益は不安定</span>
+        </button>
+        <button class="vision-btn" data-vision="growth" onclick="G.selectVision('growth')">
+          <span class="vision-ic">📈</span>
+          <span class="vision-nm">急成長志向</span>
+          <span class="vision-desc">売上拡大を最優先。収益は伸びるがブラック化リスクが高い</span>
+        </button>
+        <button class="vision-btn" data-vision="wellbeing" onclick="G.selectVision('wellbeing')">
+          <span class="vision-ic">🧘</span>
+          <span class="vision-nm">ウェルビーイング経営</span>
+          <span class="vision-desc">社員の幸福を最優先。メンタルが安定するが成長は緩やか</span>
+        </button>
+        <button class="vision-btn" data-vision="tech" onclick="G.selectVision('tech')">
+          <span class="vision-ic">⚡</span>
+          <span class="vision-nm">テクノロジードリブン</span>
+          <span class="vision-desc">最新技術の活用を最優先。効率化が進むが初期投資が必要</span>
+        </button>
+        <button class="vision-btn" data-vision="local" onclick="G.selectVision('local')">
+          <span class="vision-ic">🍵</span>
+          <span class="vision-nm">地域密着型</span>
+          <span class="vision-desc">地元との関係を最優先。安定した案件だが大型案件は少ない</span>
+        </button>
+        <button class="vision-btn" data-vision="global" onclick="G.selectVision('global')">
+          <span class="vision-ic">🌍</span>
+          <span class="vision-nm">グローバル展開</span>
+          <span class="vision-desc">海外市場を視野に。大きなチャンスがあるがリスクも高い</span>
+        </button>
+      </div>
+      <div class="setup-hint" id="vision-hint">ヴィジョンはゲーム全体の方向性を決定します</div>
+    </div>
+
+    <button class="t-btn setup-start-btn" id="btn-start-game" onclick="G.confirmSetup()" disabled>
+      🚀 経営スタート！
+    </button>
+  </div>
 
 <div id="GAME">
   <div id="hud">
@@ -2605,6 +2682,79 @@ var EVTS=[
        {tx:'隠蔽しようとする',ef:'炎上+50、評判-40、最悪ケース',fn:function(){G.s.fire=clamp(G.s.fire+50,0,100);G.s.rep=clamp(G.s.rep-40,0,100);addLog('隠蔽が発覚。致命的なダメージを受けた。','bad');SFX.bad();notify('隠蔽発覚！炎上が止まらない…','danger',8000);}},
        {tx:'セキュリティ専門家を緊急招集',ef:'-50万円、炎上+5のみ',fn:function(){G.s.money-=500000;G.s.fire=clamp(G.s.fire+5,0,100);addLog('専門家対応。被害を最小限に抑えた。','warn');}}]},
 
+
+// ── プライベートイベント（IT業界あるある）──
+{id:'priv_sekuhara',ic:'😰',ty:'danger',tt:'セクハラ被害の報告',
+ds:'社員から「上司の言動がセクハラに該当するのでは」と相談がありました。\n放置すれば信頼崩壊、対応を誤れば炎上します。',
+ch:[{tx:'即座に調査委員会を設置',ef:'ブラック-10、評判+5、-30万円',fn:function(){G.s.black=clamp(G.s.black-10,0,100);G.s.rep=clamp(G.s.rep+5,0,100);G.s.money-=300000;addLog('セクハラ問題に真摯に対応。信頼回復へ。','good');notify('適切な対応により組織の信頼が向上','ok',4000);}},
+{tx:'当事者間で解決させる',ef:'メンタル-20、炎上+15',fn:function(){G.s.staff.forEach(function(s){s.mental=clamp(s.mental-20,0,100);});G.s.fire=clamp(G.s.fire+15,0,100);addLog('問題を矮小化…社員の信頼が低下','bad');notify('対応の甘さが社内に広まった','danger',4000);}},
+{tx:'被害者に異動を提案する',ef:'評判-10、炎上+20',fn:function(){G.s.rep=clamp(G.s.rep-10,0,100);G.s.fire=clamp(G.s.fire+20,0,100);addLog('被害者に負担を強いる対応…最悪の選択','bad');notify('「セカンドハラスメントだ」とSNSで拡散','danger',5000);}}]},
+
+{id:'priv_pawahara',ic:'😤',ty:'danger',tt:'パワハラが発覚',
+ds:'リーダー格の社員が後輩に対して威圧的な言動を繰り返していることが判明。\n「もう会社に行きたくない」という声が匿名で届きました。',
+ch:[{tx:'加害者と面談し厳重注意',ef:'ブラック-8、メンタル+10',fn:function(){G.s.black=clamp(G.s.black-8,0,100);G.s.staff.forEach(function(s){s.mental=clamp(s.mental+10,0,100);});addLog('パワハラに毅然と対応。職場環境が改善。','good');}},
+{tx:'全社でハラスメント研修実施',ef:'-20万円、ブラック-15、評判+5',fn:function(){G.s.money-=200000;G.s.black=clamp(G.s.black-15,0,100);G.s.rep=clamp(G.s.rep+5,0,100);addLog('ハラスメント研修を実施。組織文化が改善。','good');}},
+{tx:'見て見ぬふりをする',ef:'退職者発生、ブラック+15',fn:function(){G.s.black=clamp(G.s.black+15,0,100);if(G.s.staff.length>1){var victim=G.s.staff.filter(function(s){return!s.isSelf;})[0];if(victim){G.s.staff=G.s.staff.filter(function(s){return s.id!==victim.id;});addLog(victim.nm+'が退職…パワハラを放置した結果。','bad');}}notify('見て見ぬふりは加担と同じ','danger',4000);}}]},
+
+{id:'priv_mentaldown',ic:'🏥',ty:'danger',tt:'社員がメンタル不調で休職',
+ds:'「すみません、しばらくお休みをいただきたいのですが…」\n真面目な社員ほど限界まで頑張ってしまう。IT業界の闇。',
+ch:[{tx:'快く休職を認める',ef:'人員-1（一時的）、メンタル全+5',fn:function(){G.s.staff.forEach(function(s){s.mental=clamp(s.mental+5,0,100);});addLog('休職を認めた。残ったメンバーで頑張ろう。','sys');notify('「この会社は人を大切にする」と社内の声','ok',4000);}},
+{tx:'在宅で軽い仕事だけ任せる',ef:'効率低下、メンタル+3',fn:function(){G.s.staff.forEach(function(s){s.mental=clamp(s.mental+3,0,100);});addLog('在宅勤務で負担を軽減。回復を待つ。','sys');}},
+{tx:'「みんな忙しいんだ」と押し戻す',ef:'退職+ブラック+20',fn:function(){G.s.black=clamp(G.s.black+20,0,100);if(G.s.staff.length>1){var s=G.s.staff.filter(function(x){return!x.isSelf&&x.mental<50;})[0];if(s){G.s.staff=G.s.staff.filter(function(x){return x.id!==s.id;});addLog(s.nm+'が退職。「この会社はダメだ」','bad');}}notify('最悪の対応。噂は業界に広まる','danger',5000);}}]},
+
+{id:'priv_zangyou',ic:'🌙',ty:'warn',tt:'終電逃しが常態化',
+ds:'「また終電逃しちゃいました…」\n気がつけばオフィスに深夜2時まで残る社員が増えている。\nIT業界ではよくある話だが、それでいいのか？',
+ch:[{tx:'強制退社ルールを導入',ef:'ブラック-15、効率一時低下',fn:function(){G.s.black=clamp(G.s.black-15,0,100);G.s.staff.forEach(function(s){s.mental=clamp(s.mental+8,0,100);});addLog('22時強制退社を導入。生活の質が改善。','good');}},
+{tx:'残業手当を増額する',ef:'-40万円、ブラック-5',fn:function(){G.s.money-=400000;G.s.black=clamp(G.s.black-5,0,100);addLog('残業代を支払った。でも根本解決じゃない…','warn');}},
+{tx:'「成長のチャンスだ」と放置',ef:'ブラック+10、メンタル-15',fn:function(){G.s.black=clamp(G.s.black+10,0,100);G.s.staff.forEach(function(s){s.mental=clamp(s.mental-15,0,100);});addLog('長時間労働が常態化…いつか限界が来る。','bad');}}]},
+
+{id:'priv_romance',ic:'💕',ty:'info',tt:'社内恋愛が発覚',
+ds:'社員同士が付き合い始めたらしい。\n小さな会社では噂が一瞬で広まる。\n対応を間違えると職場の空気が壊れる。',
+ch:[{tx:'大人の対応で見守る',ef:'メンタル+5',fn:function(){G.s.staff.forEach(function(s){s.mental=clamp(s.mental+5,0,100);});addLog('社内恋愛を温かく見守った。平和。','good');}},
+{tx:'業務に支障がないか注意する',ef:'変化なし',fn:function(){addLog('業務に支障なし。このまま見守ろう。','sys');}},
+{tx:'公私混同を厳しく注意',ef:'メンタル-10',fn:function(){G.s.staff.forEach(function(s){s.mental=clamp(s.mental-10,0,100);});addLog('厳しい注意に社員がしらけた…','bad');}}]},
+
+{id:'priv_shukatsu',ic:'📱',ty:'warn',tt:'社員が転職活動中？',
+ds:'LinkedInのプロフィールが更新された社員がいる。\n「Open to Work」のバッジが見える…。\nIT業界では転職は日常茶飯事だが、今は困る。',
+ch:[{tx:'1on1で本音を聞く',ef:'引き止め50%、メンタル+5',fn:function(){if(Math.random()<0.5){G.s.staff.forEach(function(s){s.mental=clamp(s.mental+5,0,100);});addLog('1on1で不満を解消。引き止め成功！','good');notify('「話を聞いてくれてありがとう」','ok',3000);}else{addLog('引き止められなかった…転職は止められない。','bad');if(G.s.staff.length>1){var s=G.s.staff.filter(function(x){return!x.isSelf;})[0];if(s)G.s.staff=G.s.staff.filter(function(x){return x.id!==s.id;});}}}},
+{tx:'給与改定を提案',ef:'-30万円、引き止め70%',fn:function(){G.s.money-=300000;if(Math.random()<0.7){addLog('給与アップで引き止め成功。','good');}else{addLog('「お金じゃないんです…」引き止め失敗。','bad');if(G.s.staff.length>1){var s=G.s.staff.filter(function(x){return!x.isSelf;})[0];if(s)G.s.staff=G.s.staff.filter(function(x){return x.id!==s.id;});}}}},
+{tx:'放置する',ef:'退職確定',fn:function(){if(G.s.staff.length>1){var s=G.s.staff.filter(function(x){return!x.isSelf;})[0];if(s){G.s.staff=G.s.staff.filter(function(x){return x.id!==s.id;});addLog(s.nm+'が転職した。「ご縁があれば。」','bad');}}}}]},
+
+{id:'priv_imposter',ic:'😰',ty:'warn',tt:'インポスター症候群',
+ds:'あなた自身が「自分には経営の才能がないのでは…」と感じ始めた。\nIT業界の経営者あるある。周りが優秀すぎて自信を失う瞬間。',
+ch:[{tx:'メンターに相談する',ef:'メンタル回復、-10万円',fn:function(){G.s.money-=100000;G.s.staff.forEach(function(s){if(s.isSelf)s.mental=clamp(s.mental+20,0,100);});addLog('メンターの言葉で気持ちが軽くなった。','good');notify('「あなたは十分やっている」','ok',4000);}},
+{tx:'SNSを見るのをやめる',ef:'メンタル+10、SNS-100',fn:function(){G.s.sns=Math.max(0,G.s.sns-100);G.s.staff.forEach(function(s){if(s.isSelf)s.mental=clamp(s.mental+10,0,100);});addLog('SNSデトックスで心の平穏を取り戻した。','good');}},
+{tx:'自分を追い込んで頑張る',ef:'メンタル-20、スキル+3',fn:function(){G.s.staff.forEach(function(s){if(s.isSelf){s.mental=clamp(s.mental-20,0,100);Object.keys(s.sk).forEach(function(k){s.sk[k]=Math.min(100,s.sk[k]+3);});}});addLog('自分を追い込んだ。成長はしたが心は重い。','warn');}}]},
+
+{id:'priv_techdebt',ic:'🧱',ty:'warn',tt:'技術的負債が爆発',
+ds:'「このコード誰が書いたんですか…」\n過去に急いで作った部分が今になって大問題に。\nリファクタリングするか、このまま走り続けるか。',
+ch:[{tx:'全面リファクタリング',ef:'-50万円、品質大幅UP',fn:function(){G.s.money-=500000;G.s.rep=clamp(G.s.rep+8,0,100);G.s.staff.forEach(function(s){s.mental=clamp(s.mental+5,0,100);});addLog('技術的負債を解消。コード品質が大幅改善！','good');}},
+{tx:'最低限の修正で凌ぐ',ef:'-10万円、将来リスク残存',fn:function(){G.s.money-=100000;addLog('応急処置で凌いだ。でもまた問題が出るかも…','warn');}},
+{tx:'「動いてるから大丈夫」で放置',ef:'炎上リスク+10',fn:function(){G.s.fire=clamp(G.s.fire+10,0,100);addLog('技術的負債を放置。いつか大爆発する。','bad');}}]},
+
+{id:'priv_client_dinner',ic:'🍺',ty:'info',tt:'クライアントとの飲み会',
+ds:'クライアントの担当者から「今度飲みに行きましょう」とお誘い。\n仕事の話？ただの付き合い？\nIT業界でも人間関係は大事。',
+ch:[{tx:'喜んで参加する',ef:'-3万円、評判+3、50%で案件獲得',fn:function(){G.s.money-=30000;G.s.rep=clamp(G.s.rep+3,0,100);if(Math.random()<0.5){G.s.money+=300000;addLog('飲み会から案件獲得！人脈は大事。','good');}else{addLog('楽しい飲み会だった。信頼関係が深まった。','good');}}},
+{tx:'丁重にお断りする',ef:'変化なし',fn:function(){addLog('今回はお断りした。次の機会に。','sys');}},
+{tx:'オンライン飲みを提案',ef:'評判+1',fn:function(){G.s.rep=clamp(G.s.rep+1,0,100);addLog('オンライン飲み。新しい時代の付き合い方。','sys');}}]},
+
+{id:'priv_family',ic:'👶',ty:'info',tt:'社員に赤ちゃんが生まれた！',
+ds:'社員から「来月から育休をいただきたいのですが…」と申し出が。\nおめでたいけど、人手不足の今、正直キツい。',
+ch:[{tx:'「おめでとう！」育休を全面サポート',ef:'メンタル全+10、人員一時減',fn:function(){G.s.staff.forEach(function(s){s.mental=clamp(s.mental+10,0,100);});addLog('育休を笑顔で送り出した。良い会社だ。','good');notify('「この会社で働けてよかった」','ok',4000);}},
+{tx:'育休は認めるが早めの復帰を期待',ef:'メンタル+3',fn:function(){G.s.staff.forEach(function(s){s.mental=clamp(s.mental+3,0,100);});addLog('育休を認めた。でも本音は早く戻ってほしい。','sys');}},
+{tx:'「今は困る」と難色を示す',ef:'ブラック+10、評判-5',fn:function(){G.s.black=clamp(G.s.black+10,0,100);G.s.rep=clamp(G.s.rep-5,0,100);addLog('育休を渋った…これは問題になる。','bad');notify('「マタハラでは？」と社内に不穏な空気','danger',4000);}}]},
+
+{id:'priv_burnout_self',ic:'🔥',ty:'danger',tt:'あなた自身がバーンアウト寸前',
+ds:'最近、朝起きるのが辛い。メールを開くのが怖い。\n全部自分でやらなきゃと思い続けた結果、限界が近い。\n経営者のバーンアウトは会社の危機に直結する。',
+ch:[{tx:'1週間の強制休暇を取る',ef:'メンタル+30、1ターン停滞',fn:function(){G.s.staff.forEach(function(s){if(s.isSelf)s.mental=clamp(s.mental+30,0,100);});addLog('勇気を出して休暇を取った。心が回復していく。','good');notify('「休むのも経営者の仕事」','ok',4000);}},
+{tx:'エナドリで乗り切る',ef:'メンタル-10、スキル+2',fn:function(){G.s.staff.forEach(function(s){if(s.isSelf){s.mental=clamp(s.mental-10,0,100);Object.keys(s.sk).forEach(function(k){s.sk[k]=Math.min(100,s.sk[k]+2);});}});addLog('エナジードリンクでごまかした。でも体は正直…','bad');}},
+{tx:'コーチングを受ける',ef:'-15万円、メンタル+15',fn:function(){G.s.money-=150000;G.s.staff.forEach(function(s){if(s.isSelf)s.mental=clamp(s.mental+15,0,100);});addLog('プロのコーチングで視界がクリアに。','good');}}]},
+
+{id:'priv_github_down',ic:'💻',ty:'warn',tt:'GitHubが落ちた',
+ds:'「push できないんですけど…」\n開発チーム全員の手が止まった。\nIT業界あるある。インフラに依存する恐怖。',
+ch:[{tx:'ローカルで作業を続行',ef:'メンタル-5',fn:function(){G.s.staff.forEach(function(s){s.mental=clamp(s.mental-5,0,100);});addLog('GitHubダウン中もローカルで耐えた。','sys');}},
+{tx:'気分転換に雑談タイム',ef:'メンタル+3',fn:function(){G.s.staff.forEach(function(s){s.mental=clamp(s.mental+3,0,100);});addLog('障害中に雑談でリラックス。たまにはいい。','good');}},
+{tx:'代替サービスの検討を始める',ef:'評判+2、-5万円',fn:function(){G.s.money-=50000;G.s.rep=clamp(G.s.rep+2,0,100);addLog('リスク分散を検討。危機管理能力UP。','good');}}]}
 ];
 var TECHS=[
   {row:'基礎技術',nodes:[
@@ -3053,7 +3203,7 @@ var G={
     G.gameOver=false; // ゲームオーバーフラグをリセット
     G.s={
       turn:1,money:gcfg("startMoney",350000),rep:12,fire:0,sns:84,black:5,
-      phase:0,offLevel:0,compName:'KYOTO STUDIO',
+      phase:0,offLevel:0,compName:'KYOTO STUDIO',vision:'creative',_visionMod:{},
       wb:50,policies:{},intlStaff:0,bases:['kyoto'],starPerf:[],
       tech:{figma_basic:true},
       totalRev:0,totalProj:0,projDone:0,totalMods:0,awards:0,portfolio:[],
@@ -4864,6 +5014,120 @@ var G={
   },
 
   // ─ GAME FLOW ─
+
+    // ── 会社セットアップ画面 ──
+    showSetup:function(){
+      SFX.click();
+      q('SCR_TITLE').style.display='none';
+      q('SCR_SETUP').style.display='block';
+      var inp=q('inp-compname');
+      inp.value='';
+      inp.addEventListener('input',function(){G._checkSetupReady();G._analyzeCompName();});
+      G._selectedVision=null;
+      document.querySelectorAll('.vision-btn').forEach(function(b){b.classList.remove('selected');});
+      q('btn-start-game').disabled=true;
+      q('compname-hint').textContent='会社名はその後の経営に影響します';
+      q('compname-hint').className='setup-hint';
+      q('vision-hint').textContent='ヴィジョンはゲーム全体の方向性を決定します';
+    },
+    selectVision:function(v){
+      SFX.click();
+      G._selectedVision=v;
+      document.querySelectorAll('.vision-btn').forEach(function(b){b.classList.remove('selected');});
+      var sel=document.querySelector('.vision-btn[data-vision="'+v+'"]');
+      if(sel)sel.classList.add('selected');
+      var hints={
+        creative:'🎨 クリエイティブ至上主義：評判ボーナス+10、初期資金-5万円',
+        growth:'📈 急成長志向：初期資金+10万円、ブラック度+10',
+        wellbeing:'🧘 ウェルビーイング経営：全メンタル+15、案件報酬-15%',
+        tech:'⚡ テクノロジードリブン：Figma上級解放、初期資金-8万円',
+        local:'🍵 地域密着型：評判+5、SNS+200、大型案件発生率-20%',
+        global:'🌍 グローバル展開：SNS+500、初期炎上リスク+5'
+      };
+      q('vision-hint').textContent=hints[v]||'';
+      G._checkSetupReady();
+    },
+    _checkSetupReady:function(){
+      var name=q('inp-compname').value.trim();
+      var vision=G._selectedVision;
+      q('btn-start-game').disabled=!(name.length>=1&&vision);
+    },
+    _analyzeCompName:function(){
+      var name=q('inp-compname').value.trim();
+      var hint=q('compname-hint');
+      if(!name){hint.textContent='会社名はその後の経営に影響します';hint.className='setup-hint';return;}
+      var score=G._compNameScore(name);
+      if(score>=8){hint.textContent='✨ 素晴らしい名前！ブランド力にボーナス';hint.className='setup-hint good';}
+      else if(score>=4){hint.textContent='👍 良い名前です。バランスの取れた経営が期待できます';hint.className='setup-hint good';}
+      else if(score>=0){hint.textContent='📝 普通の名前です。堅実に行きましょう';hint.className='setup-hint';}
+      else if(score>=-4){hint.textContent='⚠️ やや不安な名前…ブランディングに苦労するかも';hint.className='setup-hint warn';}
+      else{hint.textContent='💀 波乱の予感…しかし逆境からの成功もある';hint.className='setup-hint bad';}
+    },
+    _compNameScore:function(name){
+      var score=0;
+      // 文字数バランス（4-12文字が最適）
+      if(name.length>=4&&name.length<=12)score+=2;
+      else if(name.length>20)score-=2;
+      // 英字を含むとグローバル感
+      if(/[a-zA-Z]/.test(name))score+=1;
+      // 日本語を含むと親しみやすさ
+      if(/[\u3040-\u309F\u30A0-\u30FF]/.test(name))score+=1;
+      // 漢字を含むと格式
+      if(/[\u4E00-\u9FFF]/.test(name))score+=1;
+      // デザイン・クリエイティブ系キーワード
+      if(/design|デザイン|studio|スタジオ|creative|クリエイティブ|art|アート/i.test(name))score+=3;
+      // テック系キーワード
+      if(/tech|テック|lab|ラボ|digital|デジタル|pixel|ピクセル/i.test(name))score+=2;
+      // ネガティブ系（ジョーク名）
+      if(/死|闇|ブラック|black|hell|地獄|奴隷|slave/i.test(name))score-=5;
+      // 数字のみは微妙
+      if(/^[0-9]+$/.test(name))score-=3;
+      // 特殊文字が多い
+      if((name.match(/[!@#$%^&*]/g)||[]).length>2)score-=2;
+      // 「京都」「KYOTO」を含むと地元ボーナス
+      if(/京都|kyoto/i.test(name))score+=2;
+      return score;
+    },
+    _applyCompNameEffect:function(){
+      var name=G.s.compName;
+      var score=G._compNameScore(name);
+      // スコアに基づいて初期パラメータ調整
+      if(score>=6){G.s.rep+=8;G.s.sns+=300;addLog('✨ 会社名のブランド力で好スタート！','good');}
+      else if(score>=3){G.s.rep+=4;G.s.sns+=100;addLog('👍 良い会社名で信頼感アップ','good');}
+      else if(score<=-3){G.s.rep-=3;G.s.fire+=5;addLog('💀 会社名に不安の声…逆境からのスタート','bad');}
+      // 名前の長さで事務コスト
+      if(name.length>15){G.s.money-=30000;addLog('📝 長い会社名は書類作成が大変…','bad');}
+      // 英語名はグローバル案件ボーナス
+      if(/^[a-zA-Z\s]+$/.test(name)){G.s.sns+=200;addLog('🌍 英語名でグローバルな印象！','good');}
+    },
+    _applyVisionEffect:function(){
+      var v=G.s.vision;
+      switch(v){
+        case 'creative':G.s.rep+=10;G.s.money-=50000;G.s._visionMod={repBonus:0.15,projReward:-0.05};
+          addLog('🎨 クリエイティブ至上主義で始動！評判にボーナス','good');break;
+        case 'growth':G.s.money+=100000;G.s.black+=10;G.s._visionMod={moneyBonus:0.10,blackRate:1.2};
+          addLog('📈 急成長志向で始動！資金にボーナスだがブラック注意','warn');break;
+        case 'wellbeing':G.s.staff.forEach(function(s){s.mental=Math.min(100,s.mental+15);});G.s._visionMod={mentalBonus:5,projReward:-0.15};
+          addLog('🧘 ウェルビーイング経営で始動！メンタル安定','good');break;
+        case 'tech':G.s.tech['figma_adv']=true;G.s.money-=80000;G.s._visionMod={techDiscount:0.3,skillBonus:2};
+          addLog('⚡ テクノロジードリブンで始動！Figma上級を習得済み','good');break;
+        case 'local':G.s.rep+=5;G.s.sns+=200;G.s._visionMod={localBonus:0.2,bigDealRate:-0.2};
+          addLog('🍵 地域密着型で始動！地元の信頼を獲得','good');break;
+        case 'global':G.s.sns+=500;G.s.fire+=5;G.s._visionMod={snsBonus:0.3,fireRate:1.1};
+          addLog('🌍 グローバル展開で始動！世界が注目','good');break;
+        default:G.s._visionMod={};
+      }
+    },
+    confirmSetup:function(){
+      var name=q('inp-compname').value.trim();
+      var vision=G._selectedVision;
+      if(!name||!vision)return;
+      SFX.click();
+      q('SCR_SETUP').style.display='none';
+      G._setupCompName=name;
+      G._setupVision=vision;
+      G.newGame();
+    },
   newGame:function(){
     SFX.click();G.initState();G.s.staff=[G.mkSelf()];G.genProjects();G.genHire();G.portfolioFilter='all';
     G.staffPos=[];G.murmurLog=[];G._murmurShown={};G._murmurActive={};
@@ -4871,7 +5135,12 @@ var G={
     if(G.tcId){cancelAnimationFrame(G.tcId);G.tcId=null;}
     q('SCR_TITLE').style.display='none';q('GAME').style.display='flex';
     G.startOC();gLog=[];
-    addLog('フリーランスとしてのキャリアをスタート！','sys');
+    // ── 会社名・ヴィジョン適用 ──
+    if(G._setupCompName){G.s.compName=G._setupCompName;G._setupCompName=null;}
+    if(G._setupVision){G.s.vision=G._setupVision;G._setupVision=null;}
+    G._applyCompNameEffect();
+    G._applyVisionEffect();
+        addLog('フリーランスとしてのキャリアをスタート！','sys');
     addLog('口座残高：38,000円。まずは案件を受注しよう！','sys');
     G.aiMode=false;document.body.classList.remove('ai-mode');G.aiActionLog=[];
     var aib=q('btn-ai');if(aib){aib.innerHTML='<span class="ai-dot" style="display:none"></span>🤖 AIモード';aib.classList.remove('on');}
@@ -5108,6 +5377,33 @@ var G={
     // ── 集団不満イベント（ターン50以降・ブラック高時のみ）──
     var massRes=EVTS.find(function(e){return e.id==='mass_resignation';});
     if(G.s.turn>=50&&G.s.black>=75&&G.s.staff.length>=3&&massRes&&Math.random()<0.12){G.showEv(massRes,G.afterEv);return;}
+    // ── プライベートイベント（IT業界あるある）: 確率15% ──
+    var privEvtIds=['priv_sekuhara','priv_pawahara','priv_mentaldown','priv_zangyou','priv_romance','priv_shukatsu','priv_imposter','priv_techdebt','priv_client_dinner','priv_family','priv_burnout_self','priv_github_down'];
+    var privEvts=EVTS.filter(function(e){return privEvtIds.indexOf(e.id)>=0;});
+    var privProb=0.15;
+    // ブラック度が高いとハラスメント系イベントが起きやすい
+    if(G.s.black>60)privProb+=0.10;
+    if(G.s.black>80)privProb+=0.10;
+    // スタッフ数が多いと人間関係イベントが起きやすい
+    if(G.s.staff.length>=5)privProb+=0.05;
+    // ヴィジョンによるイベント確率調整
+    if(G.s.vision==='wellbeing')privProb-=0.05;// ウェルビーイングはイベント軽減
+    if(G.s.vision==='growth')privProb+=0.05;// 急成長はイベント増加
+    if(Math.random()<privProb&&privEvts.length>0){
+      // ブラック度が高い場合はハラスメント系を優先
+      var weightedPriv=privEvts;
+      if(G.s.black>70){
+        var haraEvts=privEvts.filter(function(e){return e.id==='priv_sekuhara'||e.id==='priv_pawahara'||e.id==='priv_zangyou';});
+        if(haraEvts.length>0&&Math.random()<0.5)weightedPriv=haraEvts;
+      }
+      // 経営者自身のメンタルが低い場合はバーンアウト系を優先
+      var selfStaff=G.s.staff.find(function(s){return s.isSelf;});
+      if(selfStaff&&selfStaff.mental<30&&Math.random()<0.4){
+        var selfEvts=privEvts.filter(function(e){return e.id==='priv_burnout_self'||e.id==='priv_imposter';});
+        if(selfEvts.length>0)weightedPriv=selfEvts;
+      }
+      G.showEv(pick(weightedPriv),G.afterEv);return;
+    }
     // ── 通常イベント: 確率35% & 危機時はさらに上昇 ──
     var evtProb=gcfg("evProb",0.35);
     if(G.s.money<200000)evtProb+=0.15;// 資金危機時はイベント多発
@@ -5127,6 +5423,29 @@ var G={
   afterEv:function(){
     try{
       G.phaseCheck();
+    // ── ヴィジョン月次効果 ──
+    if(G.s._visionMod&&G.s.turn%4===0){
+      var vm=G.s._visionMod;
+      if(G.s.vision==='creative'&&vm.repBonus){
+        var rb=Math.round(G.s.rep*vm.repBonus*0.1);
+        if(rb>0){G.s.rep=clamp(G.s.rep+Math.min(rb,3),0,100);}
+      }
+      if(G.s.vision==='growth'&&vm.blackRate){
+        if(G.s.black>30)G.s.black=clamp(G.s.black+1,0,100);// 成長志向はブラック上昇
+      }
+      if(G.s.vision==='wellbeing'&&vm.mentalBonus){
+        G.s.staff.forEach(function(s){s.mental=clamp(s.mental+2,0,100);});// メンタル回復ボーナス
+      }
+      if(G.s.vision==='tech'&&vm.skillBonus){
+        G.s.staff.forEach(function(s){var k=Object.keys(s.sk);if(k.length>0){var rk=k[Math.floor(Math.random()*k.length)];s.sk[rk]=Math.min(100,s.sk[rk]+1);}});
+      }
+      if(G.s.vision==='local'){
+        if(Math.random()<0.15){G.s.rep=clamp(G.s.rep+1,0,100);}// 地域からの信頼
+      }
+      if(G.s.vision==='global'&&vm.snsBonus){
+        G.s.sns+=Math.round(G.s.sns*vm.snsBonus*0.05);// SNS成長ボーナス
+      }
+    }
       // ── Policy monthly effects ──
       if(G.s.policies){
         Object.keys(G.s.policies).forEach(function(pid){
@@ -6298,7 +6617,7 @@ var G={
 
   // ─ HUD ─
   updateHUD:function(){
-    q('hco').textContent=G.s.compName||'個人事務所';
+    var _vIc={creative:'🎨',growth:'📈',wellbeing:'🧘',tech:'⚡',local:'🍵',global:'🌍'};q('hco').textContent=(_vIc[G.s.vision]||'')+(G.s.compName||'個人事務所');
     var m=G.s.money,hm=q('hmoney');hm.textContent=fY(m).replace('円','');hm.className='hs-v g'+(m<100000?' blink':'');
     q('hrep').textContent=G.s.rep;
     var hf=q('hfire');hf.textContent=G.s.fire;hf.className='hs-v r'+(G.s.fire>=40?' blink':'');
