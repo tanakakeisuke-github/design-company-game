@@ -9367,6 +9367,248 @@ input[type=range].sr::-webkit-slider-thumb:hover{background:#818cf8;}
 })();
 </script>
 
+<style id="ui-polish">
+/* === UI Brush-up (non-breaking overrides) ============================ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700&display=swap');
+
+:root{
+     /* Refined neutral surfaces */
+     --bg:  hsl(220,30%,98.5%);
+     --bg1: hsl(0,0%,100%);
+     --bg2: hsl(220,24%,97%);
+     --bg3: hsl(220,20%,94.5%);
+     --bg4: hsl(220,16%,89%);
+     --bord:  hsl(220,14%,90%);
+     --bord2: hsl(220,14%,82%);
+     /* Text */
+     --t1: hsl(222,28%,11%);
+  --t2: hsl(220,12%,32%);
+     --t3: hsl(220,10%,50%);
+     --t4: hsl(220,12%,72%);
+     /* Refined Indigo accent + violet secondary */
+     --acc:    hsl(243,76%,59%);
+  --acc-md: hsl(243,80%,72%);
+  --acc-lt: hsl(243,100%,97%);
+     --acc2:   hsl(330,84%,55%);
+     --acc2-lt:hsl(330,100%,97%);
+  /* Status */
+     --ok:     hsl(160,72%,34%);
+     --ok-lt:  hsl(160,76%,96%);
+  --warn:   hsl(28,92%,48%);
+     --warn-lt:hsl(36,100%,96%);
+     --red:    hsl(0,76%,55%);
+     --red-lt: hsl(0,86%,97%);
+     --gold:   hsl(38,92%,42%);
+     --gold-lt:hsl(46,96%,95%);
+     --teal:   hsl(178,72%,36%);
+     --teal-lt:hsl(176,76%,96%);
+     --pur:    hsl(266,72%,52%);
+     /* Radii & shadows: softer, more elevated */
+     --r-sm: 8px;
+     --r:    12px;
+  --r-lg: 18px;
+     --radius-sm: 8px;
+     --radius: 12px;
+     --sh-s: 0 1px 2px rgba(15,23,42,.05);
+  --sh-m: 0 2px 6px rgba(15,23,42,.06), 0 1px 2px rgba(15,23,42,.04);
+     --sh-l: 0 12px 32px -8px rgba(60,72,140,.18), 0 4px 12px -2px rgba(15,23,42,.08);
+     --sh-xl:0 24px 60px -12px rgba(60,72,140,.28), 0 8px 24px -4px rgba(15,23,42,.10);
+  --grad-acc: linear-gradient(135deg, hsl(243,80%,62%) 0%, hsl(266,72%,58%) 50%, hsl(330,80%,58%) 100%);
+     --grad-soft: linear-gradient(180deg, hsl(220,30%,99%) 0%, hsl(220,30%,96%) 100%);
+}
+
+html,body{
+     font-family: 'Inter','Plus Jakarta Sans','Noto Sans JP',system-ui,sans-serif;
+     font-feature-settings: "cv11","ss01","ss03";
+  letter-spacing: -0.005em;
+     background:
+       radial-gradient(1200px 600px at 12% -10%, hsla(243,90%,80%,.18), transparent 60%),
+            radial-gradient(900px 500px at 110% 0%, hsla(330,90%,80%,.14), transparent 60%),
+            var(--bg);
+     color: var(--t1);
+   }
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-thumb{background:hsl(220,12%,82%);border-radius:99px;border:2px solid transparent;background-clip:padding-box}
+::-webkit-scrollbar-thumb:hover{background:hsl(220,14%,68%);background-clip:padding-box;border:2px solid transparent}
+
+/* Title screen — refined hero */
+#SCR_TITLE{ background: transparent; }
+#SCR_TITLE .t-logo, #SCR_TITLE h1, #SCR_TITLE [class*="logo"]{
+  font-weight: 800;
+     letter-spacing: -0.025em;
+     background: var(--grad-acc);
+     -webkit-background-clip: text;
+     background-clip: text;
+     color: transparent;
+  filter: drop-shadow(0 2px 8px rgba(99,102,241,.15));
+}
+#SCR_TITLE .t-btn, #SCR_TITLE button{
+     border-radius: 12px !important;
+     font-weight: 600;
+  letter-spacing: .01em;
+     transition: transform .15s ease, box-shadow .2s ease, background .2s ease;
+}
+#SCR_TITLE .t-btn:hover, #SCR_TITLE button:hover{
+     transform: translateY(-1px);
+     box-shadow: var(--sh-l);
+}
+
+/* Generic buttons polish */
+button{
+     border-radius: 10px;
+     transition: transform .12s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease, color .18s ease;
+}
+button:active{ transform: translateY(0.5px) scale(.99); }
+.btn-acc, .btn-turn, .btn-hire, .btn-fir, [class^="btn-"]{
+  border-radius: 10px !important;
+  font-weight: 600;
+     box-shadow: var(--sh-s);
+}
+.btn-turn{
+     background: var(--grad-acc) !important;
+     color: #fff !important;
+     border: none !important;
+  box-shadow: 0 6px 18px -4px hsla(243,80%,55%,.45), 0 2px 4px rgba(15,23,42,.08) !important;
+}
+.btn-turn:hover{ filter: brightness(1.05); transform: translateY(-1px); }
+
+/* Panels & cards — softer, glassy */
+.panel, .sec, .dc, .pc, .sc, .hc{
+     background: var(--bg1);
+     border: 1px solid var(--bord);
+     border-radius: var(--r-lg);
+  box-shadow: var(--sh-m);
+  transition: box-shadow .2s ease, transform .2s ease, border-color .2s ease;
+}
+.dc:hover, .pc:hover, .sc:hover, .hc:hover{
+  border-color: var(--bord2);
+  box-shadow: var(--sh-l);
+}
+.panel{
+  background: linear-gradient(180deg, hsla(0,0%,100%,.92), hsla(220,30%,99%,.85));
+     backdrop-filter: saturate(140%) blur(8px);
+     -webkit-backdrop-filter: saturate(140%) blur(8px);
+}
+
+/* HUD — top stats */
+.hud-co, .hstats{
+     background: linear-gradient(180deg, var(--bg1), hsl(220,30%,98%));
+     border: 1px solid var(--bord);
+     border-radius: var(--r-lg);
+     box-shadow: var(--sh-m);
+}
+.hs-lbl{ color: var(--t3); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; font-weight: 600; }
+.hs-v{ font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+
+/* Progress bars — smoother */
+.wbar, .ibar, .apbar, .sc-bar-bg, .ld-bar{
+     background: var(--bg3);
+     border-radius: 99px;
+     overflow: hidden;
+}
+.apbf, .sc-bar-fg, .ld-f{
+     background: var(--grad-acc);
+  box-shadow: 0 0 0 1px hsla(243,80%,55%,.15) inset;
+     border-radius: 99px;
+     transition: width .35s cubic-bezier(.4,0,.2,1);
+}
+
+/* Modals */
+.mbg{
+     background: rgba(15,23,42,.45);
+     backdrop-filter: blur(6px);
+     -webkit-backdrop-filter: blur(6px);
+   }
+.mbg > *{
+     border-radius: var(--r-lg) !important;
+     box-shadow: var(--sh-xl) !important;
+  border: 1px solid var(--bord) !important;
+}
+
+/* Mobile nav */
+#mob-nav{
+     background: hsla(0,0%,100%,.85);
+     backdrop-filter: saturate(160%) blur(14px);
+     -webkit-backdrop-filter: saturate(160%) blur(14px);
+  border-top: 1px solid var(--bord);
+  box-shadow: 0 -8px 24px -8px rgba(15,23,42,.08);
+}
+
+/* Notifications */
+#notifs > *{
+     border-radius: var(--r) !important;
+     box-shadow: var(--sh-l) !important;
+     border: 1px solid var(--bord) !important;
+     background: hsla(0,0%,100%,.96) !important;
+     backdrop-filter: blur(8px);
+}
+
+/* Subtle entrance */
+@keyframes ui-fade-up { from{opacity:0; transform:translateY(4px)} to{opacity:1; transform:none} }
+.dc, .pc, .sc, .hc, .panel{ animation: ui-fade-up .35s ease both; }
+
+/* Focus rings */
+button:focus-visible, [role="button"]:focus-visible{
+     outline: 2px solid var(--acc);
+  outline-offset: 2px;
+     border-radius: 10px;
+}
+
+/* Tabular numerics for any numeric stats */
+.hs-v, .dc-v, .pc-pr, .sc-bar-v, .pct{ font-variant-numeric: tabular-nums; }
+
+/* Selected / active state nicer */
+.sel, .on{
+     border-color: var(--acc) !important;
+     box-shadow: 0 0 0 3px var(--acc-lt), var(--sh-m) !important;
+}
+
+/* Dark-mode auto */
+@media (prefers-color-scheme: dark){
+     :root{
+            --bg:  hsl(222,28%,8%);
+            --bg1: hsl(222,24%,11%);
+            --bg2: hsl(222,22%,13%);
+            --bg3: hsl(222,20%,17%);
+    --bg4: hsl(222,18%,22%);
+    --bord:  hsl(222,16%,22%);
+            --bord2: hsl(222,16%,30%);
+            --t1: hsl(220,18%,96%);
+            --t2: hsl(220,12%,78%);
+    --t3: hsl(220,10%,62%);
+    --t4: hsl(220,10%,42%);
+            --acc-lt:  hsla(243,80%,62%,.18);
+            --acc2-lt: hsla(330,84%,62%,.18);
+            --ok-lt:  hsla(160,72%,40%,.18);
+            --warn-lt:hsla(28,92%,52%,.18);
+            --red-lt: hsla(0,76%,60%,.18);
+            --gold-lt:hsla(38,92%,52%,.18);
+            --teal-lt:hsla(178,72%,42%,.18);
+            --sh-s: 0 1px 2px rgba(0,0,0,.4);
+            --sh-m: 0 2px 6px rgba(0,0,0,.45), 0 1px 2px rgba(0,0,0,.35);
+            --sh-l: 0 12px 32px -8px rgba(0,0,0,.55), 0 4px 12px -2px rgba(0,0,0,.40);
+            --sh-xl:0 24px 60px -12px rgba(0,0,0,.70), 0 8px 24px -4px rgba(0,0,0,.50);
+     }
+     html,body{
+            background:
+              radial-gradient(1200px 600px at 12% -10%, hsla(243,80%,40%,.22), transparent 60%),
+      radial-gradient(900px 500px at 110% 0%, hsla(330,80%,40%,.16), transparent 60%),
+                     var(--bg);
+     }
+     ::-webkit-scrollbar-thumb{background:hsl(222,16%,30%)}
+     ::-webkit-scrollbar-thumb:hover{background:hsl(222,16%,42%)}
+     .panel{
+            background: linear-gradient(180deg, hsla(222,24%,12%,.92), hsla(222,24%,11%,.85));
+     }
+     #mob-nav{ background: hsla(222,24%,11%,.85); }
+     #notifs > *{ background: hsla(222,24%,12%,.96) !important; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+     *{ animation: none !important; transition: none !important; }
+   }
+</style>
 </body>
 </html>
 
