@@ -2,7 +2,7 @@
 
 京都発のデザイン会社を経営するブラウザゲーム。案件受注・採用・技術投資を繰り返しながら、個人事務所からテックジャイアントまでの成長を目指す。
 
-**▶ [Play on GitHub Pages](https://your-username.github.io/design-company-game/)**
+**▶ [Play on GitHub Pages](https://tanakakeisuke-github.github.io/design-company-game/)**
 
 ---
 
